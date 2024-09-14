@@ -19,14 +19,7 @@ const App: React.FC = () => (
   //     <Route path="/signin" element={<Signin />} /> */}
   //   </Routes>
   // </BrowserRouter>
-  <div className="hello">
-    <h1 className="hello">hello</h1>
-    <h2 className="hello">hello</h2>
-    <h3 className="hello">hello</h3>
-    <h4 className="hello">hello</h4>
-    <h5 className="hello">hello</h5>
-    <h6 className="hello">hello</h6>
-  </div>
+  <Home></Home>
 );
 
 export default App;
