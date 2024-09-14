@@ -9,11 +9,13 @@ interface homeProps {
 }
 
 function Home() {
-  // const outletContext = useOutletContext<homeProps>();
-  // const barVisibility = outletContext.barVisibility;
-  // const aboutRef = outletContext.aboutRef;
+  const outletContext = useOutletContext<homeProps>();
+  const barVisibility = outletContext.barVisibility;
+  const aboutRef = outletContext.aboutRef;
   return (
-    <div className={`home-page-container `}>
+    <div
+      className={`home-page-container ${barVisibility ? "" : "bar-visible"}`}
+    >
       <div className="intro-container">
         <div className="second-intro-container">
           {/* <div className="intro-image">
@@ -26,7 +28,7 @@ function Home() {
           </div>
         </div>
       </div>
-      {/* <About aboutRef={aboutRef} barVisibility={barVisibility}></About> */}
+      <About aboutRef={aboutRef} barVisibility={barVisibility}></About>
     </div>
   );
 }
