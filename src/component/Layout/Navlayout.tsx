@@ -40,7 +40,7 @@ function Navlayout() {
           setBarVisibility={setBarVisibility}
         />
         <Outlet context={{ barVisibility, aboutRef } as ContextType} />
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
       </div>
     </>
   );

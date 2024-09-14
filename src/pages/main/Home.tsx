@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useOutletContext } from "react-router";
 import "../../component/Styles/Home.css";
 import About from "./About";
+import Footer from "../footer/Index";
 
 interface homeProps {
   barVisibility: boolean;
@@ -29,6 +30,7 @@ function Home() {
         </div>
       </div>
       <About aboutRef={aboutRef} barVisibility={barVisibility}></About>
+      <Footer></Footer>
     </div>
   );
 }

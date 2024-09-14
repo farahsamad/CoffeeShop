@@ -1,0 +1,18 @@
+.bar-visible {
+  background-color: #9d9d9d !important;
+}
+.bar-visible {
+  position: relative;
+}
+
+.bar-visible::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}

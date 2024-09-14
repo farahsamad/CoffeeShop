@@ -13,14 +13,26 @@ interface indexProps {
 function Index({ aboutRef, barVisibility, setBarVisibility }: indexProps) {
   const barRef = useRef<HTMLInputElement>(null);
   const phoneContainer = useRef<HTMLDivElement>(null);
-  const scrollToAboutSection = () => {
-    if (aboutRef.current)
-      aboutRef.current.scrollIntoView({ behavior: "smooth" });
-  };
   function barClicked() {
     console.log("clicked");
     if (barRef.current) setBarVisibility(() => !barVisibility);
   }
+  const scrollToAboutSection = () => {
+    setBarVisibility(() => !barVisibility);
+    if (aboutRef.current)
+      aboutRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+  const scrollToAboutSectionPhone = () => {
+    setBarVisibility(() => !barVisibility);
+    if (aboutRef.current) {
+      if (barRef.current) barRef.current.checked = false;
+      aboutRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  const barClick = () => {
+    setBarVisibility(() => !barVisibility);
+    if (barRef.current) barRef.current.checked = false;
+  };
   useEffect(() => {
     if (phoneContainer.current)
       if (barVisibility) {
@@ -87,13 +99,19 @@ function Index({ aboutRef, barVisibility, setBarVisibility }: indexProps) {
         <div className="category-phone-container">
           <ul>
             <li className="home">
-              <NavLink to={`/`}>HOME</NavLink>
+              <NavLink to={`/`} onClick={barClick}>
+                HOME
+              </NavLink>
             </li>
             <li className="about">
-              <NavLink to={`/about`}>ABOUT</NavLink>
+              <NavLink to={`/`} onClick={scrollToAboutSectionPhone}>
+                ABOUT
+              </NavLink>
             </li>
             <li className="menu">
-              <NavLink to={`/menu`}>MENU</NavLink>
+              <NavLink to={`/menu`} onClick={barClick}>
+                MENU
+              </NavLink>
             </li>
           </ul>
         </div>
