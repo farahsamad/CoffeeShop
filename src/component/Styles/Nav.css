@@ -31,12 +31,6 @@
 .category-container {
   display: none;
 }
-.home {
-}
-.about {
-}
-.menu {
-}
 .sign-container {
   width: 40px;
   position: absolute;
@@ -175,9 +169,9 @@ a {
     display: block;
     width: 75%;
   }
-  .navbar-container {
-    /* justify-content: space-evenly; */
-  }
+  /* .navbar-container { */
+  /* justify-content: space-evenly; */
+  /* } */
   .logo-container {
     width: fit-content !important;
   }
