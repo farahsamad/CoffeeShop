@@ -7,19 +7,18 @@ import Index from "./pages/navbar/Index";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App: React.FC = () => (
-  // <BrowserRouter>
-  //   <Routes>
-  //     <Route path="/" element={<Navlayout />}>
-  //       <Route index element={<Home />}></Route>
-  //       {/* <Route path="/about" element={<About />} /> */}
-  //       <Route path="/menu" element={<Menu />} />
-  //     </Route>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <Routes>
+      <Route path="/" element={<Navlayout />}>
+        <Route index element={<Home />}></Route>
+        {/* <Route path="/about" element={<About />} /> */}
+        <Route path="/menu" element={<Menu />} />
+      </Route>
 
-  //     {/*
-  //     <Route path="/signin" element={<Signin />} /> */}
-  //   </Routes>
-  // </BrowserRouter>
-  <Home></Home>
+      {/*
+      <Route path="/signin" element={<Signin />} /> */}
+    </Routes>
+  </BrowserRouter>
 );
 
 export default App;
