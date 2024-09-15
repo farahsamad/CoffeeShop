@@ -18,7 +18,6 @@ function Index({ aboutRef, barVisibility, setBarVisibility }: indexProps) {
     if (barRef.current) setBarVisibility(() => !barVisibility);
   }
   const scrollToAboutSection = () => {
-    setBarVisibility(() => !barVisibility);
     if (aboutRef.current)
       aboutRef.current.scrollIntoView({ behavior: "smooth" });
   };

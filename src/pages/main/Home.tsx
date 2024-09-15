@@ -19,9 +19,9 @@ function Home() {
     >
       <div className="intro-container">
         <div className="second-intro-container">
-          {/* <div className="intro-image">
+          <div className="intro-image">
             <img src={require("../../image/coffee-banner.png")} alt="" />
-          </div> */}
+          </div>
           <div className="intro-sentence">
             <div className="intro-sent">Experience the essence</div>
             <div className="intro-sent">of real coffee</div>
