@@ -497,15 +497,25 @@
     font-size: 0.7rem;
   } */
 }
-@media (max-width: 395px) {
+@media (max-width: 750px) {
   .first-section {
     background-color: #e5e5e5;
-    width: 100%;
+    width: 100% !important;
     min-height: fit-content !important;
-    height: 35vh !important;
+    height: fit-content !important;
+    justify-content: center;
+    align-items: center;
     display: flex;
-    flex-direction: row;
+    flex-direction: column !important;
     margin-bottom: 10px;
+  }
+  .first-section-paragraph-container {
+    width: 100% !important;
+    /* height: 100%; */
+    display: flex;
+    justify-content: center;
+    /* height: fit-content; */
+    align-items: center;
   }
   .first-section-image img {
     min-width: 100%;
@@ -518,15 +528,22 @@
     display: block !important;
   }
   .first-section-image {
-    /* width: fit-content !important; */
-    max-width: 50%;
+    width: fit-content !important;
+    max-width: 100% !important;
     /* min-width: fit-content; */
     /* width: calc(100%*(6 / 12)); */
-    height: fit-content;
-    min-height: fit-content;
+    height: fit-content !important;
+    min-height: fit-content !important;
     /* display: flex; */
-    /* margin-left: 0px; */
-    justify-content: flex-start;
+    /* margin-left: 0px;*/
+  }
+  .first-section-paragraph {
+    width: 100%;
+    padding: 2%;
+    font-size: clamp(1.6vh, 2.6vw, 25px);
+    line-height: 2.2vh !important;
+    text-wrap: balance;
+    text-align: center;
   }
 }
 .create-account-phrase {
