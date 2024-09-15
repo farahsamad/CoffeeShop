@@ -5,28 +5,20 @@ import { faSearch, faBars, faX } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 
 interface indexProps {
+  aboutRef: React.RefObject<HTMLDivElement>;
   barVisibility: boolean;
   setBarVisibility: React.Dispatch<React.SetStateAction<boolean>>;
-  aboutRef: React.RefObject<HTMLDivElement>;
 }
 
 function Index({ aboutRef, barVisibility, setBarVisibility }: indexProps) {
   const barRef = useRef<HTMLInputElement>(null);
   const phoneContainer = useRef<HTMLDivElement>(null);
   function barClicked() {
-    console.log("clicked");
     if (barRef.current) setBarVisibility(() => !barVisibility);
   }
   const scrollToAboutSection = () => {
     if (aboutRef.current)
       aboutRef.current.scrollIntoView({ behavior: "smooth" });
-  };
-  const scrollToAboutSectionPhone = () => {
-    setBarVisibility(() => !barVisibility);
-    if (aboutRef.current) {
-      if (barRef.current) barRef.current.checked = false;
-      aboutRef.current.scrollIntoView({ behavior: "smooth" });
-    }
   };
   const barClick = () => {
     setBarVisibility(() => !barVisibility);
@@ -42,7 +34,22 @@ function Index({ aboutRef, barVisibility, setBarVisibility }: indexProps) {
         document.body.style.overflow = "hidden";
       }
   }, [barVisibility]);
+  const scrollToAboutSectionPhone = () => {
+    if (phoneContainer.current)
+      if (!barVisibility) {
+        phoneContainer.current.style.width = "0vw";
+        document.body.style.overflow = "unset";
+        setTimeout(() => {
+          if (aboutRef.current) {
+            if (barRef.current) barRef.current.checked = false;
+            setBarVisibility(() => !barVisibility);
+            aboutRef.current.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 50);
+      }
 
+    // setBarVisibility(() => !barVisibility);
+  };
   return (
     <div className="nav-container">
       <div className="navbar-container">

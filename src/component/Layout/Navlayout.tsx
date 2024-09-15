@@ -9,6 +9,7 @@ import { Outlet, useLocation } from "react-router-dom";
 
 interface ContextType {
   barVisibility: boolean;
+  aboutRef: React.RefObject<HTMLDivElement>;
 }
 
 function Navlayout() {

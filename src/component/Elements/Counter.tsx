@@ -14,7 +14,6 @@ function Counter({ initialValue, targetValue }: countProps) {
 
   useEffect(() => {
     const setVisible = () => {
-      console.log("starttttttttssssstttttt");
       if (elementRefVisible) setStart(true);
     };
     setVisible();
@@ -23,7 +22,6 @@ function Counter({ initialValue, targetValue }: countProps) {
 
   useEffect(() => {
     if (start) {
-      console.log("startttttttttttttt");
       let startValue = initialValue;
       const interval = Math.floor(duration / (targetValue - initialValue));
 
