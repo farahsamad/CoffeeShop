@@ -45,7 +45,7 @@ function About({ aboutRef, barVisibility }: homeProps) {
       ref={aboutRef}
       className={`about-page-container  ${barVisibility ? "" : "bar-visible"}`}
     >
-      <div className="">
+      <div className="animate-right">
         <div className="first-section" data-aos="fade-up">
           <div className="first-section-image">
             <img
@@ -85,7 +85,7 @@ function About({ aboutRef, barVisibility }: homeProps) {
           </div>
         </div>
       </div>
-      <div className="second-sec-about">
+      <div className="animate-right">
         <div className="second-section" data-aos="fade-up">
           <div className="second-section-paragraph-container">
             <div className="first-element">

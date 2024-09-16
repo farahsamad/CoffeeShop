@@ -29,29 +29,31 @@ function Home() {
           </div>
         </div>
       </div>
-      <div
-        className="first-section first-section-home berry-background"
-        data-aos="fade-up"
-      >
-        <div className="first-section-image">
-          <img
-            src={require("../../image/triple-berry-smoothie-feat-min.jpg")}
-            // width={200}
-            // height={200}
-          />
-        </div>
-        <div className="first-section-paragraph-container">
-          <div className="first-section-paragraph">
-            {/* Indulge in the refreshing taste of our Mixed Berry Smoothie with
+      <div className="animate-right">
+        <div
+          className="first-section first-section-home berry-background"
+          data-aos="fade-up"
+        >
+          <div className="first-section-image">
+            <img
+              src={require("../../image/triple-berry-smoothie-feat-min.jpg")}
+              // width={200}
+              // height={200}
+            />
+          </div>
+          <div className="first-section-paragraph-container">
+            <div className="first-section-paragraph">
+              {/* Indulge in the refreshing taste of our Mixed Berry Smoothie with
             Yogurt – a perfect blend of juicy berries and creamy yogurt for a
             deliciously healthy treat!  */}
-            Experience the ultimate refreshment with our Mixed Berry Smoothie
-            with Yogurt. This delightful blend combines the natural sweetness of
-            ripe strawberries, blueberries, and raspberries with the creamy
-            richness of yogurt.
-          </div>
-          <div className="first-section-button">
-            <button className="order-now">Order now</button>
+              Experience the ultimate refreshment with our Mixed Berry Smoothie
+              with Yogurt. This delightful blend combines the natural sweetness
+              of ripe strawberries, blueberries, and raspberries with the creamy
+              richness of yogurt.
+            </div>
+            <div className="first-section-button">
+              <button className="order-now">Order now</button>
+            </div>
           </div>
         </div>
       </div>
@@ -77,7 +79,6 @@ function Home() {
           </div>
         </div>
       </div>
-
       <About aboutRef={aboutRef} barVisibility={barVisibility}></About>
       <div className="footer-pages-container">
         <Footer></Footer>
