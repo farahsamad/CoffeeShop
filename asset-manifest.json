@@ -1,19 +1,20 @@
 {
   "files": {
-    "main.css": "/CoffeeShop/static/css/main.826d44b1.css",
-    "main.js": "/CoffeeShop/static/js/main.9c60105b.js",
+    "main.css": "/CoffeeShop/static/css/main.4b8d84c6.css",
+    "main.js": "/CoffeeShop/static/js/main.16027af7.js",
     "static/media/coffee-beans.jpg": "/CoffeeShop/static/media/coffee-beans.251bb87128aef4cd818b.jpg",
     "static/media/strawberry-smoothie.png": "/CoffeeShop/static/media/strawberry-smoothie.650f6c446beb348b6310.png",
     "static/media/iced-chocolate-frappe-coffee.png": "/CoffeeShop/static/media/iced-chocolate-frappe-coffee.af5c56c36497c27ba9f5.png",
     "static/media/latte.png": "/CoffeeShop/static/media/latte.a07e9a3114e74121b1f7.png",
     "static/media/coffee-banner.png": "/CoffeeShop/static/media/coffee-banner.7d98d1541f4f80bd65bd.png",
     "static/media/triple-berry-smoothie-feat-min.jpg": "/CoffeeShop/static/media/triple-berry-smoothie-feat-min.bf9f2f8b2a9a846e8d67.jpg",
+    "static/media/hot-coffee.jpg": "/CoffeeShop/static/media/hot-coffee.9bef4ab84b9228d84fe0.jpg",
     "index.html": "/CoffeeShop/index.html",
-    "main.826d44b1.css.map": "/CoffeeShop/static/css/main.826d44b1.css.map",
-    "main.9c60105b.js.map": "/CoffeeShop/static/js/main.9c60105b.js.map"
+    "main.4b8d84c6.css.map": "/CoffeeShop/static/css/main.4b8d84c6.css.map",
+    "main.16027af7.js.map": "/CoffeeShop/static/js/main.16027af7.js.map"
   },
   "entrypoints": [
-    "static/css/main.826d44b1.css",
-    "static/js/main.9c60105b.js"
+    "static/css/main.4b8d84c6.css",
+    "static/js/main.16027af7.js"
   ]
 }
