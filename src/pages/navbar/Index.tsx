@@ -30,7 +30,7 @@ function Index({ aboutRef, barVisibility, setBarVisibility }: indexProps) {
         phoneContainer.current.style.width = "0vw";
         document.body.style.overflow = "unset";
       } else {
-        phoneContainer.current.style.width = "70vw";
+        phoneContainer.current.style.width = "80vw";
         document.body.style.overflow = "hidden";
       }
   }, [barVisibility]);

@@ -22,13 +22,12 @@ function Index() {
           <div className="first-footer-section">CoffeeShop</div>
           <div className="second-footer-section">
             <div className="first-elements">
-              <h6>Privacy Policy </h6> <h6>gg</h6>
+              <div className="margin-bottom">Privacy Policy </div>{" "}
+              <div>Contact us</div>
             </div>
             <div className="second-elements">
-              <h6>Terms of use</h6> <h6>Customer service</h6>
-            </div>
-            <div className="third-elements">
-              <h6>Privacy Policy </h6> <h6>Contact us</h6>
+              <div className="margin-bottom">Terms of use</div>{" "}
+              <div>Customer service</div>
             </div>
           </div>
           <div className="third-footer-section">

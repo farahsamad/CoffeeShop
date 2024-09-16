@@ -12,10 +12,14 @@ function Menu() {
   const barVisibility = barsVisibility.barVisibility;
   return (
     <div
-      className={`home-page-container ${barVisibility ? "" : "bar-visible"}`}
+      className={`main-home-page-container ${
+        barVisibility ? "" : "bar-visible"
+      }`}
     >
-      Menu
-      <Footer></Footer>
+      <div className={`home-page-container`}>
+        Menu
+        <Footer></Footer>
+      </div>
     </div>
   );
 }
