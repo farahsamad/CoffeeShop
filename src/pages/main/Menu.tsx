@@ -107,7 +107,10 @@ function Menu() {
 
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img src={require("../../image/Machiato.jpg")} alt="" />
+                        <img
+                          src={require("../../image/Macchiato.jpg")}
+                          alt=""
+                        />
                       </div>
                       <div className="first-cup-name">Machiato</div>
                     </div>
