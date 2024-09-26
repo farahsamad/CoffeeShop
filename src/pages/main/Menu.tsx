@@ -100,19 +100,12 @@ function Menu() {
 
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img src={require("../../image/latte.png")} alt="" />
-                      </div>
-                      <div className="first-cup-name">Latte</div>
-                    </div>
-
-                    <div className="first-cup">
-                      <div className="first-cup-image">
                         <img
                           src={require("../../image/Macchiato.jpg")}
                           alt=""
                         />
                       </div>
-                      <div className="first-cup-name">Machiato</div>
+                      <div className="first-cup-name">Machiato</div>F
                     </div>
 
                     <div className="first-cup">
