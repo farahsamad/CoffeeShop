@@ -113,7 +113,7 @@ html {
   cursor: pointer;
   /* font-size: 20px; */
   /* font-weight: bolder; */
-  font-family: cursive;
+  /* font-family: cursive; */
   font-size: clamp(3vh, 2.6vw, 20px) !important;
 }
 .second-footer-section {
@@ -180,6 +180,7 @@ html {
   display: flex;
   flex-direction: column;
   transform: rotate(180deg);
+  margin: 1px auto;
 }
 .second-section-footer {
   display: grid;

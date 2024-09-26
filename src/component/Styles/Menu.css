@@ -25,6 +25,8 @@ hr {
 }
 .menu-sentence {
   font-size: clamp(2vh, 2.6vw, 20px) !important;
+  font-family: SoDoSans, Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-weight: bolder;
 }
 .second-section-menu-container {
   display: flex;
@@ -39,7 +41,7 @@ hr {
 .second-part-menu {
   width: 85%;
 }
-.hot-coffees-content {
+.coffees-content {
   background-color: black;
   display: flex;
   justify-content: center;
@@ -47,7 +49,7 @@ hr {
   align-items: center;
   margin-bottom: 20px;
 }
-.hot-coffees-content-container {
+.coffees-content-container {
   height: fit-content;
   width: 100%;
   display: grid;
@@ -130,7 +132,7 @@ hr {
   } */
 }
 @media (max-width: 620px) {
-  .hot-coffees-content-container {
+  .coffees-content-container {
     grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr)) !important;
   }
   /* .first-cup-image img {
