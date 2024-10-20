@@ -1,34 +1,28 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faSearch,
-  faBars,
   faMugHot,
-  faShoppingBasket,
   faShoppingCart,
   faUser,
-  faStarAndCrescent,
-  faStarHalf,
-  faStarHalfStroke,
-  faBox,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
-import "../../component/Styles/Home.scss";
-import Counter from "../../component/Elements/Counter";
-import { useOutletContext } from "react-router";
+// import "../../component/Styles/Home.scss";
+import Counter from "../../Controllers/Elements/Counter";
+// import { useOutletContext } from "react-router";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import BlurredImage from "../../Controllers/Elements/BlurredImage";
 
 interface homeProps {
   aboutRef: React.RefObject<HTMLDivElement>;
   barVisibility: boolean;
 }
-interface animationProps {
-  obj: HTMLElement;
-  start: number;
-  end: number;
-  duration: number;
-}
+// interface animationProps {
+//   obj: HTMLElement;
+//   start: number;
+//   end: number;
+//   duration: number;
+// }
 
 function About({ aboutRef, barVisibility }: homeProps) {
   // const barsVisibility = useOutletContext<homeProps>();
@@ -48,11 +42,16 @@ function About({ aboutRef, barVisibility }: homeProps) {
       <div className="animate-right">
         <div className="first-section" data-aos="fade-up">
           <div className="first-section-image">
-            <img
-              src={require("../../image/latte.png")}
+            {/* <img
+              src={require("../../component/image/latte.png")}
               // width={200}
               // height={200}
-            />
+            /> */}
+            <BlurredImage
+              src={require("../../component/image/latte.png")}
+              blurredSrc={require("../../component/image/blurred-latte.png")}
+              imageAlt="latte"
+            ></BlurredImage>
           </div>
           <div className="first-section-paragraph-container">
             <div className="first-section-paragraph">
@@ -70,7 +69,12 @@ function About({ aboutRef, barVisibility }: homeProps) {
       <div className="first-sec-about">
         <div className="first-section strawberry-background" data-aos="fade-up">
           <div className="first-section-image">
-            <img src={require("../../image/strawberry-smoothie.png")} />
+            {/* <img src={require("../../component/image/strawberry-smoothie.png")} /> */}
+            <BlurredImage
+              src={require("../../component/image/strawberry-smoothie.png")}
+              blurredSrc={require("../../component/image/blurred-strawberry-smoothie.png")}
+              imageAlt="strawberry smoothie"
+            ></BlurredImage>
           </div>
           <div className="first-section-paragraph-container">
             <div className="first-section-paragraph">

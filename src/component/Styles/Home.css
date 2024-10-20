@@ -48,7 +48,7 @@ html {
   min-height: fit-content;
   height: fit-content;
   background-color: black;
-  /* background-image: url("../../image/coffee-banner.png");
+  /* 
   background-size: 45% 100%;
   background-repeat: no-repeat;
   background-position: right; */
@@ -67,7 +67,7 @@ html {
   object-fit: contain;
 }
 .footer-container {
-  background: url("../../image/coffee-beans.jpg");
+  background: url("../image/coffee-beans.jpg");
   min-height: 13rem;
   height: 15rem;
   margin: 10px 0px 0 0px;
@@ -826,4 +826,7 @@ html {
 }
 .margin-bottom {
   margin-bottom: var(--marginBottom);
+}
+img {
+  color: white;
 }

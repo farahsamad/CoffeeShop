@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import { useOutletContext } from "react-router";
 import "../../component/Styles/Home.css";
 import About from "./About";
 import Footer from "../footer/Index";
+import BlurredImage from "../../Controllers/Elements/BlurredImage";
 
 interface homeProps {
   barVisibility: boolean;
@@ -23,7 +24,12 @@ function Home() {
         <div className="intro-container">
           <div className="second-intro-container">
             <div className="intro-image">
-              <img src={require("../../image/coffee-banner.png")} alt="" />
+              {/* <img src={require("../../component/image/coffee-banner.png")} alt="" /> */}
+              <BlurredImage
+                src={require("../../component/image/coffee-banner.png")}
+                blurredSrc={require("../../component/image/blurred-coffee-banner.png")}
+                imageAlt="coffee banner"
+              ></BlurredImage>
             </div>
             <div className="intro-sentence">
               <div className="intro-sent">Experience the essence</div>
@@ -38,11 +44,16 @@ function Home() {
             data-aos="fade-up"
           >
             <div className="first-section-image">
-              <img
-                src={require("../../image/triple-berry-smoothie-feat-min.jpg")}
+              {/* <img
+                src={require("../../component/image/triple-berry-smoothie-feat-min.png")}
                 // width={200}
                 // height={200}
-              />
+              /> */}
+              <BlurredImage
+                src={require("../../component/image/triple-berry-smoothie-feat-min.png")}
+                blurredSrc={require("../../component/image/blurred-triple-berry-smoothie-feat-min.png")}
+                imageAlt="berry smoothie"
+              ></BlurredImage>
             </div>
             <div className="first-section-paragraph-container">
               <div className="first-section-paragraph">
@@ -66,9 +77,14 @@ function Home() {
             data-aos="fade-up"
           >
             <div className="first-section-image">
-              <img
-                src={require("../../image/iced-chocolate-frappe-coffee.png")}
-              />
+              {/* <img
+                src={require("../../component/image/iced-chocolate-frappe-coffee.png")}
+              /> */}
+              <BlurredImage
+                src={require("../../component/image/iced-chocolate-frappe-coffee.png")}
+                blurredSrc={require("../../component/image/blurred-iced-chocolate-frappe-coffee.png")}
+                imageAlt="iced chocolate frappe coffee"
+              ></BlurredImage>
             </div>
             <div className="first-section-paragraph-container">
               <div className="first-section-paragraph">

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 const useScroll = (ref: React.RefObject<HTMLElement>) => {
   const [isIntersecting, setIntersecting] = useState(false);
@@ -8,14 +8,15 @@ const useScroll = (ref: React.RefObject<HTMLElement>) => {
       ([entry]) => setIntersecting(entry.isIntersecting),
       { threshold: 0.1 } // Adjust threshold as needed
     );
+    const elementRef = ref.current;
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    if (elementRef) {
+      observer.observe(elementRef);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (elementRef) {
+        observer.unobserve(elementRef);
       }
     };
   }, [ref]);

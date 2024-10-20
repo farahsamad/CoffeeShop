@@ -1,9 +1,9 @@
 import React from "react";
 import Home from "./pages/main/Home";
-import About from "./pages/main/About";
+// import About from "./pages/main/About";
 import Menu from "./pages/main/Menu";
-import Navlayout from "./component/Layout/Navlayout";
-import Index from "./pages/navbar/Index";
+import Navlayout from "./Controllers/Layout/Navlayout";
+// import Index from "./pages/navbar/Index";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App: React.FC = () => (

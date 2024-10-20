@@ -2,6 +2,7 @@ import React from "react";
 import { useOutletContext } from "react-router";
 import "../../component/Styles/Menu.css";
 import Footer from "../footer/Index";
+import LoadingImage from "../../Controllers/Elements/LoadingImage";
 
 interface homeProps {
   barVisibility: boolean;
@@ -34,9 +35,9 @@ function Menu() {
                   <div className="coffees-content-container">
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/cappuccino.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/cappuccino.png")}
+                          imageAlt="Cappuccino"
                         />
                       </div>
                       <div className="first-cup-name">Cappuccino</div>
@@ -44,9 +45,9 @@ function Menu() {
 
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/caramel-frappe.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/caramel-frappe.png")}
+                          imageAlt="Caramel Frappe"
                         />
                       </div>
                       <div className="first-cup-name">Caramel Frappe</div>
@@ -54,9 +55,9 @@ function Menu() {
 
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/Chocolate-frappe.jpg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/Chocolate-frappe.jpg")}
+                          imageAlt="Chocolate Frappe"
                         />
                       </div>
                       <div className="first-cup-name">Chocolate Frappe</div>
@@ -64,25 +65,28 @@ function Menu() {
 
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img src={require("../../image/espresso.jpg")} alt="" />
+                        <LoadingImage
+                          src={require("../../component/image/espresso.jpg")}
+                          imageAlt="Espresso"
+                        />
                       </div>
                       <div className="first-cup-name">Espresso</div>
                     </div>
 
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/flat-white.jpeg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/flat-white.jpeg")}
+                          imageAlt="Flat White"
                         />
                       </div>
                       <div className="first-cup-name">Flat White</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/hot-coffee.jpg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/hot-coffee.jpg")}
+                          imageAlt="Hot Coffee"
                         />
                       </div>
                       <div className="first-cup-name">Hot Coffee</div>
@@ -90,9 +94,9 @@ function Menu() {
 
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/latte-coffee.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/latte-coffee.png")}
+                          imageAlt="Latte Coffee"
                         />
                       </div>
                       <div className="first-cup-name">Latte Coffee</div>
@@ -100,9 +104,9 @@ function Menu() {
 
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/Macchiato.jpg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/Machiato.jpg")}
+                          imageAlt="Machiato"
                         />
                       </div>
                       <div className="first-cup-name">Machiato</div>F
@@ -110,9 +114,9 @@ function Menu() {
 
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/mocha-coffee.jpeg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/mocha-coffee.jpeg")}
+                          imageAlt="Mocha"
                         />
                       </div>
                       <div className="first-cup-name">Mocha</div>
@@ -120,9 +124,9 @@ function Menu() {
 
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/turkish-coffee.jpg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/turkish-coffee.jpg")}
+                          imageAlt=""
                         />
                       </div>
                       <div className="first-cup-name">Turkish Coffee</div>
@@ -130,9 +134,9 @@ function Menu() {
 
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/white-chocolate-mochas.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/white-chocolate-mochas.png")}
+                          imageAlt="White Chocolate Mocha"
                         />
                       </div>
                       <div className="first-cup-name">
@@ -151,18 +155,18 @@ function Menu() {
                   <div className="coffees-content-container">
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/iced-americano.jpg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/iced-americano.jpg")}
+                          imageAlt="Iced Americano"
                         />
                       </div>
                       <div className="first-cup-name">Iced Americano</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/iced-chocolate-frappe-coffee.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/iced-chocolate-frappe-coffee.png")}
+                          imageAlt="Iced Chocolate Frappe Coffee"
                         />
                       </div>
                       <div className="first-cup-name">
@@ -171,54 +175,54 @@ function Menu() {
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/iced-coffee.jpeg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/iced-coffee.jpeg")}
+                          imageAlt="Iced coffee"
                         />
                       </div>
                       <div className="first-cup-name">Iced coffee</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/iced-flat-white.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/iced-flat-white.png")}
+                          imageAlt="Iced Flat White"
                         />
                       </div>
                       <div className="first-cup-name">Iced Flat White</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/iced-latte.jpg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/iced-latte.jpg")}
+                          imageAlt="Iced Latte"
                         />
                       </div>
                       <div className="first-cup-name">Iced Latte</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/iced-machiato.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/iced-machiato.png")}
+                          imageAlt="Iced Machiato"
                         />
                       </div>
                       <div className="first-cup-name">Iced Machiato</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/iced-mochas.jpeg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/iced-mochas.jpeg")}
+                          imageAlt="Iced Mochas"
                         />
                       </div>
                       <div className="first-cup-name">Iced Mochas</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/iced-shaken-espresso.jpeg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/iced-shaken-espresso.jpeg")}
+                          imageAlt="Iced Shaken Espresso"
                         />
                       </div>
                       <div className="first-cup-name">Iced Shaken Espresso</div>
@@ -235,36 +239,36 @@ function Menu() {
                   <div className="coffees-content-container">
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/iced-chai-tea.jpg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/iced-chai-tea.jpg")}
+                          imageAlt="Iced Chai Tea"
                         />
                       </div>
                       <div className="first-cup-name">Iced Chai Tea</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/iced-lemon-tea.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/iced-lemon-tea.png")}
+                          imageAlt="Iced Lemon Tea"
                         />
                       </div>
                       <div className="first-cup-name">Iced Lemon Tea</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/iced-matcha.jpg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/iced-matcha.jpg")}
+                          imageAlt="Iced Matcha"
                         />
                       </div>
                       <div className="first-cup-name">Iced Matcha</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/iced-peach-tea.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/iced-peach-tea.png")}
+                          imageAlt="Iced Peach Tea"
                         />
                       </div>
                       <div className="first-cup-name">Iced Peach Tea</div>
@@ -281,22 +285,28 @@ function Menu() {
                   <div className="coffees-content-container">
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img src={require("../../image/chai-tea.jpg")} alt="" />
+                        <LoadingImage
+                          src={require("../../component/image/chai-tea.jpg")}
+                          imageAlt="Chai Tea"
+                        />
                       </div>
                       <div className="first-cup-name">Chai Tea</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/green-tea.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/green-tea.png")}
+                          imageAlt="Green Tea"
                         />
                       </div>
                       <div className="first-cup-name">Green Tea</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img src={require("../../image/tea-milk.jpg")} alt="" />
+                        <LoadingImage
+                          src={require("../../component/image/tea-milk.jpg")}
+                          imageAlt="Milk Tea"
+                        />
                       </div>
                       <div className="first-cup-name">Milk Tea</div>
                     </div>
@@ -312,18 +322,18 @@ function Menu() {
                   <div className="coffees-content-container">
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/hot-chocolate.jpg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/hot-chocolate.jpg")}
+                          imageAlt="Hot Chocolate"
                         />
                       </div>
                       <div className="first-cup-name">Hot Chocolate</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/white-hot-chocolate.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/white-hot-chocolate.png")}
+                          imageAlt="White hot chocolate"
                         />
                       </div>
                       <div className="first-cup-name">White hot chocolate</div>
@@ -340,63 +350,63 @@ function Menu() {
                   <div className="coffees-content-container">
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/apple-juice.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/apple-juice.png")}
+                          imageAlt="Apple Juice"
                         />
                       </div>
                       <div className="first-cup-name">Apple Juice</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/carrot-juice.jpeg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/carrot-juice.jpeg")}
+                          imageAlt="Carrot Juice"
                         />
                       </div>
                       <div className="first-cup-name">Carrot Juice</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/mango-juice.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/mango-juice.png")}
+                          imageAlt="Mango Juice"
                         />
                       </div>
                       <div className="first-cup-name">Mango Juice</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/orange-juice.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/orange-juice.png")}
+                          imageAlt="Orange Juice"
                         />
                       </div>
                       <div className="first-cup-name">Orange Juice</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/pomegranate-juice.jpg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/pomegranate-juice.jpg")}
+                          imageAlt="Pomegranate Juice"
                         />
                       </div>
                       <div className="first-cup-name">Pomegranate Juice</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/raspberry-juice.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/raspberry-juice.png")}
+                          imageAlt="Raspberry Juice"
                         />
                       </div>
                       <div className="first-cup-name">Raspberry Juice</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/strawberry-juice.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/strawberry-juice.png")}
+                          imageAlt="Strawberry Juice"
                         />
                       </div>
                       <div className="first-cup-name">Strawberry Juice</div>
@@ -414,27 +424,27 @@ function Menu() {
                   <div className="coffees-content-container">
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/cold-milk.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/cold-milk.png")}
+                          imageAlt="Cold Milk"
                         />
                       </div>
                       <div className="first-cup-name">Cold Milk</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/steamed-milk.jpg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/steamed-milk.jpg")}
+                          imageAlt="Steamed Milk"
                         />
                       </div>
                       <div className="first-cup-name">Steamed Milk</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/vanilla-cream-milk.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/vanilla-cream-milk.png")}
+                          imageAlt="Vanilla Cream Milk"
                         />
                       </div>
                       <div className="first-cup-name">Vanilla Cream Milk</div>
@@ -451,24 +461,27 @@ function Menu() {
                   <div className="coffees-content-container">
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img src={require("../../image/water.png")} alt="" />
+                        <LoadingImage
+                          src={require("../../component/image/water.png")}
+                          imageAlt="Cup Of Water"
+                        />
                       </div>
                       <div className="first-cup-name">Cup Of Water</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/sparkling-water.png")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/sparkling-water.png")}
+                          imageAlt="Sparkling Water"
                         />
                       </div>
                       <div className="first-cup-name">Sparkling Water</div>
                     </div>
                     <div className="first-cup">
                       <div className="first-cup-image">
-                        <img
-                          src={require("../../image/water-bottle.jpg")}
-                          alt=""
+                        <LoadingImage
+                          src={require("../../component/image/water-bottle.jpg")}
+                          imageAlt="Water bottle"
                         />
                       </div>
                       <div className="first-cup-name">Water bottle</div>

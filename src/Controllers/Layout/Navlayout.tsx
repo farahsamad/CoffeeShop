@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 // import Header from "../../Pages/Navbar/Header";
 import Header from "../../pages/navbar/Index";
-import Home from "../../pages/main/Home";
-import Footer from "../../pages/footer/Index";
-import "../Styles/Nav.css";
+// import Home from "../../pages/main/Home";
+// import Footer from "../../pages/footer/Index";
+import "../../component/Styles/Nav.css";
 // import "../traverse.css";
-import { Outlet, useLocation } from "react-router-dom";
+// import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 interface ContextType {
   barVisibility: boolean;
