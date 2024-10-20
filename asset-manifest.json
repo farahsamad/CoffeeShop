@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/CoffeeShop/static/css/main.b2a5810d.css",
-    "main.js": "/CoffeeShop/static/js/main.54083d0e.js",
+    "main.css": "/CoffeeShop/static/css/main.6cb8fe95.css",
+    "main.js": "/CoffeeShop/static/js/main.97bf3181.js",
     "static/media/apple-juice.png": "/CoffeeShop/static/media/apple-juice.d7962491284970b20b1d.png",
     "static/media/coffee-beans.jpg": "/CoffeeShop/static/media/coffee-beans.251bb87128aef4cd818b.jpg",
     "static/media/white-chocolate-mochas.png": "/CoffeeShop/static/media/white-chocolate-mochas.ae47d1b58e61eaa58707.png",
@@ -23,14 +23,19 @@
     "static/media/water.png": "/CoffeeShop/static/media/water.36be768ff02aed4a83e0.png",
     "static/media/tea-milk.jpg": "/CoffeeShop/static/media/tea-milk.89060a9698d6ffbe9ba8.jpg",
     "static/media/raspberry-juice.png": "/CoffeeShop/static/media/raspberry-juice.96c3f4f879fb16db9378.png",
+    "static/media/blurred-latte.png": "/CoffeeShop/static/media/blurred-latte.2cacace11ef4052e0939.png",
     "static/media/vanilla-cream-milk.png": "/CoffeeShop/static/media/vanilla-cream-milk.be86898ca56f6c7ce8bb.png",
     "static/media/cold-milk.png": "/CoffeeShop/static/media/cold-milk.e4b3d644b39ed0437fff.png",
-    "static/media/Macchiato.jpg": "/CoffeeShop/static/media/Macchiato.9d251c969b5de4ddf949.jpg",
+    "static/media/Machiato.jpg": "/CoffeeShop/static/media/Machiato.9d251c969b5de4ddf949.jpg",
+    "static/media/blurred-iced-chocolate-frappe-coffee.png": "/CoffeeShop/static/media/blurred-iced-chocolate-frappe-coffee.51762d24051093bb9901.png",
     "static/media/orange-juice.png": "/CoffeeShop/static/media/orange-juice.7701ea8a95e969370c1b.png",
     "static/media/strawberry-juice.png": "/CoffeeShop/static/media/strawberry-juice.7cdc504947ff12d21395.png",
+    "static/media/blurred-strawberry-smoothie.png": "/CoffeeShop/static/media/blurred-strawberry-smoothie.a63a4beae3a0ce250c64.png",
+    "static/media/blurred-triple-berry-smoothie-feat-min.png": "/CoffeeShop/static/media/blurred-triple-berry-smoothie-feat-min.ee897ffaac9b0817b1a7.png",
     "static/media/latte-coffee.png": "/CoffeeShop/static/media/latte-coffee.3f8f0dd8f6640da97bfe.png",
     "static/media/water-bottle.jpg": "/CoffeeShop/static/media/water-bottle.b1ff26211e9c318f235e.jpg",
-    "static/media/triple-berry-smoothie-feat-min.jpg": "/CoffeeShop/static/media/triple-berry-smoothie-feat-min.bf9f2f8b2a9a846e8d67.jpg",
+    "static/media/triple-berry-smoothie-feat-min.png": "/CoffeeShop/static/media/triple-berry-smoothie-feat-min.bf9f2f8b2a9a846e8d67.png",
+    "static/media/blurred-coffee-banner.png": "/CoffeeShop/static/media/blurred-coffee-banner.fd2aa1507303778e6ec5.png",
     "static/media/chai-tea.jpg": "/CoffeeShop/static/media/chai-tea.45f09aaa014a3a71f7e1.jpg",
     "static/media/Chocolate-frappe.jpg": "/CoffeeShop/static/media/Chocolate-frappe.1e939e49e14aac6b97a3.jpg",
     "static/media/iced-latte.jpg": "/CoffeeShop/static/media/iced-latte.3e432e1590e1da3d74a5.jpg",
@@ -40,12 +45,13 @@
     "static/media/iced-matcha.jpg": "/CoffeeShop/static/media/iced-matcha.9e286688578e1ebf168b.jpg",
     "static/media/hot-coffee.jpg": "/CoffeeShop/static/media/hot-coffee.9bef4ab84b9228d84fe0.jpg",
     "static/media/espresso.jpg": "/CoffeeShop/static/media/espresso.45cb0968fd66ac5de00d.jpg",
+    "static/media/coffee-beans-loading.png": "/CoffeeShop/static/media/coffee-beans-loading.de9ccbd3d36d75fecb83.png",
     "index.html": "/CoffeeShop/index.html",
-    "main.b2a5810d.css.map": "/CoffeeShop/static/css/main.b2a5810d.css.map",
-    "main.54083d0e.js.map": "/CoffeeShop/static/js/main.54083d0e.js.map"
+    "main.6cb8fe95.css.map": "/CoffeeShop/static/css/main.6cb8fe95.css.map",
+    "main.97bf3181.js.map": "/CoffeeShop/static/js/main.97bf3181.js.map"
   },
   "entrypoints": [
-    "static/css/main.b2a5810d.css",
-    "static/js/main.54083d0e.js"
+    "static/css/main.6cb8fe95.css",
+    "static/js/main.97bf3181.js"
   ]
 }
