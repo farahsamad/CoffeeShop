@@ -50,7 +50,9 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
   // }
 
   function barClicked() {
-    if (barRef.current) setBarVisibility(() => !barVisibility);
+    if (barRef.current) {
+      setBarVisibility(() => !barVisibility);
+    }
   }
   const scrollToAboutSection = () => {
     setTimeout(() => {
@@ -71,9 +73,11 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
       if (barVisibility) {
         phoneContainer.current.style.width = "0vw";
         document.body.style.overflow = "unset";
+        document.body.style.maxHeight = "100%";
       } else {
         phoneContainer.current.style.width = "80vw";
         document.body.style.overflow = "hidden";
+        document.body.style.maxHeight = "100vh";
       }
   }, [barVisibility]);
   const scrollToAboutSectionPhone = () => {
@@ -94,7 +98,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
   };
 
   const handleScroll = () => {
-    console.log("window.scrollY: ", window.scrollY);
+    // console.log("window.scrollY: ", window.scrollY);
     if (window.scrollY < 300) {
       setShowHeader(true);
     } else {
@@ -209,7 +213,11 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
             <div className="search-div">
               <FaSearch className="search-icon" />
             </div>
-            <div className="sign-div">Sign in</div>
+            {/* <div className="sign-div"> */}
+            <Link className="sign-div" href="/login">
+              Sign in
+            </Link>
+            {/* </div> */}
           </div>
           <div className={`second-sign-container phone  `}>
             <label className="hamburger-menu">

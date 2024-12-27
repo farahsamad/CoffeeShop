@@ -86,7 +86,9 @@ function Home() {
               <div className="intro-sentence">
                 <div className="intro-sent">Experience the essence</div>
                 <div className="intro-sent">of real coffee</div>
-                <div className="create-account-phrase">Create account</div>
+                <Link href="/signup" className="create-account-phrase">
+                  Create account
+                </Link>
               </div>
             </div>
           </div>
@@ -210,7 +212,7 @@ function Home() {
                text-white animate-bounce w-7 h-7 cursor-pointer z-50"
             />
           </div>
-          <div className="footer-pages-container sm:!mb-[0px] mb-[64px] -mx-[10px]">
+          <div className="footer-pages-container  mb-[64px] -mx-[10px]">
             <Footer />
           </div>
         </div>

@@ -806,7 +806,7 @@ const Menu: React.FC = () => {
               />
             </div>
           </div>
-          <div className="-mx-[10px] sm:!mb-[0px] mb-[64px]">
+          <div className="footer-pages-container  -mx-[10px]  mb-[64px]">
             <Footer />
           </div>
         </div>

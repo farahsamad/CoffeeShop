@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { FaTicket, FaX } from "react-icons/fa6";
 import LoadingImage from "./loading-image";
@@ -37,6 +37,7 @@ function Cart() {
   const [quantities, setQuantities] = useState<number[]>([]);
   const [sectionHeight, setSectionHeight] = useState<number>(0);
   const [isMinWidth, setIsMinWidth] = useState<boolean>(false);
+  const [secondMinWidth, setSecondMinWidth] = useState<boolean>(false);
   const { barVisibility, aboutRef, pageShowHeader, sectionsRef } = useMyContext();
 
   const sectionDiv = useRef<HTMLDivElement>(null);
@@ -83,7 +84,7 @@ function Cart() {
   const totalHeight = () => {
     setTimeout(() => {
       if (sectionDiv.current) {
-        console.log("sectionHeight: ", sectionDiv.current.offsetHeight);
+        // console.log("sectionHeight: ", sectionDiv.current.offsetHeight);
         const height = sectionDiv.current.offsetHeight + 100;
         return `${height}px`;
       }
@@ -91,15 +92,23 @@ function Cart() {
     }, 50);
   };
 
+  const handleResize = useCallback(() => {
+    setIsMinWidth(window.innerWidth >= 640);
+    if (isMinWidth) {
+      setSecondMinWidth(window.innerWidth >= 850);
+    }
+    totalHeight();
+  }, [totalHeight]);
+
+  useEffect(() => {
+    handleResize();
+  }, [handleResize]);
+
   useEffect(() => {
     if (sectionDiv.current) {
       setSectionHeight(sectionDiv.current.offsetHeight);
     }
 
-    const handleResize = () => {
-      setIsMinWidth(window.innerWidth >= 640);
-      totalHeight();
-    };
     handleResize();
     window.addEventListener("resize", handleResize);
     window.addEventListener("load", handleResize);
@@ -450,7 +459,13 @@ function Cart() {
             <div
               id="checkout-container"
               className="flex flex-col justify-between mt-100 bg-amber-950 w-full rounded-t-3xl sm:!rounded-none"
-              style={{ height: isMinWidth ? `calc(100vh - 100px)` : `550px` }}
+              style={{
+                height: isMinWidth
+                  ? secondMinWidth
+                    ? `calc(100vh - 100px)`
+                    : `calc(100vh - 164px)`
+                  : `550px`,
+              }}
             >
               <div
                 id="first-checkout-container"
@@ -610,7 +625,7 @@ function Cart() {
           </div>
         </div>
       </NavLink> */}
-      <div className="footer-pages-container sm:!mb-[0px] mb-[64px] bg-amber-950 sm:!bg-white -mt-[10px]">
+      <div className="footer-pages-container  mb-[64px] bg-amber-950 sm:!bg-white -mt-[10px]">
         <Footer />
       </div>
     </div>

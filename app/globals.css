@@ -239,8 +239,14 @@ html {
     #fixed-footer {
       visibility: hidden;
     }
+    .footer-pages-container {
+      margin-bottom: 0px !important;
+    }
   }
   @media (max-width: 850px) {
+    .footer-pages-container {
+      margin-bottom: 64px !important;
+    }
     #add-to-cart,
     #arrow-up-button {
       bottom: 64px;

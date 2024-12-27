@@ -1,13 +1,18 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import authConfig from "./auth.config";
+import NextAuth from "next-auth";
 
-// This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
-  //   return NextResponse.redirect(new URL("/", request.url));
-  return null;
-}
+// Use only one of the two middleware options below
+// 1. Use middleware directly
+// export const { auth: middleware } = NextAuth(authConfig)
 
-// See "Matching Paths" below to learn more
+// 2. Wrapped middleware option
+const { auth } = NextAuth(authConfig);
+export default auth(async function middleware(req: NextRequest) {
+  // Your custom middleware logic goes here
+});
+
 export const config = {
   matcher: "/",
 };

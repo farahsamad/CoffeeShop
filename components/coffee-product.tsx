@@ -504,7 +504,7 @@ const CoffeeProduct: React.FC = () => {
               ) : null}
             </div>
           </section>
-          <div className="footer-pages-container sm:!mb-[0px] mb-[64px] bg-[#e5e5e5] mt-auto">
+          <div className="footer-pages-container   mb-[64px] bg-[#e5e5e5] mt-auto">
             <Footer />
           </div>
         </div>
