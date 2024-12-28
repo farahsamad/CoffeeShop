@@ -1,10 +1,10 @@
-import { LoginState } from "@/action/login";
+import { LoginState } from "@/actions/login";
 import React from "react";
 import { FaRegEnvelope, FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
 import { FiAlertTriangle } from "react-icons/fi";
 import { AiFillLock } from "react-icons/ai";
-import { SignupState } from "@/action/signin";
+import { SignupState } from "@/actions/signin";
 
 interface InputProps {
   state: LoginState;
@@ -31,7 +31,7 @@ const Input = ({ state, type, name, placeholder }: InputProps) => {
               ? "red"
               : name === "password" && state.errors?.password
               ? "red"
-              : name === "username" && state.errors?.username
+              : name === "name" && state.errors?.name
               ? "red"
               : "",
         }}
@@ -40,7 +40,7 @@ const Input = ({ state, type, name, placeholder }: InputProps) => {
           <FaRegEnvelope className="grid place-content-center h-full text-slate-500" />
         ) : name === "password" ? (
           <AiFillLock className="grid place-content-center h-full text-slate-500" />
-        ) : name === "username" ? (
+        ) : name === "name" ? (
           <FaUser className="grid place-content-center h-full text-slate-500" />
         ) : (
           ""
@@ -56,8 +56,8 @@ const Input = ({ state, type, name, placeholder }: InputProps) => {
               ? state.email
               : name === "password" && state.password
               ? state.password
-              : name === "username" && state.username
-              ? state.username
+              : name === "name" && state.name
+              ? state.name
               : ""
           }
         />
@@ -76,9 +76,9 @@ const Input = ({ state, type, name, placeholder }: InputProps) => {
                 <FiAlertTriangle /> <span className="ml-1">{state.errors.password}</span>
               </div>
             )
-          : state.errors?.username && (
+          : state.errors?.name && (
               <div className="flex w-full h-full items-center">
-                <FiAlertTriangle /> <span className="ml-1">{state.errors.username}</span>
+                <FiAlertTriangle /> <span className="ml-1">{state.errors.name}</span>
               </div>
             )}
       </div>

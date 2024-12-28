@@ -2,10 +2,10 @@
 
 import * as z from "zod";
 import { redirect } from "next/navigation";
-import { LoginSchema } from "@/schemas";
+import { SignupSchema } from "@/schemas";
+import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/data/user";
-import { signIn } from "@/auth";
-import { AuthError } from "next-auth";
+import { db } from "@/lib/db";
 
 // export async function login(
 //   state: z.infer<typeof LoginSchema>,
@@ -32,21 +32,21 @@ import { AuthError } from "next-auth";
 //   const { email, password } = validatedFields.data;
 //   return { success: true, data: { email, password } };
 // }
-export type LoginState = {
+export type SignupState = {
+  name: string;
   email: string;
   password: string;
-  username?: string;
   success?: boolean | string;
-  errors?: LoginErrors;
+  errors?: SignupErrors;
 };
-
-export type LoginErrors = {
+export type SignupErrors = {
   email?: string;
   password?: string;
+  name?: string;
   other?: string;
 };
 
-export async function login(state: LoginState, form: FormData): Promise<LoginState> {
+export async function signup(state: SignupState, form: FormData): Promise<SignupState> {
   const data = Object.fromEntries(form);
   // const result = LoginSchema.safeParse(data);
   // const values: z.infer<typeof LoginSchema> = {
@@ -54,30 +54,28 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
   //   password: form.get("password") as string,
   // };
 
-  const validatedFields = LoginSchema.safeParse(data);
+  const validatedFields = SignupSchema.safeParse(data);
 
   if (!validatedFields.success) {
-    const errors: LoginErrors = {};
+    // const errors = validatedFields.error.formErrors;
+    const errors: SignupErrors = {};
     validatedFields.error.issues.forEach((issue) => {
-      const key = issue.path[0] as keyof LoginErrors;
+      const key = issue.path[0] as keyof SignupErrors;
       errors[key] = issue.message;
     });
-    // const errors = validatedFields.error.formErrors;
-    // const errors:LoginErrors = validatedFields.error.issues.reduce((acc, issue) => {
-    //   acc[issue.path[0]] = issue.message;
-    //   return acc;
-    // }, {} as Record<string, string>);
 
     return { ...state, success: false, errors };
   }
 
   // Process validated form inputs here
-  const { email, password } = validatedFields.data;
+  const { email, password, name } = validatedFields.data;
+
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const existingUser = await getUserByEmail(email);
 
-  if (!existingUser || !existingUser.email || !existingUser.password) {
-    const errors: LoginErrors = { other: "Email does not exist!" };
+  if (existingUser) {
+    const errors: SignupErrors = { other: "Email already in use!" };
     return {
       ...state,
       success: false,
@@ -85,36 +83,18 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
     };
   }
 
-  // if (!existingUser.emailVerified) {
-  // }
-  // if(existingUser.isTwoFactorEnabled && existingUser.email){}
-
-  try {
-    await signIn("credentials", {
+  await db.user.create({
+    data: {
+      name,
       email,
-      password,
-      redirectTo: "/",
-    });
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          const credentialsErrors: LoginErrors = { other: "Invalid credentials" };
-          return {
-            ...state,
-            success: false,
-            errors: credentialsErrors,
-          };
-        default:
-          const defaultErrors: LoginErrors = { other: "Something went wrong!" };
-          return {
-            ...state,
-            success: false,
-            errors: defaultErrors,
-          };
-      }
-    }
-  }
+      password: hashedPassword,
+    },
+  });
 
-  return { email, password, success: true, errors: {} };
+  // const verificationToken = await generateVerificationToken(email)
+
+  // await sendVerificationTokenByEmail(verificationToken.email, verificationToken.token);
+
+  // Assuming some process is done and it's successful
+  return { email, password, name, success: "Confirmation email sent!", errors: {} };
 }

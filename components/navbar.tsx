@@ -6,6 +6,10 @@ import "@/styles/navbar.css";
 import Link from "next/link";
 import { FaShoppingBasket, FaBars, FaSearch } from "react-icons/fa";
 import { FaX } from "react-icons/fa6";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import Image from "next/image";
+import { GoSignOut } from "react-icons/go";
+import { LogoutButton } from "./auth/logout-button";
 
 interface indexProps {
   aboutRef: React.RefObject<HTMLDivElement | null>;
@@ -29,10 +33,12 @@ interface productDetails {
 }
 
 function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: indexProps) {
+  const [showBlock, setShowBlock] = useState<boolean>(false);
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  // const cartNumber: productDetails[] = JSON.parse(localStorage.getItem("AddToCart")!) || [];
   const [cartNumber, setCartNumber] = useState<productDetails[]>([]);
+
+  const user = useCurrentUser();
 
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem("AddToCart") || "[]");
@@ -43,7 +49,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
   const phoneContainer = useRef<HTMLDivElement>(null);
   // const currentlocation = useLocation().pathname;
   const [currentSection, setCurrentSection] = useState<string>("");
-  // if (currentlocation == `/Friend/${username}`) {
+  // if (currentlocation == `/Friend/${name}`) {
   //   var directTo = true;
   // } else {
   //   directTo = false;
@@ -144,6 +150,10 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
     };
   }, [lastScrollY]);
 
+  const showDropDown = () => {
+    setShowBlock((prev) => !prev);
+  };
+
   return (
     <div
       className={`nav-container bg-white  w-full fixed ease-in-out shadow-md !z-[100] ${
@@ -205,7 +215,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
               </Link>
               <div
                 id="cart-products-number"
-                className="absolute top-[-9px] right-[-9px] text-xs !text-[9px] rounded-full px-[5px] py-0 text-white bg-gray-600"
+                className="absolute top-[-9px] right-[-9px] text-xs !text-[9px] rounded-full px-[5px] py-0 text-white bg-[#7e7d7d]"
               >
                 {cartNumber.length > 0 ? cartNumber.length : 0}
               </div>
@@ -214,9 +224,35 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
               <FaSearch className="search-icon" />
             </div>
             {/* <div className="sign-div"> */}
-            <Link className="sign-div" href="/login">
-              Sign in
-            </Link>
+            {user ? (
+              <>
+                <div
+                  className="flex h-[40px] w-[40px] shrink-0 ml-[20px] overflow-hidden rounded-full cursor-pointer"
+                  onClick={() => showDropDown()}
+                >
+                  {/* <div className="flex h-full w-full items-center justify-center rounded-full bg-muted">
+                    </div> */}
+                  <div className="h-full w-full">
+                    <img
+                      src={user?.image || ""}
+                      alt="user image"
+                      className="aspect-square h-full w-full"
+                    />
+                  </div>
+
+                  {showBlock && (
+                    <div className="absolute top-[75px] right-px bg-[#7e7d7d] !z-[200] w-24 h-16 grid place-content-center rounded-md shadow-sm text-white">
+                      <LogoutButton />
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <Link className="sign-div" href="/login">
+                Sign in
+              </Link>
+            )}
+
             {/* </div> */}
           </div>
           <div className={`second-sign-container phone  `}>

@@ -7,7 +7,7 @@ import { LoginSchema } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useActionState, useState } from "react";
-import { login, LoginState } from "@/action/login";
+import { login, LoginState } from "@/actions/login";
 import Form from "next/form";
 import { FaRegEnvelope } from "react-icons/fa";
 import { FiAlertTriangle } from "react-icons/fi";
@@ -24,8 +24,9 @@ export function Login() {
   const initialState: LoginState = {
     email: "",
     password: "",
+    name: "",
     success: false,
-    errors: { email: "", password: "", other: "" },
+    errors: { email: "", password: "", name: "", other: "" },
   };
   const [state, formAction, isPending] = useActionState(login, initialState);
   const router = useRouter();
@@ -86,10 +87,10 @@ export function Login() {
             </div>
             <div className="text-slate-500 text-xs cursor-pointer">Forgot Password?</div>
           </div>
-          <div className="flex w-full items-center h-[24px] text-green-800 bg-green-300 rounded-sm p-4  my-1 font-semibold">
+          {/* <div className="flex w-full items-center h-[24px] text-green-800 bg-green-300 rounded-sm p-4  my-1 font-semibold">
             <BiCheckCircle className="font-semibold text-sm" />
             <span className="ml-1 -mt-[3px] text-xs">Email sent!</span>
-          </div>
+          </div> */}
           <button
             className="w-full max-h-14  h-9 p-2 border border-gray-400 bg-gray-500 grid place-content-center rounded-md shadow-sm text-white cursor-pointer hover:scale-105"
             type="submit"

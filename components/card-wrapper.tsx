@@ -2,12 +2,14 @@ import React from "react";
 import SignButton from "./sign-button";
 import Social from "./social";
 import { FiAlertTriangle } from "react-icons/fi";
+import { FaX } from "react-icons/fa6";
+import { usePathname, useRouter } from "next/navigation";
 
 interface CardProps {
   children: React.ReactNode;
   headerLabel: string;
   hrefLabel: string;
-  buttonLabel: string;
+  buttonLabel?: string;
   backButtonHref: string;
   error?: string;
   showSocial?: boolean;
@@ -22,6 +24,13 @@ const CardWrapper = ({
   error,
   showSocial,
 }: CardProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const closeButton = () => {
+    pathname === "/login" ? router.back() : (router.back(), router.back());
+  };
+
   return (
     <div className="min-w-[200px] md:w-[500px] lg:w-[600px] grid place-content-center text-sm md:text-base">
       <div className="h-full min-w-44 w-60 lg:w-[300px]">
@@ -48,6 +57,12 @@ const CardWrapper = ({
           hrefLabel={hrefLabel}
           buttonLabel={buttonLabel}
         />
+      </div>
+      <div
+        className="absolute top-2 right-3 md:!text-sm text-xs cursor-pointer"
+        onClick={() => closeButton()}
+      >
+        <FaX />
       </div>
     </div>
   );

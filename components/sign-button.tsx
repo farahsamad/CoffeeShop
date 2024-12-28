@@ -4,7 +4,7 @@ import React from "react";
 interface SignButton {
   backButtonHref: string;
   hrefLabel: string;
-  buttonLabel: string;
+  buttonLabel?: string;
 }
 
 const SignButton = ({ backButtonHref, hrefLabel, buttonLabel }: SignButton) => {

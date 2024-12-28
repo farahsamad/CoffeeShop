@@ -1,14 +1,11 @@
 import Link from "next/link";
 import React from "react";
+import "@/styles/navbar.css";
 
 const page = () => {
   return (
-    <div className="min-h-100vh mt-[100px]">
-      <nav>
-        <Link href="/login" className="bg-pink-700">
-          Open modal
-        </Link>
-      </nav>
+    <div className="logo-container h-screen w-full flex items-center justify-center">
+      <Link href="/">CoffeeShop</Link>
     </div>
   );
 };

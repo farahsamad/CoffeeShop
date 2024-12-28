@@ -1,9 +1,12 @@
+import { signIn } from "next-auth/react";
 import React from "react";
-import { BsFacebook, BsGoogle } from "react-icons/bs";
-import { FaFacebook, FaFacebookF } from "react-icons/fa";
+import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 
 const Social = () => {
+  const login = (provider: "google" | "facebook") => {
+    signIn(provider);
+  };
   return (
     <div className="w-full h-full ">
       <div className="w-full h-1/2 flex justify-center content-center">
@@ -16,14 +19,20 @@ const Social = () => {
       </div>
 
       <div className="w-full h-1/2 flex justify-between ">
-        <div className="w-[47.5%] h-9 flex justify-center items-center   rounded-md p-2 border border-gray-400 bg-slate-50  shadow-sm cursor-pointer">
+        <button
+          className="w-[47.5%] h-9 flex justify-center items-center   rounded-md p-2 border border-gray-400 bg-slate-50  shadow-sm cursor-pointer"
+          onClick={() => login("google")}
+        >
           <FcGoogle className="h-full" />
           <span className="ml-1 -mt-[2px] text-slate-500 ">Google</span>
-        </div>
-        <div className="w-[47.5%] h-9 flex justify-center items-center   rounded-md p-2 border border-gray-400 bg-slate-50  shadow-sm cursor-pointer">
+        </button>
+        <button
+          className="w-[47.5%] h-9 flex justify-center items-center   rounded-md p-2 border border-gray-400 bg-slate-50  shadow-sm cursor-pointer"
+          onClick={() => login("facebook")}
+        >
           <BsFacebook className="text-blue-700 h-full" />
           <span className="ml-1 -mt-[2px] text-slate-500">Facebook</span>
-        </div>
+        </button>
       </div>
     </div>
   );

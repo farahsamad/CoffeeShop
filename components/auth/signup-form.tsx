@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useActionState, useState } from "react";
 import Form from "next/form";
 import Input from "../ui/input";
-import { signup, SignupState } from "@/action/signin";
+import { signup, SignupState } from "@/actions/signin";
 import { BiCheckCircle } from "react-icons/bi";
 
 interface SignupProps {
@@ -22,9 +22,9 @@ export function Signup() {
   const initialState: SignupState = {
     email: "",
     password: "",
-    username: "",
+    name: "",
     success: false,
-    errors: { email: "", password: "", username: "", other: "" },
+    errors: { email: "", password: "", name: "", other: "" },
   };
   const [state, formAction, isPending] = useActionState(signup, initialState);
   const router = useRouter();
@@ -52,13 +52,6 @@ export function Signup() {
 
   return (
     <div className="w-full h-full items-center justify-center p-6 md:py-6 md:px-0 shadow-md">
-      {/* <button
-        onClick={() => {
-          router.back();
-        }}
-      >
-        Close modal
-      </button> */}
       <CardWrapper
         headerLabel="Create an account"
         hrefLabel=" Log in"
@@ -72,7 +65,7 @@ export function Signup() {
           onSubmit={handleSubmit}
           className="w-full h-full flex flex-col justify-evenly"
         >
-          <Input state={state} type="text" name="username" placeholder="Name" />
+          <Input state={state} type="text" name="name" placeholder="Name" />
           <Input state={state} type="text" name="email" placeholder="Email" />
           <Input state={state} type="password" name="password" placeholder="Password" />
           {/* <div className="flex w-full max-h-14 h-fit justify-between items-center">
