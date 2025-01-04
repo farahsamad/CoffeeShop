@@ -4,9 +4,10 @@ import React, { useState, useRef, useEffect } from "react";
 // import PhoneInputWithCountrySelect from "react-phone-number-input";
 // import { E164Number } from "libphonenumber-js/types.cjs";
 // import "react-phone-number-input/style.css";
-import FloatingInput from "./floating-input";
+import FloatingInput from "./ui/floating-input";
 import { FaAt, FaUser } from "react-icons/fa";
 import { useMyContext } from "@/context/context";
+import { PhoneInput } from "./ui/phone-input";
 
 interface homeProps {
   barVisibility: boolean;
@@ -46,7 +47,7 @@ function Cash() {
       >
         <div
           id="cash-payment-container"
-          className="sm:!h-[400px] sm:!w-[550px] sm:!shadow-xl sm:!rounded-xl sm:!flex  "
+          className="sm:!h-[400px] sm:!w-[550px] md:!w-[650px]  sm:!shadow-xl sm:!rounded-xl sm:!flex  "
         >
           <div id="first-cash-payment-container" className="sm:!w-3/5 h-full">
             <div id="payment-info-container" className="w-[95%] h-full px-3">
@@ -72,37 +73,30 @@ function Cash() {
                   id="second-contact-information"
                   className="h-[85%] min-h-fit mt-2 w-full grid grid-cols-2 sm:grid-cols-2 gap-4"
                 >
-                  <div id="name-container" className="flex border-b-2 items-center w-full">
-                    <FaUser className="text-black" />
-                    <hr className="h-[40%] w-[3px] mx-2 my-auto" />
-                    <FloatingInput
-                      placeholder={"Name"}
-                      // labelRef={(el) => (labelRefs.current[0] = el)}
-                      type={"text"}
-                      name={""}
-                    ></FloatingInput>
-                  </div>
-                  <div id="phone-number-container" className="flex border-b-2 items-center w-full">
-                    {/* <PhoneInputWithCountrySelect
-                      placeholder="Enter phone number"
-                      international
-                      defaultCountry="LB"
-                      className="phone-input"
-                      value={phoneNumber}
-                      onChange={setPhoneNumber}
-                      countryCallingCodeEditable={true}
-                    /> */}
-                  </div>
-                  <div id="email-container" className="flex border-b-2 items-center w-full h-full">
-                    <FaAt className="text-black" />
-                    <hr className="h-[40%] w-[3px] mx-2 my-auto" />
-                    <FloatingInput
-                      placeholder={"Email"}
-                      // labelRef={(el) => (labelRefs.current[1] = el)}
-                      type={"email"}
-                      name={""}
-                    ></FloatingInput>
-                  </div>
+                  <FloatingInput
+                    placeholder={"Name"}
+                    // labelRef={(el) => (labelRefs.current[0] = el)}
+                    icon={"FaUser"}
+                    id="name-container"
+                    type={"text"}
+                    name={"name"}
+                  />
+                  <FloatingInput
+                    placeholder={""}
+                    // labelRef={(el) => (labelRefs.current[1] = el)}
+                    icon={""}
+                    id="phone-number-container"
+                    type={""}
+                    name={""}
+                  />
+                  <FloatingInput
+                    placeholder={"Email"}
+                    // labelRef={(el) => (labelRefs.current[1] = el)}
+                    icon={"FaAt"}
+                    id="email-container"
+                    type={"email"}
+                    name={"email"}
+                  />
                 </div>
               </div>
               <div id="third-payment-info-container" className="h-40% w-full mt-3">

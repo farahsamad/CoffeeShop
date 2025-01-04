@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import DropDown from "./drop-down";
+import DropDown from "./ui/drop-down";
 import Footer from "./footer";
-import LoadingImage from "./loading-image";
+import LoadingImage from "./ui/loading-image";
 import { useMyContext } from "@/context/context";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";

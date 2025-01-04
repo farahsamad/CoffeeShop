@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 // import "../../component/Styles/Menu.css";
 import "@/styles/menu.css";
 import Footer from "./footer";
-import LoadingImage from "./loading-image";
+import LoadingImage from "./ui/loading-image";
 import { FaArrowCircleUp } from "react-icons/fa";
 import Link from "next/link";
 // import { Coffee, ProductsType } from "../../data/coffee";

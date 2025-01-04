@@ -1,89 +1,22 @@
-import { LoginState } from "@/actions/login";
-import React from "react";
-import { FaRegEnvelope, FaUser } from "react-icons/fa";
-import { FaLock } from "react-icons/fa6";
-import { FiAlertTriangle } from "react-icons/fi";
-import { AiFillLock } from "react-icons/ai";
-import { SignupState } from "@/actions/signin";
+import * as React from "react";
 
-interface InputProps {
-  state: LoginState;
-  type: string;
-  name: string;
-  placeholder: string;
-}
+import { cn } from "@/lib/utils";
 
-const Input = ({ state, type, name, placeholder }: InputProps) => {
-  return (
-    <div className="w-full max-h-14 h-52 flex flex-col justify-evenly">
-      <div
-        className="h-9 p-2 border border-gray-400 bg-slate-50 flex rounded-md shadow-sm"
-        style={{
-          borderColor:
-            // name === "email"
-            //   ? state.errors?.email
-            //     ? "red"
-            //     : ""
-            //   : state.errors?.password
-            //   ? "red"
-            //     : ""
-            name === "email" && state.errors?.email
-              ? "red"
-              : name === "password" && state.errors?.password
-              ? "red"
-              : name === "name" && state.errors?.name
-              ? "red"
-              : "",
-        }}
-      >
-        {name === "email" ? (
-          <FaRegEnvelope className="grid place-content-center h-full text-slate-500" />
-        ) : name === "password" ? (
-          <AiFillLock className="grid place-content-center h-full text-slate-500" />
-        ) : name === "name" ? (
-          <FaUser className="grid place-content-center h-full text-slate-500" />
-        ) : (
-          ""
+const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
+  ({ className, type, ...props }, ref) => {
+    return (
+      <input
+        type={type}
+        className={cn(
+          "flex h-9 w-full rounded-md ml-[10px] bg-transparent py-1 text-base  transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          className
         )}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
+Input.displayName = "Input";
 
-        <input
-          type={type}
-          name={name}
-          placeholder={placeholder}
-          className="bg-slate-50 outline-none placeholder-slate-500 text-slate-500 ml-2 w-[85%] -mt-[2px]"
-          defaultValue={
-            name === "email" && state.email
-              ? state.email
-              : name === "password" && state.password
-              ? state.password
-              : name === "name" && state.name
-              ? state.name
-              : ""
-          }
-        />
-      </div>
-
-      <div className="text-red-500 h-4 mt-[2px] text-xs">
-        {name === "email"
-          ? state.errors?.email && (
-              <div className="flex w-full h-full items-center">
-                <FiAlertTriangle /> <span className="ml-1">{state.errors.email}</span>
-              </div>
-            )
-          : name === "password"
-          ? state.errors?.password && (
-              <div className="flex w-full h-full items-center">
-                <FiAlertTriangle /> <span className="ml-1">{state.errors.password}</span>
-              </div>
-            )
-          : state.errors?.name && (
-              <div className="flex w-full h-full items-center">
-                <FiAlertTriangle /> <span className="ml-1">{state.errors.name}</span>
-              </div>
-            )}
-      </div>
-    </div>
-  );
-};
-
-export default Input;
+export { Input };

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React, { useCallback, useRef } from "react";
-import BlurredImage from "./blurred-image";
+import BlurredImage from "./ui/blurred-image";
 import Footer from "./footer";
 import { FaArrowCircleUp } from "react-icons/fa";
 import About from "./about";

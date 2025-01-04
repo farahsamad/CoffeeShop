@@ -8,9 +8,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useActionState, useState } from "react";
 import Form from "next/form";
-import Input from "../ui/input";
+import Input from "../ui/form-input";
 import { signup, SignupState } from "@/actions/signin";
 import { BiCheckCircle } from "react-icons/bi";
+import { FiAlertTriangle } from "react-icons/fi";
+import { AiFillLock } from "react-icons/ai";
 
 interface SignupProps {
   children: React.ReactNode;
@@ -67,7 +69,33 @@ export function Signup() {
         >
           <Input state={state} type="text" name="name" placeholder="Name" />
           <Input state={state} type="text" name="email" placeholder="Email" />
-          <Input state={state} type="password" name="password" placeholder="Password" />
+          <div className="w-full max-h-14 h-52 flex flex-col justify-evenly">
+            <div
+              className="h-9 p-2 border border-gray-400 bg-slate-50 flex rounded-md shadow-sm"
+              style={{
+                borderColor: state.errors?.password ? "red" : "",
+              }}
+            >
+              <AiFillLock className="grid place-content-center h-full text-slate-500" />
+
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                className="bg-slate-50 outline-none placeholder-slate-500 text-slate-500 ml-2 w-[85%] -mt-[2px]"
+                defaultValue={state.password ? state.password : ""}
+                autoComplete="new-password"
+              />
+            </div>
+
+            <div className="text-red-500 h-4 mt-[2px] text-xs">
+              {state.errors?.password && (
+                <div className="flex w-full h-full items-center">
+                  <FiAlertTriangle /> <span className="ml-1">{state.errors.password}</span>
+                </div>
+              )}
+            </div>
+          </div>
           {/* <div className="flex w-full max-h-14 h-fit justify-between items-center">
             <div className="flex justify-center items-center">
               <input type="checkbox" name="" id="remember-checkbox" className="accent-black" />
@@ -80,7 +108,7 @@ export function Signup() {
           {state.success && (
             <div className="flex w-full items-center h-[24px] text-green-800 bg-green-300 rounded-sm p-4  font-semibold my-1 ">
               <BiCheckCircle className="font-semibold text-sm" />
-              <span className="ml-1 -mt-[3px] text-xs">{success}</span>
+              <span className="ml-1 -mt-[3px] text-xs">{state.success}</span>
             </div>
           )}
 

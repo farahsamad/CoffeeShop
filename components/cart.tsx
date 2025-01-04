@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { FaTicket, FaX } from "react-icons/fa6";
-import LoadingImage from "./loading-image";
+import LoadingImage from "./ui/loading-image";
 import usePreviousPath from "@/hooks/usePreviousPath";
 import Footer from "./footer";
 import { useMyContext } from "@/context/context";

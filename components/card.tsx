@@ -1,3 +1,5 @@
+"use client";
+
 import { useMyContext } from "@/context/context";
 import React, { useRef } from "react";
 

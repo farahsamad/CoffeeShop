@@ -36,7 +36,7 @@ export type SignupState = {
   name: string;
   email: string;
   password: string;
-  success?: boolean | string;
+  success: boolean | string;
   errors?: SignupErrors;
 };
 export type SignupErrors = {

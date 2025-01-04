@@ -6,6 +6,7 @@ import { LoginSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 // export async function login(
 //   state: z.infer<typeof LoginSchema>,
@@ -38,6 +39,7 @@ export type LoginState = {
   name?: string;
   success?: boolean | string;
   errors?: LoginErrors;
+  callbackUrl?: string | null;
 };
 
 export type LoginErrors = {
@@ -90,11 +92,15 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
   // }
   // if(existingUser.isTwoFactorEnabled && existingUser.email){}
 
+  console.log("credentials: email is: ", email, "password is: ", password);
+
   try {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: "/",
+      redirect: false, // Disable auto-redirect to handle it manually
+      // redirectTo: undefined,
+      // redirectTo: state.callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
   } catch (error) {
     if (error instanceof AuthError) {
@@ -117,5 +123,15 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
     }
   }
 
-  return { email, password, success: true, errors: {} };
+  console.log("user succeed to login");
+  return {
+    email,
+    password,
+    success: "user succeed to login",
+    callbackUrl: state.callbackUrl || DEFAULT_LOGIN_REDIRECT,
+    errors: {},
+  };
 }
+
+// if (result?.ok) {
+// return { ...state, success: true, callbackUrl: state.callbackUrl || DEFAULT_LOGIN_REDIRECT };

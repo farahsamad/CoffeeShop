@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { FaMugHot, FaShoppingCart, FaUser, FaStar } from "react-icons/fa";
-import BlurredImage from "./blurred-image";
+import BlurredImage from "./ui/blurred-image";
 import Counter from "./counter";
 
 interface homeProps {

@@ -17,7 +17,8 @@ export const {
     error: "/error",
   },
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ user, account, credentials }) {
+      console.log("credentials are: ", credentials);
       if (account?.provider !== "credentials") return true;
       if (!user.id) {
         return false;
@@ -26,20 +27,20 @@ export const {
       if (!existingUser) {
         return false;
       }
-      if (!existingUser?.emailVerified) return false;
+      // if (!existingUser?.emailVerified) return false;
 
-      if (existingUser.isTwoFactorEnabled) {
-        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
+      // if (existingUser.isTwoFactorEnabled) {
+      //   const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
 
-        if (!twoFactorConfirmation) {
-          return false;
-        }
+      //   if (!twoFactorConfirmation) {
+      //     return false;
+      //   }
 
-        await db.twoFactorConfirmation.delete({
-          where: { id: twoFactorConfirmation.id },
-        });
-      }
-
+      //   await db.twoFactorConfirmation.delete({
+      //     where: { id: twoFactorConfirmation.id },
+      //   });
+      // }
+      console.log("correct auth.ts!");
       return true;
     },
     async jwt({ token, user }) {

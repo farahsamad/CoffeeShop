@@ -1,18 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import CardWrapper from "../card-wrapper";
 import * as z from "zod";
 import { LoginSchema } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useActionState, useState } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import { login, LoginState } from "@/actions/login";
 import Form from "next/form";
 import { FaRegEnvelope } from "react-icons/fa";
 import { FiAlertTriangle } from "react-icons/fi";
-import Input from "../ui/input";
+import Input from "../ui/form-input";
 import { BiCheckCircle } from "react-icons/bi";
+import { getSession } from "next-auth/react";
 
 interface LoginProps {
   children: React.ReactNode;
@@ -21,12 +22,15 @@ interface LoginProps {
 export function Login() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
   const initialState: LoginState = {
     email: "",
     password: "",
     name: "",
     success: false,
     errors: { email: "", password: "", name: "", other: "" },
+    callbackUrl: callbackUrl,
   };
   const [state, formAction, isPending] = useActionState(login, initialState);
   const router = useRouter();
@@ -39,13 +43,30 @@ export function Login() {
       password: "",
     },
   });
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setError("");
     setSuccess("");
     e.preventDefault();
-    await formAction(new FormData(e.currentTarget));
+    startTransition(() => {
+      formAction(new FormData(e.currentTarget));
+    });
   };
 
+  useEffect(() => {
+    if (state.success) {
+      getSession().then(() => {
+        router.push(state.callbackUrl || "/");
+      });
+    }
+  }, [state.success, router, state.callbackUrl]);
+
+  useEffect(() => {
+    if (state.errors?.other) {
+      setError(state.errors.other);
+    } else if (state.success) {
+      setSuccess("Login successful!");
+    }
+  }, [state.errors, state.success]);
   // const onSubmit = (values: z.infer<typeof LoginSchema>) => {
   //     setError('')
   //   setSuccess('')

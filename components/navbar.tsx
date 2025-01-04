@@ -161,8 +161,10 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
       } `}
     >
       <div className="navbar-container">
-        <div className="logo-container h-[96px] w-full flex items-center">
-          <Link href="/">CoffeeShop</Link>
+        <div className="logo-container h-full w-full flex items-start">
+          <Link href="/" className="w-full h-[96px] flex items-center">
+            CoffeeShop
+          </Link>
         </div>
         <div className="category-container h-full">
           <ul className="h-full">
@@ -234,7 +236,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
                     </div> */}
                   <div className="h-full w-full">
                     <img
-                      src={user?.image || ""}
+                      src={user?.image || "/image/default-user.png"}
                       alt="user image"
                       className="aspect-square h-full w-full"
                     />
@@ -317,7 +319,35 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
           <div className="search-div">
             <FaSearch className="search-icon" />
           </div>
-          <div className="sign-div">Sign in</div>
+          {/* <div className="sign-div">Sign in</div> */}
+          {user ? (
+            <>
+              <div
+                className="flex h-[40px] w-[40px] shrink-0 ml-[20px] overflow-hidden rounded-full cursor-pointer"
+                onClick={() => showDropDown()}
+              >
+                {/* <div className="flex h-full w-full items-center justify-center rounded-full bg-muted">
+                    </div> */}
+                <div className="h-full w-full">
+                  <img
+                    src={user?.image || "/image/default-user.png"}
+                    alt="user image"
+                    className="aspect-square h-full w-full"
+                  />
+                </div>
+
+                {showBlock && (
+                  <div className="absolute top-[75px] right-px bg-[#7e7d7d] !z-[200] w-24 h-16 grid place-content-center rounded-md shadow-sm text-white">
+                    <LogoutButton />
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <Link className="sign-div" href="/login">
+              Sign in
+            </Link>
+          )}
         </div>
       </div>
     </div>
