@@ -13,6 +13,7 @@ import { signup, SignupState } from "@/actions/signin";
 import { BiCheckCircle } from "react-icons/bi";
 import { FiAlertTriangle } from "react-icons/fi";
 import { AiFillLock } from "react-icons/ai";
+import "@/styles/modal.css";
 
 interface SignupProps {
   children: React.ReactNode;

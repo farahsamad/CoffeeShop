@@ -35,12 +35,6 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwa
 >(({ className, onChange, setIsFocused, isFocused, onFocus, onBlur, ...props }, ref) => {
   return (
     <>
-      <hr
-        className=" absolute top-[50%] left-[22%] h-[0%] w-[13px] ml-[0px] mt-[3px] border rotate-90"
-        style={{
-          borderColor: isFocused ? "rgb(17,44,103)" : "",
-        }}
-      />
       <RPNInput.default
         ref={ref}
         defaultCountry="LB"
@@ -70,6 +64,12 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwa
          */
         onChange={(value) => onChange?.(value || ("" as RPNInput.Value))}
         {...props}
+      />
+      <hr
+        className=" absolute top-[50%] left-[35px] h-[0%] w-[13px] border rotate-90 !mx-auto !my-0"
+        style={{
+          borderColor: isFocused ? "rgb(17,44,103)" : "",
+        }}
       />
     </>
   );

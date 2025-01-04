@@ -14,6 +14,7 @@ import { FiAlertTriangle } from "react-icons/fi";
 import Input from "../ui/form-input";
 import { BiCheckCircle } from "react-icons/bi";
 import { getSession } from "next-auth/react";
+import "@/styles/modal.css";
 
 interface LoginProps {
   children: React.ReactNode;

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { FaAt, FaUser, FaUserAlt } from "react-icons/fa";
+import { FaAddressBook, FaAt, FaCity, FaFlag, FaUser, FaUserAlt } from "react-icons/fa";
 import { PhoneInput } from "./phone-input";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { z } from "zod";
+import { CiLocationOn } from "react-icons/ci";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -16,7 +17,10 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { BiUser } from "react-icons/bi";
+import { BiCalendar, BiSolidCity, BiUser } from "react-icons/bi";
+import { GoLocation } from "react-icons/go";
+import { CalendarDays } from "lucide-react";
+import { BsPencilSquare } from "react-icons/bs";
 
 interface inputProps {
   placeholder: string;
@@ -61,7 +65,7 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
   return (
     <div
       id={id}
-      className="flex  items-center w-full"
+      className="flex h-fit items-center w-full"
       style={{
         borderBottomWidth: isFocused ? "2px " : "2px",
         borderBottomColor: isFocused ? "rgb(17,44,103)" : "",
@@ -83,7 +87,39 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
           className="text-black ml-[2px] mr-[2px] w-5 h-3"
         />
       )}
-      {icon === "FaAt" || icon === "FaUser" ? (
+      {icon === "CiLocationOn" && (
+        <GoLocation
+          style={{
+            color: isFocused ? "rgb(17,44,103)" : "",
+          }}
+          className="text-black ml-[2px] mr-[2px] w-5 h-3"
+        />
+      )}
+      {icon === "FaCity" && (
+        <BiSolidCity
+          style={{
+            color: isFocused ? "rgb(17,44,103)" : "",
+          }}
+          className="text-black ml-[2px] mr-[2px] w-5 h-3"
+        />
+      )}
+      {icon === "CalendarDays" && (
+        <CalendarDays
+          style={{
+            color: isFocused ? "rgb(17,44,103)" : "",
+          }}
+          className="text-black ml-[2px] mr-[2px] w-5 h-3"
+        />
+      )}
+      {icon === "BsPencilSquare" && (
+        <BsPencilSquare
+          style={{
+            color: isFocused ? "rgb(17,44,103)" : "",
+          }}
+          className="text-black ml-[2px] mr-[2px] w-5 h-3"
+        />
+      )}
+      {icon !== "" ? (
         <hr
           className="h-[2%] w-[14px] my-2 border  rotate-90"
           style={{
@@ -99,14 +135,14 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
               className={`absolute left-0 transition-all ml-[50px] text-xs ${
                 isFocused || phoneValue.length > 2
                   ? "-top-[6px] text-gray-700"
-                  : "top-[17px] text-gray-600 cursor-text"
+                  : "top-[10px] text-gray-600 cursor-text"
               }`}
               htmlFor="phone-input-container"
               style={{
                 color: isFocused ? "rgb(17,44,103)" : "",
               }}
             >
-              Phone Number
+              Phone
               <span className="text-red-500 font-bold">*</span>
             </label>
             <Form {...form}>
@@ -117,7 +153,7 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
                   control={form.control}
                   name="phone"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col items-start">
+                    <FormItem className="flex flex-col items-start relative">
                       <FormControl className="w-full">
                         <PhoneInput {...field} setIsFocused={setIsFocused} isFocused={isFocused} />
                       </FormControl>
@@ -134,7 +170,7 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
               className={`absolute left-0 transition-all text-xs  ${
                 isFocused || value
                   ? "-top-[6px] text-gray-700"
-                  : "top-[10px] text-gray-600 cursor-text"
+                  : "top-[7px] text-gray-600 cursor-text"
               }`}
               htmlFor={type}
               style={{
@@ -144,17 +180,33 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
               {placeholder}
               <span className="text-red-500 font-bold">*</span>
             </label>
-            <input
-              id={type}
-              type={type}
-              name={name}
-              maxLength={type === "text" ? 20 : 40}
-              value={value}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              onChange={(e) => setValue(e.target.value)}
-              className="check-input  block w-full  py-2 outline-none cursor-text bg-transparent focus:outline-none "
-            />
+            {name === "date" ? (
+              <input
+                id={type}
+                type={isFocused || value ? "date" : "text"}
+                name={name}
+                maxLength={type === "text" ? 20 : 40}
+                value={value}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                onChange={(e) => setValue(e.target.value)}
+                className="block w-full  py-2 outline-none cursor-text bg-transparent focus:outline-none sm:!text-base text-xs h-9"
+              />
+            ) : (
+              <input
+                id={type}
+                type={type}
+                name={name}
+                maxLength={
+                  type === "text" ? (name === "address" || name === "note" ? 200 : 20) : 40
+                }
+                value={value}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                onChange={(e) => setValue(e.target.value)}
+                className="block w-full  py-2 outline-none cursor-text bg-transparent focus:outline-none sm:!text-base text-xs h-9"
+              />
+            )}
           </>
         )}
       </div>
