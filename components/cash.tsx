@@ -188,8 +188,8 @@ function Cash() {
                 <div className="h-[35%]  text-base font-black font-[cursive] text-gray-800 flex items-center">
                   CoffeeShop
                 </div>
-                <div className="h-[40%] flex items-end text-xs">10/10/2024</div>
-                <div className="h-[20%] w-full flex justify-between">
+                <div className="h-[40%] flex items-end text-xs text-white">10/10/2024</div>
+                <div className="h-[20%] w-full flex justify-between text-white text-xs items-center">
                   <div>Cash</div>
                   <div>Farah Samad</div>
                 </div>
@@ -197,13 +197,13 @@ function Cash() {
               <div id="second-part-invoice" className="w-full h-[7%] px-5">
                 <div
                   id="download-invoice"
-                  className="inline-flex w-full justify-between items-center px-1 text-xs"
+                  className="inline-flex w-full justify-between items-center px-1 text-sm"
                 >
                   {/* <span className="inline-flex items-center "> */}
                   {/* <Download className="text-xs w-3 h-3 mr-1" /> */}
                   <div> Download invoice</div>
                   {/* </span> */}
-                  <Download className=" w-3 h-3 cursor-pointer" />
+                  <Download className=" w-4 h-4 cursor-pointer" />
                 </div>
                 <hr className="my-2" />
               </div>
@@ -211,20 +211,25 @@ function Cash() {
                 id="third-part-invoice"
                 className="w-full h-[35%] flex flex-col pb-[5%]  text-sm justify-around px-5"
               >
-                <div id="items-number" className="text-4xl text-center mb-[10%]">
-                  36 items
+                <div id="items-number" className="text-3xl text-center mb-[10%]">
+                  10 items
                 </div>
                 <div id="delivery-service" className="inline-flex justify-between">
                   <span className="text-gray-500">Delivery Service</span>
-                  <span>- $500</span>
+                  <span>+ $3</span>
+                </div>
+                <div id="taxes" className="inline-flex justify-between">
+                  <span className="text-gray-500">Taxes</span>
+                  <span>+$0.6</span>
                 </div>
                 <div id="discount" className="inline-flex justify-between">
                   <span className="text-gray-500">Discount</span>
-                  <span>- $500</span>
+                  <span>- $50</span>
                 </div>
+
                 <div id="subtotal" className="inline-flex justify-between">
                   <span className="text-gray-500">Subtotal</span>
-                  <span>$500</span>
+                  <span>$250</span>
                 </div>
               </div>
               <div
@@ -232,11 +237,11 @@ function Cash() {
                 className="w-full h-[15%] inline-flex justify-between py-[5%] border-t border-t-gray-300 text-xl px-5"
               >
                 <span>Total</span>
-                <span>$500</span>
+                <span>$203.6</span>
               </div>
               <div
                 id="fifth-part-invoice"
-                className="w-full h-[10%] flex items-center bg-gray-500 justify-center cursor-pointer text-xl hover:scale-105 rounded-sm"
+                className="w-full h-[10%] flex items-center bg-gray-500 justify-center cursor-pointer text-xl hover:scale-105 rounded-sm text-white"
               >
                 <div>Pay</div>
                 <div className="ml-2 animate-bounce mt-[6px]">
