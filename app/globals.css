@@ -109,7 +109,8 @@ html {
     }
   }
   @media (min-width: 640px) {
-    #cash-payment-container {
+    #cash-payment-container,
+    #card-payment-container {
       height: calc(100vh - 250px);
       margin-top: 25px;
     }
@@ -256,7 +257,8 @@ html {
     }
   }
   @media (min-width: 850px) {
-    #cash-payment-container {
+    #cash-payment-container,
+    #card-payment-container {
       height: calc(100vh - 150px) !important;
       margin-top: 25px;
     }

@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { FaAddressBook, FaAt, FaCity, FaFlag, FaUser, FaUserAlt } from "react-icons/fa";
+import {
+  FaAddressBook,
+  FaAt,
+  FaCity,
+  FaCreditCard,
+  FaFlag,
+  FaUser,
+  FaUserAlt,
+} from "react-icons/fa";
 import { PhoneInput } from "./phone-input";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { z } from "zod";
-import { CiLocationOn } from "react-icons/ci";
+import { CiCreditCard1, CiCreditCard2, CiLocationOn } from "react-icons/ci";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -17,10 +25,13 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { BiCalendar, BiSolidCity, BiUser } from "react-icons/bi";
-import { GoLocation } from "react-icons/go";
+import { BiCalendar, BiCard, BiCreditCard, BiSolidCity, BiTime, BiUser } from "react-icons/bi";
+import { GoCreditCard, GoLocation } from "react-icons/go";
 import { CalendarDays } from "lucide-react";
-import { BsPencilSquare } from "react-icons/bs";
+import { BsCreditCard, BsPencilSquare } from "react-icons/bs";
+import { FaRegCreditCard } from "react-icons/fa6";
+import { AiOutlineCreditCard, AiTwotoneCreditCard } from "react-icons/ai";
+import Image from "next/image";
 
 interface inputProps {
   placeholder: string;
@@ -64,7 +75,6 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
 
   return (
     <div
-      id={id}
       className="flex h-fit items-center w-full"
       style={{
         borderBottomWidth: isFocused ? "2px " : "2px",
@@ -119,6 +129,42 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
           className="text-black ml-[2px] mr-[2px] w-5 h-3"
         />
       )}
+      {icon === "BsCreditCard" && (
+        <BsCreditCard
+          style={{
+            color: isFocused ? "rgb(17,44,103)" : "",
+          }}
+          className="text-black ml-[2px] mr-[2px] w-5 h-3"
+        />
+      )}
+      {icon === "BiTime" && (
+        <BiTime
+          style={{
+            color: isFocused ? "rgb(17,44,103)" : "",
+          }}
+          className="text-black ml-[2px] mr-[2px] w-5 h-3"
+        />
+      )}
+      {icon === "cvv" && (
+        <Image
+          src="/image/cvv.png"
+          alt="cvv"
+          width={20}
+          height={10}
+          style={{
+            color: isFocused ? "rgb(17,44,103)" : "",
+          }}
+          className="text-black ml-[2px] mr-[2px]"
+        />
+      )}
+      {icon === "BiCreditCard" && (
+        <BiCreditCard
+          style={{
+            color: isFocused ? "rgb(17,44,103)" : "",
+          }}
+          className="text-black ml-[2px] mr-[2px] w-5 h-3"
+        />
+      )}
       {icon !== "" ? (
         <hr
           className="h-[2%] w-[14px] my-2 border  rotate-90"
@@ -129,7 +175,7 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
       ) : null}
 
       <div className="relative">
-        {id === "phone-number-container" ? (
+        {id === "phone-number-input-container" ? (
           <>
             <label
               className={`absolute left-0 transition-all ml-[50px] text-xs ${
@@ -137,7 +183,7 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
                   ? "-top-[6px] text-gray-700"
                   : "top-[10px] text-gray-600 cursor-text"
               }`}
-              htmlFor="phone-input-container"
+              htmlFor="phone-number-input-container"
               style={{
                 color: isFocused ? "rgb(17,44,103)" : "",
               }}
@@ -172,7 +218,7 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
                   ? "-top-[6px] text-gray-700"
                   : "top-[7px] text-gray-600 cursor-text"
               }`}
-              htmlFor={type}
+              htmlFor={id}
               style={{
                 color: isFocused ? "rgb(17,44,103)" : "",
               }}
@@ -180,12 +226,20 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
               {placeholder}
               <span className="text-red-500 font-bold">*</span>
             </label>
-            {name === "date" ? (
+            {type === "date" || type === "month" ? (
               <input
-                id={type}
-                type={isFocused || value ? "date" : "text"}
+                id={id}
+                type={
+                  isFocused || value
+                    ? type === "date"
+                      ? "date"
+                      : type === "month"
+                      ? "month"
+                      : "text"
+                    : "text"
+                }
                 name={name}
-                maxLength={type === "text" ? 20 : 40}
+                maxLength={20}
                 value={value}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
@@ -194,7 +248,7 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
               />
             ) : (
               <input
-                id={type}
+                id={id}
                 type={type}
                 name={name}
                 maxLength={
