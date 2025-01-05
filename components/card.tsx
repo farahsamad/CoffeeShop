@@ -223,11 +223,11 @@ function Card() {
           </div>
           <div
             id="second-card-payment-container"
-            className="min-h-fit w-full sm:!w-2/5 justify-center flex shadow-inner  sm:!h-full"
+            className="min-h-fit w-full sm:!w-2/5 justify-center flex  sm:!h-full"
           >
             <div
               id="invoice-info-container"
-              className="flex  w-[300px]  sm:!w-[90%]  sm:!h-full shadow-md sm:!shadow-none flex-col mb-[100px] sm:!mb-0 mt-5 sm:!mt-0"
+              className="flex  w-[270px]  sm:!w-[90%] !max-w-[270px]  sm:!h-full shadow-md  flex-col mb-[100px] sm:!mb-0 mt-5 sm:!mt-0 px-4"
             >
               <div
                 id="first-part-invoice"

@@ -74,7 +74,7 @@ const MonthYearInput: React.FC<InputProps> = ({ placeholder, icon, id, type, nam
             color: isFocused ? "rgb(17,44,103)" : "",
           }}
         >
-          {placeholder} <span className="text-[6.5px]">(MM/YYYY)</span>
+          {placeholder} <span className="text-[6.5px] sm:!text-xs">(MM/YYYY)</span>
           <span className="text-red-500 font-bold">*</span>
         </label>
         <input
