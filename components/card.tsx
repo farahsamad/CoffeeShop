@@ -95,7 +95,7 @@ function Card() {
                     icon={""}
                     id="phone-number-input-container"
                     type={""}
-                    name={""}
+                    name={"phone"}
                   />
                   <FloatingInput
                     placeholder={"Email"}
@@ -127,7 +127,7 @@ function Card() {
                     icon={"BiCreditCard"}
                     id="name-on-card-input-container"
                     type={"text"}
-                    name={"card_holder_name"}
+                    name={"nameOnCard"}
                   />
                   <FloatingInput
                     placeholder={"Card Number"}
@@ -135,14 +135,14 @@ function Card() {
                     icon={"BsCreditCard"}
                     id="card-number-input-container"
                     type={"number"}
-                    name={"card_number"}
+                    name={"cardNumber"}
                   />
                   <MonthYearInput
                     placeholder="Card Expire"
                     icon="BiTime"
                     id="card-expire-input"
                     type="text"
-                    name="card_expire"
+                    name="cardExpire"
                   />
                   <FloatingInput
                     placeholder="CVV/CVC"
@@ -182,7 +182,7 @@ function Card() {
                     icon={"CiLocationOn"}
                     id="address-input-container"
                     type={"text"}
-                    name={"address"}
+                    name={"Address"}
                   />
                 </div>
               </div>
@@ -206,7 +206,7 @@ function Card() {
                     icon={"CalendarDays"}
                     id="date-input-container"
                     type={"date"}
-                    name={"date"}
+                    name={"deliveryDate"}
                   />
                   <FloatingInput
                     placeholder={"note"}

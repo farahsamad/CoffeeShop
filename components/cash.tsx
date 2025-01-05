@@ -84,7 +84,7 @@ function Cash() {
                     placeholder={"Name"}
                     // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"FaUser"}
-                    id="name-container"
+                    id="name-input-container"
                     type={"text"}
                     name={"name"}
                   />
@@ -92,15 +92,15 @@ function Cash() {
                     placeholder={""}
                     // labelRef={(el) => (labelRefs.current[1] = el)}
                     icon={""}
-                    id="phone-number-container"
+                    id="phone-number-input-container"
                     type={""}
-                    name={""}
+                    name={"phone"}
                   />
                   <FloatingInput
                     placeholder={"Email"}
                     // labelRef={(el) => (labelRefs.current[1] = el)}
                     icon={"FaAt"}
-                    id="email-container"
+                    id="email-input-container"
                     type={"email"}
                     name={"email"}
                   />
@@ -124,7 +124,7 @@ function Cash() {
                     placeholder={"City"}
                     // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"FaCity"}
-                    id="city-container"
+                    id="city-input-container"
                     type={"text"}
                     name={"city"}
                   />
@@ -132,9 +132,9 @@ function Cash() {
                     placeholder={"Address"}
                     // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"CiLocationOn"}
-                    id="address-container"
+                    id="address-input-container"
                     type={"text"}
-                    name={"address"}
+                    name={"Address"}
                   />
                 </div>
               </div>
@@ -156,15 +156,15 @@ function Cash() {
                     placeholder={"Date"}
                     // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"CalendarDays"}
-                    id="date-container"
+                    id="date-input-container"
                     type={"date"}
-                    name={"date"}
+                    name={"deliveryDate"}
                   />
                   <FloatingInput
                     placeholder={"note"}
                     // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"BsPencilSquare"}
-                    id="note-container"
+                    id="note-input-container"
                     type={"text"}
                     name={"note"}
                   />
@@ -175,11 +175,11 @@ function Cash() {
           </div>
           <div
             id="second-cash-payment-container"
-            className="min-h-fit w-full sm:!w-2/5 justify-center flex shadow-inner  sm:!h-full"
+            className="min-h-fit w-full sm:!w-2/5 justify-center flex  sm:!h-full"
           >
             <div
               id="invoice-info-container"
-              className="flex  w-[300px]  sm:!w-[90%]  sm:!h-full shadow-md sm:!shadow-none flex-col mb-[100px] sm:!mb-0 mt-5 sm:!mt-0"
+              className="flex  w-[270px]  sm:!w-[90%] !max-w-[270px]  sm:!h-full shadow-md  flex-col mb-[100px] sm:!mb-0 mt-5 sm:!mt-0 px-4"
             >
               <div
                 id="first-part-invoice"

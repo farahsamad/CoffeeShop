@@ -15,6 +15,11 @@ datasource db {
   directUrl = env("DATABASE_URL_UNPOOLED") // uses a direct connection
 }
 
+enum PaymentMethod{
+Card
+Cash
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -28,6 +33,8 @@ model User {
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
   isTwoFactorEnabled Boolean @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+
+  payment payment[]
 }
 
 
@@ -55,7 +62,7 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique@map("session_token")
-  userId       String   @map("user_id")
+  userId       String  
   expires      DateTime
   user         User     @relation(fields:[userId], references:[id], onDelete: Cascade)
 }
@@ -77,4 +84,24 @@ model TwoFactorConfirmation {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
+}
+
+model payment {
+  id            String    @id @default(cuid())
+  userId String
+  method PaymentMethod @default(Cash)
+  user User @relation(fields: [userId],references: [id], onDelete: Cascade)
+  name          String
+  email         String
+  phone         Int
+  nameOnCard         String?
+  cardNumber      Int?
+  cardExpire String?
+  cvv String?
+  city String
+  Address String
+  deliveryDate DateTime
+  note String?
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+
 }

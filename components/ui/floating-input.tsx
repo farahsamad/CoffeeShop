@@ -71,6 +71,7 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
   });
   useEffect(() => {
     setPhoneValue(JSON.stringify(form.watch("phone"), null));
+    // console.log("phone value: ", phoneValue.length);
   }, [form.watch("phone")]);
 
   return (
@@ -224,7 +225,7 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
               }}
             >
               {placeholder}
-              <span className="text-red-500 font-bold">*</span>
+              {name === "note" ? null : <span className="text-red-500 font-bold">*</span>}
             </label>
             {type === "date" || type === "month" ? (
               <input
