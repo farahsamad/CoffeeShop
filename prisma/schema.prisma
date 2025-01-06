@@ -15,16 +15,35 @@ datasource db {
   directUrl = env("DATABASE_URL_UNPOOLED") // uses a direct connection
 }
 
-// enum PaymentMethod{
-// Card
-// Cash
-// }
 
 enum PaymentMethod {
  Card 
  Cash
  }
 
+enum productSize {
+ Short 
+ Tall
+ Grand
+ Venti
+ }
+
+enum waterOptionTypes{
+ No_Water
+ Water
+}
+
+enum icedOptionTypes {
+ Light_Ice
+ Extra_Ice
+ No_Ice 
+}
+ 
+enum foamOptionTypes {
+ Light_Foam
+ Extra_Foam
+ No_Foam
+}
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -90,26 +109,51 @@ model TwoFactorConfirmation {
   @@unique([userId])
 }
 
+model Product {
+  id String    @id @default(cuid())
+  productName String
+  productImage String
+  productPrice Float
+  productSizes productSize @default(Tall)
+  productTypeName String
+  waterOption waterOptionTypes? @default(No_Water)
+  icedOption icedOptionTypes? @default(No_Ice)
+  foamOption foamOptionTypes? @default(No_Foam)
+  paymentProducts PaymentProducts[]
+}
+
 model Payment {
-  id            String    @id @default(cuid())
+  id String @id @default(cuid())
   userId String 
   method PaymentMethod @default(Cash)
-  name          String
-  email         String
-  phone         Int
-  nameOnCard         String?
-  cardNumber      BigInt?
+  name String
+  email String
+  phone Int
+  nameOnCard String?
+  cardNumber BigInt?
   cardExpire String?
   cvv String?
   city String
   Address String
   deliveryDate DateTime @default(now())
   note String?
-  // discount Int?
-  // Tax Float?
-  // subTotal Float
-  // total Float
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-user User @relation(fields: [userId],references: [id], onDelete: Cascade)
+  discount Int?
+  Tax Float?
+  subTotal Float
+  total Float
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  user User @relation(fields: [userId],references: [id], onDelete: Cascade)
+  paymentProducts PaymentProducts[]
+}
 
+model PaymentProducts {
+  id String @id @default(cuid())
+  productId String 
+  paymentId String
+  productQuantity Int
+  waterOption waterOptionTypes?
+  icedOption icedOptionTypes? 
+  foamOption foamOptionTypes?
+  payment Payment @relation(fields: [paymentId],references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId],references: [id], onDelete: Cascade)
 }
