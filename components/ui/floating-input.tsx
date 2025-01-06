@@ -45,6 +45,7 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState<string>("");
   const [phoneValue, setPhoneValue] = useState<string>("");
+  // console.log("value: ", value);
   // console.log("isFocused: ", isFocused);
   // console.log("phoneValue", phoneValue.length);
 
@@ -59,20 +60,20 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
   //   });
   // }
 
-  const FormSchema = z.object({
-    phone: z.string().refine(isValidPhoneNumber, { message: "Invalid phone number" }),
-  });
+  // const FormSchema = z.object({
+  //   phone: z.string().refine(isValidPhoneNumber, { message: "Invalid phone number" }),
+  // });
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      phone: "",
-    },
-  });
-  useEffect(() => {
-    setPhoneValue(JSON.stringify(form.watch("phone"), null));
-    // console.log("phone value: ", phoneValue.length);
-  }, [form.watch("phone")]);
+  // const form = useForm<z.infer<typeof FormSchema>>({
+  //   resolver: zodResolver(FormSchema),
+  //   defaultValues: {
+  //     phone: "",
+  //   },
+  // });
+  // useEffect(() => {
+  //   setPhoneValue(JSON.stringify(form.watch("phone"), null));
+  //   // console.log("phone value: ", phoneValue.length);
+  // }, [form.watch("phone")]);
 
   return (
     <div
@@ -192,7 +193,7 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
               Phone
               <span className="text-red-500 font-bold">*</span>
             </label>
-            <Form {...form}>
+            {/* <Form {...form}>
               <form
               // onSubmit={form.handleSubmit(onSubmit)}
               >
@@ -202,14 +203,15 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
                   render={({ field }) => (
                     <FormItem className="flex flex-col items-start relative">
                       <FormControl className="w-full">
-                        <PhoneInput {...field} setIsFocused={setIsFocused} isFocused={isFocused} />
-                      </FormControl>
+                        <PhoneInput {...field} setIsFocused={setIsFocused} isFocused={isFocused} /> */}
+            <PhoneInput setIsFocused={setIsFocused} isFocused={isFocused} />
+            {/* </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </form>
-            </Form>
+            </Form> */}
           </>
         ) : (
           <>
@@ -227,18 +229,10 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
               {placeholder}
               {name === "note" ? null : <span className="text-red-500 font-bold">*</span>}
             </label>
-            {type === "date" || type === "month" ? (
+            {type === "date" ? (
               <input
                 id={id}
-                type={
-                  isFocused || value
-                    ? type === "date"
-                      ? "date"
-                      : type === "month"
-                      ? "month"
-                      : "text"
-                    : "text"
-                }
+                type={isFocused || value ? (type === "date" ? "date" : "text") : "text"}
                 name={name}
                 maxLength={20}
                 value={value}
@@ -252,9 +246,7 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
                 id={id}
                 type={type}
                 name={name}
-                maxLength={
-                  type === "text" ? (name === "address" || name === "note" ? 200 : 20) : 40
-                }
+                maxLength={(type === "text" && name === "address") || name === "note" ? 200 : 40}
                 value={value}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}

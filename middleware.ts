@@ -56,6 +56,7 @@ export default auth(async function middleware(req) {
       console.log("isAccessingProtectedRoute but not authenticated");
       return Response.redirect(new URL("/login", nextUrl));
     }
+    console.log("isAccessingProtectedRoute and authenticated");
     return NextResponse.next();
   }
 

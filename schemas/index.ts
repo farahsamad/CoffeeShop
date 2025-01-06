@@ -32,9 +32,9 @@ export const SignupSchema = z.object({
 });
 
 export const CashPaymentSchema = z.object({
-  name: z.string().min(1, { message: "Name is required!" }),
+  name: z.string().min(2, { message: "Name is required!" }),
   email: z.string().email({ message: "Email is required!" }),
-  phone: z.string().min(13, { message: "Phone number is required!" }),
+  phone: z.string().min(10, { message: "Phone number is required!" }),
   city: z
     .string()
     .min(1, { message: "City is required!" })
@@ -45,14 +45,14 @@ export const CashPaymentSchema = z.object({
     .regex(/^[a-zA-Z0-9\s,.'-]{15,}$/, "Not valid address"),
   deliveryDate: z
     .string()
-    .regex(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/, "Date is required!"),
+    .regex(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/, "Date is required!"),
   note: z.string(),
 });
 
 export const CardPaymentSchema = z.object({
-  name: z.string().min(1, { message: "Name is required!" }),
+  name: z.string().min(2, { message: "Name is required!" }),
   email: z.string().email({ message: "Email is required!" }),
-  phone: z.string().min(13, { message: "Phone number is required!" }),
+  phone: z.string().min(10, { message: "Phone number is required!" }),
   nameOnCard: z.string().min(1, {
     message: "Name On Card is required!",
   }),
@@ -74,6 +74,7 @@ export const CardPaymentSchema = z.object({
     .regex(/^[a-zA-Z0-9\s,.'-]{15,}$/, "Not valid address"),
   deliveryDate: z
     .string()
-    .regex(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/, "Date is required!"),
+    .regex(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/, "Date is required!"),
+  // .regex(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/, "Date is required!"),
   note: z.string(),
 });

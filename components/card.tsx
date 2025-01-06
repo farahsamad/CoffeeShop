@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-// import PhoneInputWithCountrySelect from "react-phone-number-input";
-// import { E164Number } from "libphonenumber-js/types.cjs";
-// import "react-phone-number-input/style.css";
+import React, { useState, useRef, useEffect, startTransition, useActionState } from "react";
 import FloatingInput from "./ui/floating-input";
-import { FaArrowLeft, FaArrowRight, FaAt, FaUser } from "react-icons/fa";
 import { useMyContext } from "@/context/context";
-import { PhoneInput } from "./ui/phone-input";
 import { ArrowRight, Download } from "lucide-react";
 import MonthYearInput from "./ui/month-input";
+import { useRouter, useSearchParams } from "next/navigation";
+import { payCard, PayCardState } from "@/actions/payCard";
+import Form from "next/form";
 
 interface homeProps {
   barVisibility: boolean;
@@ -19,6 +17,8 @@ interface homeProps {
 }
 
 function Card() {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   //   const [phoneNumber, setPhoneNumber] = useState<string | E164Number | undefined>("");
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>("");
   const [phone, setPhone] = useState("");
@@ -27,17 +27,73 @@ function Card() {
   const { barVisibility, aboutRef, pageShowHeader, sectionsRef } = useMyContext();
   //   const outletContext = useOutletContext<homeProps>();
   //   const barVisibility = outletContext.barVisibility;
-  console.log("first");
-  useEffect(() => {
-    const elements = document.getElementsByClassName("PhoneInputInput");
-    console.log("elements: ", elements);
-    if (elements.length > 0) {
-      const inputElement = elements[0] as HTMLInputElement;
-      console.log("inputElement: ", inputElement);
 
-      inputElement.maxLength = 15;
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
+  const initialState: PayCardState = {
+    name: "",
+    email: "",
+    phone: 0,
+    nameOnCard: "",
+    cardNumber: 0,
+    cardExpire: "",
+    cvv: "",
+    city: "",
+    Address: "",
+    deliveryDate: new Date(),
+    note: "",
+    success: "",
+    errors: {
+      name: "",
+      email: "",
+      phone: "",
+      city: "",
+      Address: "",
+      deliveryDate: "",
+      other: "",
+    },
+    callbackUrl: callbackUrl,
+  };
+  const [state, formAction, isPending] = useActionState(payCard, initialState);
+  const router = useRouter();
+  console.log("state.errors: ", state.errors);
+
+  // const form = useForm<z.infer<typeof CashPaymentSchema>>({
+  //   resolver: zodResolver(CashPaymentSchema),
+  //   defaultValues: {
+  //     email: "",
+  //     password: "",
+  //   },
+  // });
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    setError("");
+    setSuccess("");
+
+    e.preventDefault();
+    startTransition(() => {
+      formAction(new FormData(e.currentTarget));
+    });
+  };
+
+  useEffect(() => {
+    if (state.success !== "" && state.success !== undefined) {
+      state.callbackUrl ? router.push(state.callbackUrl) : router.back();
     }
-  }, []);
+  }, [state.success, router, state.callbackUrl]);
+
+  useEffect(() => {
+    if (state.errors?.other) {
+      setError(state.errors.other);
+    } else if (state.success !== "" && state.success !== undefined) {
+      setSuccess(state.success);
+    }
+  }, [state.errors, state.success]);
+  // const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  //     setError('')
+  //   setSuccess('')
+  //   use
+  // }
+  console.log("message is: ", state);
 
   return (
     <div ref={firstDiv}>
@@ -47,7 +103,9 @@ function Card() {
         }`}
         style={{ minHeight: "calc(100vh - 200px)" }}
       >
-        <div
+        <Form
+          action={""}
+          onSubmit={handleSubmit}
           id="card-payment-container"
           className="max-h-[650px] sm:!w-[80%] sm:!max-w-[800px]  sm:!shadow-xl sm:!rounded-xl sm:!flex  "
         >
@@ -287,7 +345,8 @@ function Card() {
                 <span>Total</span>
                 <span>$203.6</span>
               </div>
-              <div
+              <button
+                type="submit"
                 id="fifth-part-invoice"
                 className="w-full h-[10%] flex items-center bg-gray-500 justify-center cursor-pointer text-xl hover:scale-105 rounded-sm text-white"
               >
@@ -295,10 +354,10 @@ function Card() {
                 <div className="ml-2 animate-bounce mt-[6px]">
                   <ArrowRight className=" w-5 h-5" />
                 </div>
-              </div>
+              </button>
             </div>
           </div>
-        </div>
+        </Form>
       </div>
     </div>
   );

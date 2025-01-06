@@ -80,7 +80,13 @@ let val = false;
 const InputComponent = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, ...props }, ref) => (
     <>
-      <Input className={cn("", className)} {...props} ref={ref} id="phone-number-input-container" />
+      <Input
+        className={cn("", className)}
+        {...props}
+        name="phone"
+        ref={ref}
+        id="phone-number-input-container"
+      />
     </>
   )
 );
