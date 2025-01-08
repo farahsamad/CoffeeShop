@@ -8,6 +8,7 @@ import usePreviousPath from "@/hooks/usePreviousPath";
 import Footer from "./footer";
 import { useMyContext } from "@/context/context";
 import Link from "next/link";
+import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
 
 interface homeProps {
   barVisibility: boolean;
@@ -15,25 +16,42 @@ interface homeProps {
   pageShowHeader: boolean;
   sectionsRef: React.RefObject<(HTMLDivElement | null)[]>;
 }
-interface productDetails {
-  id: number;
-  product_id: number;
-  product_name: string;
-  product_image: string;
-  coffeeType_name: string;
+
+// enum waterOptionTypes {
+//   No_Water,
+//   Water,
+// }
+
+// enum icedOptionType {
+//   Light_Ice,
+//   Extra_Ice,
+//   No_Ice,
+// }
+
+// enum foamOptionType {
+//   Light_Foam,
+//   Extra_Foam,
+//   No_Foam,
+// }
+
+export interface ProductDetails {
+  id: string;
+  productName: string;
+  productImage: string;
+  productTypeName: string;
   product_size: string;
-  product_water: string;
-  product_ice: string;
-  product_foam: string;
+  waterOption?: waterOptionTypes | null;
+  icedOption?: icedOptionTypes | null;
+  foamOption?: foamOptionTypes | null;
   product_quantity: number;
-  product_price: number;
+  productPrice: number;
 }
 
 function Cart() {
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [taxes, setTaxes] = useState<number>(totalAmount * 0.2);
-  const [cartProducts, setCartProducts] = useState<productDetails[]>([]);
+  const [cartProducts, setCartProducts] = useState<ProductDetails[]>([]);
   const [quantities, setQuantities] = useState<number[]>([]);
   const [sectionHeight, setSectionHeight] = useState<number>(0);
   const [isMinWidth, setIsMinWidth] = useState<boolean>(false);
@@ -52,7 +70,7 @@ function Cart() {
     if (localStorage.getItem("AddToCart")) {
       const storedCartProducts = localStorage.getItem("AddToCart");
       if (storedCartProducts) {
-        const parsedCartProducts: productDetails[] = JSON.parse(storedCartProducts);
+        const parsedCartProducts: ProductDetails[] = JSON.parse(storedCartProducts);
         setCartProducts(parsedCartProducts);
         setQuantities(parsedCartProducts.map((product) => product.product_quantity));
       }
@@ -155,7 +173,7 @@ function Cart() {
     }
   };
 
-  const handleProductRemove = (id: number, products: productDetails[]): productDetails[] => {
+  const handleProductRemove = (id: string, products: ProductDetails[]): ProductDetails[] => {
     const updatedProducts = products.filter((product) => product.id !== id);
     if (localStorage.getItem("AddToCart")) {
       localStorage.setItem("AddToCart", JSON.stringify(updatedProducts));
@@ -283,7 +301,7 @@ function Cart() {
                     <tbody className="max-h-fit">
                       {cartProducts &&
                         cartProducts.map(
-                          (val: productDetails, index: number, products: productDetails[]) => {
+                          (val: ProductDetails, index: number, products: ProductDetails[]) => {
                             return (
                               <tr
                                 id="cart-product"
@@ -292,8 +310,8 @@ function Cart() {
                               >
                                 <td id="product-image" className="py-2 w-1/4 min-w-1/4">
                                   <LoadingImage
-                                    src={`/image/${val.product_image}`}
-                                    imageAlt={val.product_name}
+                                    src={`/image/${val.productImage}`}
+                                    imageAlt={val.productName}
                                     className="w-24 h-24 sm:h-40 sm:w-40 object-cover"
                                   />
                                 </td>
@@ -301,7 +319,7 @@ function Cart() {
                                   id="product-name"
                                   className="font-serif !text-left text-wrap py-2 w-fit max-w-[20vw] sm:!max-w-none sm:!w-1/5 pl-1"
                                 >
-                                  {val.product_name}
+                                  {val.productName}
                                 </td>
                                 <td id="product-quantity" className="py-2">
                                   <div className="flex justify-center items-center">
@@ -323,7 +341,7 @@ function Cart() {
                                   </div>
                                 </td>
                                 <td id="product-price" className="py-2">
-                                  ${val.product_price}
+                                  ${val.productPrice}
                                 </td>
                                 <td
                                   id="product-total-price"
@@ -332,7 +350,7 @@ function Cart() {
                                     totalRefs.current[index] = el;
                                   }}
                                 >
-                                  ${handleProductTotalPrice(val.product_price, quantities[index])}
+                                  ${handleProductTotalPrice(val.productPrice, quantities[index])}
                                 </td>
                                 <td
                                   id="product-removes"

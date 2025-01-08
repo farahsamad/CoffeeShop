@@ -10,6 +10,7 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import Image from "next/image";
 import { GoSignOut } from "react-icons/go";
 import { LogoutButton } from "./auth/logout-button";
+import { ProductDetails } from "./cart";
 
 interface indexProps {
   aboutRef: React.RefObject<HTMLDivElement | null>;
@@ -18,25 +19,11 @@ interface indexProps {
   sectionsRef: React.RefObject<(HTMLDivElement | null)[]>;
 }
 
-interface productDetails {
-  id: number;
-  product_id: number;
-  product_name: string;
-  product_image: string;
-  coffeeType_name: string;
-  product_size: string;
-  product_water: string;
-  product_ice: string;
-  product_foam: string;
-  product_quantity: number;
-  product_price: number;
-}
-
 function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: indexProps) {
   const [showBlock, setShowBlock] = useState<boolean>(false);
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [cartNumber, setCartNumber] = useState<productDetails[]>([]);
+  const [cartNumber, setCartNumber] = useState<ProductDetails[]>([]);
 
   const user = useCurrentUser();
 

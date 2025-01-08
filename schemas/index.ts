@@ -78,3 +78,18 @@ export const CardPaymentSchema = z.object({
   // .regex(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/, "Date is required!"),
   note: z.string(),
 });
+
+export const AddProductSchema = z.object({
+  productName: z.string().min(1, {
+    message: "Product name is required!",
+  }),
+  productImage: z.string().min(1, {
+    message: "Product image is required!",
+  }),
+  productPrice: z.string().min(1, {
+    message: "Product price is required!",
+  }),
+  productTypeName: z.string().min(1, {
+    message: "Product type name is required!",
+  }),
+});

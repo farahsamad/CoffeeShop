@@ -8,6 +8,7 @@ import MonthYearInput from "./ui/month-input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { payCard, PayCardState } from "@/actions/payCard";
 import Form from "next/form";
+import { handleUpdateCartDb } from "@/data/handle-cart";
 
 interface homeProps {
   barVisibility: boolean;
@@ -68,8 +69,8 @@ function Card() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setError("");
     setSuccess("");
-
     e.preventDefault();
+    handleUpdateCartDb();
     startTransition(() => {
       formAction(new FormData(e.currentTarget));
     });

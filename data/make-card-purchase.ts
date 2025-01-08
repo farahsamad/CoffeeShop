@@ -43,6 +43,10 @@ export const makeCardPurchase = async ({
     console.log("Address: ", Address);
     console.log("deliveryDate: ", deliveryDate);
     console.log("note: ", note);
+    const discount = 10;
+    const Tax = 10;
+    const subTotal = 10;
+    const total = 10;
     const createPayment = await db.payment.create({
       data: {
         userId,
@@ -58,6 +62,10 @@ export const makeCardPurchase = async ({
         Address,
         deliveryDate,
         note,
+        discount,
+        Tax,
+        subTotal,
+        total,
       },
     });
     return createPayment;

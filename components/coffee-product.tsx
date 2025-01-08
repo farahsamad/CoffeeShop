@@ -8,6 +8,8 @@ import { useMyContext } from "@/context/context";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ProductDetails } from "./cart";
+import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
 
 interface homeProps {
   barVisibility: boolean;
@@ -16,19 +18,19 @@ interface homeProps {
   sectionsRef: React.MutableRefObject<(HTMLDivElement | null)[]>;
 }
 
-interface productDetails {
-  id: number;
-  product_id: number;
-  product_name: string;
-  product_image: string;
-  coffeeType_name: string;
-  product_size: string;
-  product_water: string;
-  product_ice: string;
-  product_foam: string;
-  product_quantity: number;
-  product_price: number;
-}
+// interface productDetails {
+//   id: number;
+//   product_id: number;
+//   product_name: string;
+//   product_image: string;
+//   coffeeType_name: string;
+//   product_size: string;
+//   product_water: string;
+//   product_ice: string;
+//   product_foam: string;
+//   product_quantity: number;
+//   product_price: number;
+// }
 
 const CoffeeProduct: React.FC = () => {
   const router = useRouter();
@@ -52,31 +54,77 @@ const CoffeeProduct: React.FC = () => {
   // const coffeeState = search.get(
   //   "state"
   // );
-  const product_id = search.get("product_id");
-  const product_name = search.get("product_name");
-  const product_image = search.get("product_image");
-  const coffeeType_name = search.get("coffeeType_name");
-  console.log("coffeeState: ", product_id);
+  const id = search.get("product_id");
+  const productName = search.get("product_name");
+  const productImage = search.get("product_image");
+  const productTypeName = search.get("coffeeType_name");
+  const productPrice = search.get("product_price");
+  console.log("coffeeState: ", id);
   //   const coffeeState = useLocation().state;
   const selectSize = useRef<HTMLDivElement>(null);
   // console.log("coffeeState: ", coffeeState);
   // console.log("coffeeState.product_image: ", coffeeState.product_image);
 
-  const waterOptionTypes = [
+  const waterOptionType = [
     { value: "No Water", label: "No Water" },
     { value: "Water", label: "Water" },
   ];
 
-  const icedOptionTypes = [
+  const icedOptionType = [
     { value: "Light Ice", label: "Light Ice" },
     { value: "Extra Ice", label: "Extra Ice" },
     { value: "No Ice", label: "No Ice" },
   ];
-  const foamOptionTypes = [
+  const foamOptionType = [
     { value: "Light Foam", label: "Light Foam" },
     { value: "Extra Foam", label: "Extra Foam" },
     { value: "No Foam", label: "No Foam" },
   ];
+
+  const isWater = (value: string) => {
+    switch (value) {
+      case "No Water":
+        return waterOptionTypes.No_Water;
+
+      case "Water":
+        return waterOptionTypes.Water;
+
+      default:
+        break;
+    }
+  };
+
+  const isIce = (value: string) => {
+    switch (value) {
+      case "Light Ice":
+        return icedOptionTypes.Light_Ice;
+
+      case "Extra Ice":
+        return icedOptionTypes.Extra_Ice;
+
+      case "No Ice":
+        return icedOptionTypes.No_Ice;
+
+      default:
+        break;
+    }
+  };
+
+  const isFoam = (value: string) => {
+    switch (value) {
+      case "Light Foam":
+        return foamOptionTypes.Light_Foam;
+
+      case "Extra Foam":
+        return foamOptionTypes.Extra_Foam;
+
+      case "No Foam":
+        return foamOptionTypes.No_Foam;
+
+      default:
+        break;
+    }
+  };
 
   const handleAddToCart = () => {
     if (size === "") {
@@ -84,32 +132,31 @@ const CoffeeProduct: React.FC = () => {
         selectSize.current.style.display = "block";
       }
     } else {
-      const item: productDetails = {
-        id: 0,
-        product_id: 1,
-        product_name: "",
-        product_image: "",
-        coffeeType_name: "",
+      const item: ProductDetails = {
+        id: id ? id : "",
+        productName: productName ? productName : "",
+        productImage: productImage ? productImage : "",
+        productTypeName: productTypeName ? productTypeName : "",
         // product_id: coffeeState.coffeeType_id,
-        // product_name: coffeeState.product_name,
-        // product_image: coffeeState.product_image,
-        // coffeeType_name: coffeeState.coffeeType_name,
+        // productName: coffeeState.productName,
+        // productImage: coffeeState.productImage,
+        // productTypeName: coffeeState.productTypeName,
         product_size: size,
-        product_water: containWater,
-        product_ice: containIce,
-        product_foam: containFoam,
+        waterOption: isWater(containWater),
+        icedOption: isIce(containIce),
+        foamOption: isFoam(containFoam),
         product_quantity: 1,
-        product_price: 3,
+        productPrice: productPrice ? parseFloat(productPrice) : 0,
       };
 
       if (localStorage.getItem("AddToCart") != null) {
-        var saved_products: productDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
-        item.id = saved_products.length;
+        var saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
+        // item.id = saved_products.length;
         saved_products.push(item);
         localStorage.setItem("AddToCart", JSON.stringify(saved_products));
       } else {
-        var items: productDetails[] = [];
-        item.id = items.length;
+        var items: ProductDetails[] = [];
+        // item.id = items.length;
         items.push(item);
         localStorage.setItem("AddToCart", JSON.stringify(items));
       }
@@ -138,12 +185,12 @@ const CoffeeProduct: React.FC = () => {
                 Menu/
               </Link>
               <Link
-                href={`/menu#${coffeeType_name}`}
+                href={`/menu#${productTypeName}`}
                 className="cursor-pointer hover:scale-105 w-fit mx-px"
               >
-                {coffeeType_name}/
+                {productTypeName}/
               </Link>
-              <div className="mx-1"> {product_name}</div>
+              <div className="mx-1"> {productName}</div>
             </div>
           </section>
           <section
@@ -155,9 +202,9 @@ const CoffeeProduct: React.FC = () => {
               className="custom-sm-w-2-3 sm:!w-[40%] sm:min-w-fit py-5 sm:py-7 sm:grid sm:place-content-end "
             >
               <LoadingImage
-                src={`/image/${product_image}`}
-                // src={require(`../../component/image/${coffeeState.product_image}`)}
-                imageAlt={product_name ? product_name : "coffee image"}
+                src={`/image/${productImage}`}
+                // src={require(`../../component/image/${coffeeState.productImage}`)}
+                imageAlt={productName ? productName : "coffee image"}
                 className="rounded-full w-64 h-64 sm:h-80 sm:w-80 transform scale-110 object-cover"
               />
             </div>
@@ -165,7 +212,7 @@ const CoffeeProduct: React.FC = () => {
               id="name-section"
               className="font-semibold hidden sm:px-4 pb-5 sm:pb-7 min-w-fit custom-sm-w-1-3 min-h-fit  sm:!grid place-content-center sm:justify-center text-black"
             >
-              {product_name}
+              {productName}
             </div>
           </section>
           <section className="third-section w-full rounded-t-3xl h-auto min-h-[465px] sm:!min-h-fit bg-[#e5e5e5] flex-grow">
@@ -174,7 +221,7 @@ const CoffeeProduct: React.FC = () => {
                 id="name-section-phone"
                 className="font-semibold sm:px-4 pb-2 sm:pb-7 min-w-fit custom-sm-w-1-3 min-h-fit  sm:!hidden place-content-center sm:justify-center"
               >
-                {product_name}
+                {productName}
               </div>
               <div
                 id="price-phone"
@@ -439,7 +486,7 @@ const CoffeeProduct: React.FC = () => {
                   </div>
                 </div>
               </div>
-              {coffeeType_name !== "Water and Sparkling" ? (
+              {productTypeName !== "Water and Sparkling" ? (
                 <div
                   id="included-products-section"
                   className=" !min-h-fit sm:!w-[40%] w-[90%] sm:!h-[20rem] h-fit max-h-[310px] flex flex-col mb-2 sm:ml-[10%] mt-3 sm:mt-0"
@@ -458,40 +505,40 @@ const CoffeeProduct: React.FC = () => {
                     className="mt-3 sm:mt-10 flex justify-center min-h-fit mb-4 h-fit"
                   >
                     <div id="first-product" className="min-h-fit h-fit">
-                      {coffeeType_name !== "Water and Sparkling" ? (
+                      {productTypeName !== "Water and Sparkling" ? (
                         <div id="water-input" className="min-h-fit">
                           <DropDown
-                            dropOptions={waterOptionTypes}
+                            dropOptions={waterOptionType}
                             element={containWater}
                             setContainElement={setContainWater}
                           ></DropDown>
                         </div>
                       ) : null}
 
-                      {coffeeType_name === "Juice" ||
-                      coffeeType_name === "Smoothie" ||
-                      coffeeType_name === "Iced Tea" ||
-                      coffeeType_name === "Water and Sparkling" ||
-                      coffeeType_name === "Cold Coffees" ? (
-                        product_name !== "Water bottle" ? (
+                      {productTypeName === "Juice" ||
+                      productTypeName === "Smoothie" ||
+                      productTypeName === "Iced Tea" ||
+                      productTypeName === "Water and Sparkling" ||
+                      productTypeName === "Cold Coffees" ? (
+                        productName !== "Water bottle" ? (
                           <div id="ice-input" className="mt-3 min-h-fit">
                             <DropDown
-                              dropOptions={icedOptionTypes}
+                              dropOptions={icedOptionType}
                               element={containIce}
                               setContainElement={setContainIce}
                             ></DropDown>
                           </div>
                         ) : null
                       ) : null}
-                      {coffeeType_name === "Hot coffees" ||
-                      coffeeType_name === "Hot Chocolate" ||
-                      coffeeType_name === "Cold Coffees" ? (
-                        product_name !== "Hot Coffee" &&
-                        product_name !== "Turkish Coffee" &&
-                        product_name !== "Espresso" ? (
+                      {productTypeName === "Hot coffees" ||
+                      productTypeName === "Hot Chocolate" ||
+                      productTypeName === "Cold Coffees" ? (
+                        productName !== "Hot Coffee" &&
+                        productName !== "Turkish Coffee" &&
+                        productName !== "Espresso" ? (
                           <div id="foam-input" className="mt-3 min-h-fit">
                             <DropDown
-                              dropOptions={foamOptionTypes}
+                              dropOptions={foamOptionType}
                               element={containFoam}
                               setContainElement={setContainFoam}
                             ></DropDown>
@@ -514,7 +561,7 @@ const CoffeeProduct: React.FC = () => {
         className=" bg-slate-500 right-4 bottom-5 fixed p-4 rounded-full text-white cursor-pointer transform animate-bounce active:animate-none z-[100]"
         onClick={handleAddToCart}
       >
-        Add to Card
+        Add to Cart
       </div>
     </div>
   );

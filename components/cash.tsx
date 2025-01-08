@@ -16,6 +16,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { CashPaymentSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { handleUpdateCartDb } from "@/data/handle-cart";
 // import { getSession } from "next-auth/react";
 
 interface homeProps {
@@ -75,6 +76,7 @@ function Cash() {
     setSuccess("");
 
     e.preventDefault();
+    handleUpdateCartDb();
     startTransition(() => {
       formAction(new FormData(e.currentTarget));
     });

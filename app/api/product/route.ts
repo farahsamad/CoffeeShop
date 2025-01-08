@@ -1,0 +1,17 @@
+import { getProducts } from "@/data/product";
+import { NextRequest, NextResponse } from "next/server";
+
+export async function GET(req: NextRequest, res: NextResponse) {
+  try {
+    // const products = await getProducts();
+    const products = await getProducts();
+    if (products) {
+      return NextResponse.json({ products }, { status: 200 });
+    } else {
+      return NextResponse.json({ error: "Products not found" }, { status: 404 });
+    }
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}

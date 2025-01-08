@@ -1,3 +1,4 @@
+import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
 import React, { useState } from "react";
 // import "../../component/Styles/Tailwind.css";
 import { FaChevronDown } from "react-icons/fa";
@@ -12,6 +13,16 @@ interface DropDownProps {
   element: string;
   setContainElement: React.Dispatch<React.SetStateAction<string>>;
 }
+
+// interface DropDownProps {
+//   dropOptions: Option[];
+//   dropOptionsValues: icedOptionTypes | foamOptionTypes | waterOptionTypes;
+//   element: string;
+//   setContainElement:
+//     | React.Dispatch<React.SetStateAction<$Enums.icedOptionTypes>>
+//     | React.Dispatch<React.SetStateAction<$Enums.foamOptionTypes>>
+//     | React.Dispatch<React.SetStateAction<$Enums.waterOptionTypes>>;
+// }
 
 const DropDown: React.FC<DropDownProps> = ({ dropOptions, element, setContainElement }) => {
   //   const options: Option[] = [

@@ -58,6 +58,8 @@ model User {
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
   isTwoFactorEnabled Boolean @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+  addedToCart AddedToCart[]
+  addedToCartProducts AddedToCartProducts[]
 }
 
 
@@ -114,12 +116,12 @@ model Product {
   productName String
   productImage String
   productPrice Float
-  productSizes productSize @default(Tall)
   productTypeName String
-  waterOption waterOptionTypes? @default(No_Water)
-  icedOption icedOptionTypes? @default(No_Ice)
-  foamOption foamOptionTypes? @default(No_Foam)
+  waterOption waterOptionTypes? 
+  icedOption icedOptionTypes? 
+  foamOption foamOptionTypes? 
   paymentProducts PaymentProducts[]
+  addedToCartProducts AddedToCartProducts[]
 }
 
 model Payment {
@@ -146,14 +148,42 @@ model Payment {
   paymentProducts PaymentProducts[]
 }
 
+model AddedToCart {
+  id String @id @default(cuid())
+  userId String 
+  discount Int?
+  Tax Float?
+  subTotal Float
+  total Float
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  user User @relation(fields: [userId],references: [id], onDelete: Cascade)
+  addedToCartProducts AddedToCartProducts[]
+}
+
 model PaymentProducts {
   id String @id @default(cuid())
   productId String 
   paymentId String
   productQuantity Int
+  productSizes productSize? @default(Tall)
   waterOption waterOptionTypes?
   icedOption icedOptionTypes? 
   foamOption foamOptionTypes?
   payment Payment @relation(fields: [paymentId],references: [id], onDelete: Cascade)
   product Product @relation(fields: [productId],references: [id], onDelete: Cascade)
+}
+
+model AddedToCartProducts {
+  id String @id @default(cuid())
+  ProductId String
+  userId String
+  AddedToCartId String 
+  productQuantity Int
+  productSizes productSize? @default(Tall)
+  waterOption waterOptionTypes?
+  icedOption icedOptionTypes? 
+  foamOption foamOptionTypes?
+  user User @relation(fields: [userId],references: [id], onDelete: Cascade)
+  addedToCart AddedToCart @relation(fields: [AddedToCartId],references: [id], onDelete: Cascade)
+  product Product @relation(fields: [ProductId],references: [id], onDelete: Cascade)
 }

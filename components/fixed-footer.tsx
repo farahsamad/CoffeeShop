@@ -2,25 +2,12 @@ import React, { useEffect, useState } from "react";
 import "@/styles/navbar.css";
 import { FaShoppingBasket } from "react-icons/fa";
 import Link from "next/link";
-
-interface productDetails {
-  id: number;
-  product_id: number;
-  product_name: string;
-  product_image: string;
-  coffeeType_name: string;
-  product_size: string;
-  product_water: string;
-  product_ice: string;
-  product_foam: string;
-  product_quantity: number;
-  product_price: number;
-}
+import { ProductDetails } from "./cart";
 
 function FixedFooter() {
-  // const cartNumber: productDetails[] = JSON.parse(localStorage.getItem("AddToCart")!) || [];
+  // const cartNumber: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!) || [];
 
-  const [cartNumber, setCartNumber] = useState<productDetails[]>([]);
+  const [cartNumber, setCartNumber] = useState<ProductDetails[]>([]);
 
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem("AddToCart") || "[]");

@@ -15,6 +15,7 @@ import Input from "../ui/form-input";
 import { BiCheckCircle } from "react-icons/bi";
 import { getSession } from "next-auth/react";
 import "@/styles/modal.css";
+import { getCartProductsInDb } from "@/data/handle-cart";
 
 interface LoginProps {
   children: React.ReactNode;
@@ -55,6 +56,7 @@ export function Login() {
 
   useEffect(() => {
     if (state.success) {
+      getCartProductsInDb();
       getSession().then(() => {
         router.push(state.callbackUrl || "/");
       });
