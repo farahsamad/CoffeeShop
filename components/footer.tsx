@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaPhone, FaEnvelope } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import AOS from "aos";
@@ -8,6 +8,11 @@ import "aos/dist/aos.css";
 import "@/styles/home.css";
 
 function Footer() {
+  const [year, setYear] = useState<number | null>(null);
+  useEffect(() => {
+    const currentYear = new Date().getFullYear();
+    setYear(currentYear);
+  }, []);
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
@@ -76,7 +81,7 @@ function Footer() {
       </div>
 
       <hr />
-      <div className="second-section-footer">© 2024 CoffeeShop. All rights reserved.</div>
+      <div className="second-section-footer">© {year} CoffeeShop. All rights reserved.</div>
     </div>
   );
 }

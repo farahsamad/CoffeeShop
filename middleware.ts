@@ -8,6 +8,7 @@ import {
   AUTH_ROUTES,
   DEFAULT_LOGIN_REDIRECT,
   PROTECTED_ROUTES,
+  LOGOUT_ROUTE,
 } from "@/routes";
 // Use only one of the two middleware options below
 // 1. Use middleware directly
@@ -36,6 +37,7 @@ export default auth(async function middleware(req) {
   // const isAccessingPublicRoute = PUBLIC_ROUTES.includes(nextUrl.pathname);
   const isAccessingPublicRoute = matchPublicRoute(nextUrl.pathname);
   const isAccessingProtectedRoute = PROTECTED_ROUTES.includes(nextUrl.pathname);
+  const isAccessingLogoutRoute = LOGOUT_ROUTE.includes(nextUrl.pathname);
 
   if (isAccessingApiAuthRoute) {
     return NextResponse.next();
@@ -50,6 +52,20 @@ export default auth(async function middleware(req) {
 
     return NextResponse.next();
   }
+
+  if (isAccessingLogoutRoute) {
+    console.log("isAccessingLogoutRoute!");
+    if (isAuth) {
+      const response = NextResponse.json({ message: "Signed out successfully" }, { status: 302 });
+      response.cookies.set("authjs.session-token", "", { expires: new Date(0) });
+      response.headers.set("Location", DEFAULT_LOGIN_REDIRECT);
+      return response;
+    }
+    console.log("isAccessingLogoutRoute but not authenticated!");
+
+    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+  }
+
   if (isAccessingProtectedRoute) {
     console.log("isAccessingProtectedRoute!");
     if (!isAuth) {

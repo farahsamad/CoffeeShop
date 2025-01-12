@@ -44,7 +44,8 @@ const CoffeeProduct: React.FC = () => {
   const [circleIndex, setCircleIndex] = useState<number>(0);
   const [circleIndexHover, setCircleIndexHover] = useState<number>(0);
   const [circleOpacity, setCircleOpacity] = useState<string>("!opacity-100");
-  const { barVisibility, aboutRef, pageShowHeader, sectionsRef } = useMyContext();
+  const { barVisibility, aboutRef, pageShowHeader, sectionsRef, update, updatePerformed } =
+    useMyContext();
   //   const barsVisibility = useOutletContext<homeProps>();
   //   const barVisibility = barsVisibility.barVisibility;
   //   const pageShowHeader = barsVisibility.pageShowHeader;
@@ -160,6 +161,7 @@ const CoffeeProduct: React.FC = () => {
         items.push(item);
         localStorage.setItem("AddToCart", JSON.stringify(items));
       }
+      updatePerformed();
       if (selectSize.current) selectSize.current.style.display = "none";
     }
   };
@@ -212,7 +214,8 @@ const CoffeeProduct: React.FC = () => {
               id="name-section"
               className="font-semibold hidden sm:px-4 pb-5 sm:pb-7 min-w-fit custom-sm-w-1-3 min-h-fit  sm:!grid place-content-center sm:justify-center text-black"
             >
-              {productName}
+              <div>{productName}</div>
+              <div className="w-full text-center !text-gray-300">${productPrice}</div>
             </div>
           </section>
           <section className="third-section w-full rounded-t-3xl h-auto min-h-[465px] sm:!min-h-fit bg-[#e5e5e5] flex-grow">
@@ -227,7 +230,7 @@ const CoffeeProduct: React.FC = () => {
                 id="price-phone"
                 className="font-semibold text-white sm:px-4 min-w-fit custom-sm-w-1-3 min-h-fit  sm:!hidden place-content-center sm:justify-center"
               >
-                $5
+                ${productPrice}
               </div>
               <div
                 id="size-section"

@@ -47,17 +47,19 @@ function Home() {
     }
   }, []);
 
-  var cranberryState = {
-    product_id: 48,
+  const cranberryState = {
+    product_id: "cm5lovkfw0014u0m8qoig3bg4",
     product_name: "Cranberry Smoothie",
     product_image: "cranberry-smoothie.png",
     coffeeType_name: "Smoothie",
+    product_price: 5,
   };
-  var frappeState = {
-    product_id: 13,
+  const frappeState = {
+    product_id: "cm5lokx1d000bu0m82ngkkyam",
     product_name: "Iced Chocolate Frappe",
     product_image: "iced-chocolate-frappe.png",
     coffeeType_name: "Cold Coffees",
+    product_price: 5,
   };
 
   return (
@@ -127,12 +129,13 @@ function Home() {
                 <div className="first-section-button">
                   <Link
                     href={{
-                      pathname: "menu/48/Cranberry Smoothie",
+                      pathname: `menu/${cranberryState.product_id}/${cranberryState.product_name}`,
                       query: {
-                        product_id: 48,
-                        product_name: "Cranberry Smoothie",
-                        product_image: "cranberry-smoothie.png",
-                        coffeeType_name: "Smoothie",
+                        product_id: cranberryState.product_id,
+                        product_name: cranberryState.product_name,
+                        product_image: cranberryState.product_image,
+                        product_price: cranberryState.product_price,
+                        coffeeType_name: cranberryState.coffeeType_name,
                       },
                     }}
                     // state={cranberryState}
@@ -175,12 +178,13 @@ function Home() {
                 <div className="first-section-button">
                   <Link
                     href={{
-                      pathname: "menu/13/Iced Chocolate Frappe",
+                      pathname: `menu/${frappeState.product_id}/${frappeState.product_name}`,
                       query: {
-                        product_id: 13,
-                        product_name: "Iced Chocolate Frappe",
-                        product_image: "iced-chocolate-frappe.png",
-                        coffeeType_name: "Cold Coffees",
+                        product_id: frappeState.product_id,
+                        product_name: frappeState.product_name,
+                        product_image: frappeState.product_image,
+                        product_price: frappeState.product_price,
+                        coffeeType_name: frappeState.coffeeType_name,
                       },
                     }}
                     // state={frappeState}

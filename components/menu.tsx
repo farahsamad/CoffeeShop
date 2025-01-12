@@ -60,7 +60,7 @@ const Menu: React.FC = () => {
           console.error("Error: ", response.statusText);
         }
       } catch (error) {
-        console.error("Error: ", error);
+        console.error("Error here: ", error);
       }
     }
     getProducts();

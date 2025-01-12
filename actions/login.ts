@@ -7,6 +7,7 @@ import { getUserByEmail } from "@/data/user";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { getUserCartProductsFromDb } from "./getUserCartProducts";
 
 // export async function login(
 //   state: z.infer<typeof LoginSchema>,
@@ -34,6 +35,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 //   return { success: true, data: { email, password } };
 // }
 export type LoginState = {
+  userId: string;
   email: string;
   password: string;
   name?: string;
@@ -43,6 +45,7 @@ export type LoginState = {
 };
 
 export type LoginErrors = {
+  userId?: string;
   email?: string;
   password?: string;
   name?: string;
@@ -78,6 +81,7 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
   const { email, password } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
+  console.log("//////////existingUser: ", existingUser);
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
     const errors: LoginErrors = { other: "Email does not exist!" };
@@ -123,8 +127,12 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
     }
   }
 
+  // const saved_products = await getUserCartProductsFromDb(existingUser.id);
+
+  // console.log("saved_products in login: ", saved_products);
   console.log("user succeed to login");
   return {
+    userId: existingUser.id,
     email,
     password,
     success: "user succeed to login",

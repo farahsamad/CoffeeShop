@@ -22,7 +22,7 @@ function About({ aboutRef, barVisibility, sectionRef }: homeProps) {
   return (
     <div
       ref={sectionRef}
-      id="fourth-container"
+      id="about"
       className={`about-page-container  ${barVisibility ? "" : "bar-visible"}`}
     >
       <div ref={aboutRef}>

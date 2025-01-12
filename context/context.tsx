@@ -1,12 +1,14 @@
 "use client";
 
-import { createContext, useContext, ReactNode } from "react";
+import { createContext, useContext, ReactNode, useState } from "react";
 
 interface ContextType {
   barVisibility: boolean;
   aboutRef: React.RefObject<HTMLDivElement | null>;
   pageShowHeader: boolean;
   sectionsRef: React.RefObject<(HTMLDivElement | null)[]>;
+  update: number;
+  updatePerformed: () => void;
 }
 
 const MyContext = createContext<ContextType | undefined>(undefined);

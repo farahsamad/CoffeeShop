@@ -16,7 +16,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { CashPaymentSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { handleUpdateCartDb } from "@/data/handle-cart";
+import { useCartUpdater } from "@/hooks/useCartUpdater";
+// import { handleUpdateCartDb } from "@/data/handle-cart";
 // import { getSession } from "next-auth/react";
 
 interface homeProps {
@@ -29,7 +30,7 @@ interface homeProps {
 function Cash() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState<string | undefined>("");
+  const { handleUpdateCartDb } = useCartUpdater();
   const [phone, setPhone] = useState("");
   const firstDiv = useRef<HTMLDivElement>(null);
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -71,12 +72,11 @@ function Cash() {
   //     password: "",
   //   },
   // });
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setError("");
     setSuccess("");
-
-    e.preventDefault();
-    handleUpdateCartDb();
+    await handleUpdateCartDb();
     startTransition(() => {
       formAction(new FormData(e.currentTarget));
     });

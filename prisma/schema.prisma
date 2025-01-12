@@ -116,6 +116,7 @@ model Product {
   productName String
   productImage String
   productPrice Float
+  productSizes productSize? @default(Tall)
   productTypeName String
   waterOption waterOptionTypes? 
   icedOption icedOptionTypes? 

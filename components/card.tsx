@@ -8,7 +8,8 @@ import MonthYearInput from "./ui/month-input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { payCard, PayCardState } from "@/actions/payCard";
 import Form from "next/form";
-import { handleUpdateCartDb } from "@/data/handle-cart";
+import { useCartUpdater } from "@/hooks/useCartUpdater";
+// import { handleUpdateCartDb } from "@/data/handle-cart";
 
 interface homeProps {
   barVisibility: boolean;
@@ -20,7 +21,7 @@ interface homeProps {
 function Card() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  //   const [phoneNumber, setPhoneNumber] = useState<string | E164Number | undefined>("");
+  const { handleUpdateCartDb } = useCartUpdater();
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>("");
   const [phone, setPhone] = useState("");
   const firstDiv = useRef<HTMLDivElement>(null);
@@ -66,11 +67,10 @@ function Card() {
   //     password: "",
   //   },
   // });
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setError("");
     setSuccess("");
-    e.preventDefault();
-    handleUpdateCartDb();
+    await handleUpdateCartDb();
     startTransition(() => {
       formAction(new FormData(e.currentTarget));
     });

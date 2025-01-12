@@ -9,6 +9,9 @@
   --buttonTransition: all 0.2s ease;
   --marginBottom: 10px;
 }
+html {
+  scroll-behavior: smooth;
+}
 
 .main-home-page-container {
   width: 100%;

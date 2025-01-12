@@ -1,45 +1,14 @@
-// import { ProductDetails } from "@/components/cart";
-// import { db } from "@/lib/db";
-// import { PaymentMethod } from "@prisma/client";
-
-// interface CardPurchaseProps {
-//   product: ProductDetails;
-// }
-
-// export const updateCartInDb = async ({ product }: CardPurchaseProps) => {
-//   try {
-//       const isProductAddedToCart = await db.addedToCartProducts.findFirst({
-//         where: {
-//           ProductId: product.product_id,
-//         },
-//       });
-//       if (!isProductAddedToCart) {
-//         const addProductToCart = await db.addedToCartProducts.create({
-//             data: {
-//                 ProductId: product.product_id,
-//                 // userId:
-//                 // AddedToCartId:
-//                 productQuantity: product.product_quantity,
-//                 waterOption: product.product_water,
-//                 icedOption: product.product_ice,
-//                 foamOption: product.product_foam,
-//             },
-//         });
-//       }
-
-//   } catch (error) {
-//     console.log(
-//       "//////////////////////////////////////////////////////////////////////////////////////////////////////////"
-//     );
-//     return null;
-//   }
-// };
 import { ProductDetails } from "@/components/cart";
 import { db } from "@/lib/db";
 import { foamOptionTypes, icedOptionTypes, PaymentMethod, waterOptionTypes } from "@prisma/client";
 
 interface CardPurchaseProps {
   product: ProductDetails;
+  userId: string;
+}
+
+interface RemoveProductProps {
+  productId: string;
   userId: string;
 }
 
@@ -58,6 +27,7 @@ export const updateCartInDb = async ({ product, userId }: CardPurchaseProps) => 
         addedToCart: true,
       },
     });
+    console.log("isProductAddedToCartProducts : ", isProductAddedToCartProducts);
     if (!isProductAddedToCartProducts) {
       const isProductAddedToCart = await db.addedToCart.create({
         data: {
@@ -68,6 +38,8 @@ export const updateCartInDb = async ({ product, userId }: CardPurchaseProps) => 
           total,
         },
       });
+      console.log("isProductAddedToCart: ", isProductAddedToCart);
+
       const addProductToCart = await db.addedToCartProducts.create({
         data: {
           ProductId: product.id,
@@ -79,8 +51,13 @@ export const updateCartInDb = async ({ product, userId }: CardPurchaseProps) => 
           foamOption: product.foamOption as foamOptionTypes | null,
         },
       });
+      console.log("addProductToCart: ", addProductToCart);
       return addProductToCart;
     }
+    if (isProductAddedToCartProducts) {
+      return true;
+    }
+    console.log("already updateCartInDb////////////");
     return null;
   } catch (error) {
     console.log("Error updating cart:", error);
@@ -100,6 +77,45 @@ export const getUserCartProductsById = async (userId: string) => {
       },
     });
     return userCartProducts;
+  } catch (error) {
+    console.log(
+      "///////////////////////////////////////////////////////////////////////////////////////////////Error updating cart:",
+      error
+    );
+    return null;
+  }
+};
+
+export const removeProductFromCartFromDb = async ({ productId, userId }: RemoveProductProps) => {
+  try {
+    const isProductAddedToCartProducts = await db.addedToCartProducts.findFirst({
+      where: {
+        ProductId: productId,
+        userId,
+      },
+      include: {
+        product: true,
+        addedToCart: true,
+      },
+    });
+    console.log("isProductAddedToCartProducts : ", isProductAddedToCartProducts);
+    if (isProductAddedToCartProducts) {
+      const removeProductAddedToCartProducts = await db.addedToCartProducts.delete({
+        where: {
+          id: isProductAddedToCartProducts.id,
+        },
+      });
+      console.log(
+        "removeProductAddedToCartProducts////////////:",
+        removeProductAddedToCartProducts
+      );
+      return removeProductAddedToCartProducts;
+    }
+    if (!isProductAddedToCartProducts) {
+      return "Product not found";
+    }
+    console.log("already updateCartInDb////////////");
+    return null;
   } catch (error) {
     console.log("Error updating cart:", error);
     return null;

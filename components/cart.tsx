@@ -9,6 +9,7 @@ import Footer from "./footer";
 import { useMyContext } from "@/context/context";
 import Link from "next/link";
 import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
+import { useRemoveProduct } from "@/hooks/useRemoveProduct";
 
 interface homeProps {
   barVisibility: boolean;
@@ -56,7 +57,8 @@ function Cart() {
   const [sectionHeight, setSectionHeight] = useState<number>(0);
   const [isMinWidth, setIsMinWidth] = useState<boolean>(false);
   const [secondMinWidth, setSecondMinWidth] = useState<boolean>(false);
-  const { barVisibility, aboutRef, pageShowHeader, sectionsRef } = useMyContext();
+  const { handleRemoveProductCartDb } = useRemoveProduct();
+  const { barVisibility, aboutRef, pageShowHeader, sectionsRef, updatePerformed } = useMyContext();
 
   const sectionDiv = useRef<HTMLDivElement>(null);
   const totalRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -173,12 +175,18 @@ function Cart() {
     }
   };
 
-  const handleProductRemove = (id: string, products: ProductDetails[]): ProductDetails[] => {
+  const handleProductRemove = async (
+    id: string,
+    products: ProductDetails[]
+  ): Promise<ProductDetails[]> => {
     const updatedProducts = products.filter((product) => product.id !== id);
+
     if (localStorage.getItem("AddToCart")) {
       localStorage.setItem("AddToCart", JSON.stringify(updatedProducts));
       setCartProducts(updatedProducts);
     }
+    await handleRemoveProductCartDb({ productId: id });
+    updatePerformed();
     return updatedProducts;
   };
 

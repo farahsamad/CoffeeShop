@@ -11,6 +11,7 @@ import Image from "next/image";
 import { GoSignOut } from "react-icons/go";
 import { LogoutButton } from "./auth/logout-button";
 import { ProductDetails } from "./cart";
+import { useMyContext } from "@/context/context";
 
 interface indexProps {
   aboutRef: React.RefObject<HTMLDivElement | null>;
@@ -24,13 +25,14 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [cartNumber, setCartNumber] = useState<ProductDetails[]>([]);
+  const { update } = useMyContext();
 
   const user = useCurrentUser();
 
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem("AddToCart") || "[]");
     setCartNumber(cartItems);
-  }, []);
+  }, [update]);
 
   const barRef = useRef<HTMLInputElement>(null);
   const phoneContainer = useRef<HTMLDivElement>(null);
@@ -55,7 +57,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
         aboutRef.current.scrollIntoView({ behavior: "smooth" });
         // console.log("third scroll");
       }
-    }, 50);
+    }, 1000);
   };
   const barClick = () => {
     setBarVisibility(() => !barVisibility);
@@ -171,7 +173,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
             </li>
             <li className="about h-full">
               <Link
-                href="/"
+                href="/#about"
                 // className={({ isActive }) =>
                 //   isActive
                 //     ? currentSection === "fourth-container"
@@ -179,7 +181,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
                 //       : "h-full"
                 //     : "h-full"
                 // }
-                onClick={scrollToAboutSection}
+                // onClick={scrollToAboutSection}
               >
                 <div className="h-[96px] w-full grid place-content-center">ABOUT</div>
               </Link>
@@ -273,7 +275,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
             </li>
             <li className="about">
               <Link
-                href={"/"}
+                href={"/#about"}
                 // className={({ isActive }) =>
                 //   isActive
                 //     ? currentSection === "fourth-container"
@@ -281,7 +283,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
                 //       : "h-full grid place-content-center"
                 //     : "h-full grid place-content-center"
                 // }
-                onClick={scrollToAboutSectionPhone}
+                // onClick={scrollToAboutSectionPhone}
               >
                 ABOUT
               </Link>
