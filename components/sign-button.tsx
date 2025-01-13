@@ -5,16 +5,27 @@ interface SignButton {
   backButtonHref: string;
   hrefLabel: string;
   buttonLabel?: string;
+  form?: string;
 }
 
-const SignButton = ({ backButtonHref, hrefLabel, buttonLabel }: SignButton) => {
+const SignButton = ({ backButtonHref, hrefLabel, buttonLabel, form }: SignButton) => {
   return (
-    <div className="font-normal w-full h-8 mt-3">
-      <p className=" inline">{buttonLabel}</p>
-      <Link href={backButtonHref} className="text-slate-500">
-        {hrefLabel}
-      </Link>
-    </div>
+    <>
+      {form ? (
+        <div className="font-normal w-full h-8 mt-3 text-center">
+          <Link href={backButtonHref} className="text-slate-500 w-full text-center">
+            {hrefLabel}
+          </Link>
+        </div>
+      ) : (
+        <div className="font-normal w-full h-8 mt-3">
+          <p className=" inline">{buttonLabel}</p>
+          <Link href={backButtonHref} className="text-slate-500">
+            {hrefLabel}
+          </Link>
+        </div>
+      )}
+    </>
   );
 };
 

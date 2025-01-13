@@ -8,6 +8,11 @@ import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { getUserCartProductsFromDb } from "./getUserCartProducts";
+import { sendTwoFactorTokenEmail, sendVerificationEmail } from "@/lib/mail";
+import { generateTwoFactorToken, generateVerificationToken } from "@/lib/tokens";
+import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+import { db } from "@/lib/db";
 
 // export async function login(
 //   state: z.infer<typeof LoginSchema>,
@@ -39,6 +44,7 @@ export type LoginState = {
   email: string;
   password: string;
   name?: string;
+  twoFactor?: boolean;
   success?: boolean | string;
   errors?: LoginErrors;
   callbackUrl?: string | null;
@@ -49,6 +55,7 @@ export type LoginErrors = {
   email?: string;
   password?: string;
   name?: string;
+  twoFactor?: string;
   other?: string;
 };
 
@@ -78,7 +85,7 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
   }
 
   // Process validated form inputs here
-  const { email, password } = validatedFields.data;
+  const { email, password, code } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
   console.log("//////////existingUser: ", existingUser);
@@ -90,6 +97,88 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
       success: false,
       errors,
     };
+  }
+
+  if (!existingUser.emailVerified) {
+    const verificationToken = await generateVerificationToken(existingUser.email);
+
+    await sendVerificationEmail(verificationToken.email, verificationToken.token);
+    return {
+      userId: existingUser.id,
+      email,
+      password,
+      twoFactor: false,
+      success: "Confirmation email sent!",
+      callbackUrl: state.callbackUrl || DEFAULT_LOGIN_REDIRECT,
+      errors: {},
+    };
+  }
+
+  if (existingUser.isTwoFactorEnabled && existingUser.email) {
+    if (code) {
+      const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
+
+      if (!twoFactorToken) {
+        const errors: LoginErrors = { other: "Invalid code!" };
+        return {
+          ...state,
+          success: false,
+          errors,
+        };
+      }
+
+      if (twoFactorToken.token !== code) {
+        const errors: LoginErrors = { other: "Invalid code!" };
+        return {
+          ...state,
+          success: false,
+          errors,
+        };
+      }
+
+      const hasExpired = new Date(twoFactorToken.expires) < new Date();
+
+      if (hasExpired) {
+        const errors: LoginErrors = { other: "Code expired!" };
+        return {
+          ...state,
+          success: false,
+          errors,
+        };
+      }
+
+      await db.twoFactorToken.delete({
+        where: { id: twoFactorToken.id },
+      });
+
+      const existingConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
+
+      if (existingConfirmation) {
+        await db.twoFactorConfirmation.delete({
+          where: { id: existingConfirmation.id },
+        });
+      }
+
+      await db.twoFactorConfirmation.create({
+        data: {
+          userId: existingUser.id,
+        },
+      });
+    } else {
+      const twoFactorToken = await generateTwoFactorToken(existingUser.email);
+
+      await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
+
+      return {
+        userId: existingUser.id,
+        email,
+        password,
+        twoFactor: true,
+        success: "user succeed to login",
+        callbackUrl: state.callbackUrl || DEFAULT_LOGIN_REDIRECT,
+        errors: {},
+      };
+    }
   }
 
   // if (!existingUser.emailVerified) {
@@ -135,6 +224,7 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
     userId: existingUser.id,
     email,
     password,
+    twoFactor: false,
     success: "user succeed to login",
     callbackUrl: state.callbackUrl || DEFAULT_LOGIN_REDIRECT,
     errors: {},

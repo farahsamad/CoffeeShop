@@ -7,7 +7,7 @@ import { AiFillLock } from "react-icons/ai";
 import { SignupState } from "@/actions/signin";
 
 interface InputProps {
-  state: LoginState;
+  state: LoginState | SignupState;
   type: string;
   name: string;
   placeholder: string;

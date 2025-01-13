@@ -13,6 +13,7 @@ interface CardProps {
   backButtonHref: string;
   error?: string;
   showSocial?: boolean;
+  form?: string;
 }
 
 const CardWrapper = ({
@@ -23,6 +24,7 @@ const CardWrapper = ({
   backButtonHref,
   error,
   showSocial,
+  form,
 }: CardProps) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -34,9 +36,16 @@ const CardWrapper = ({
   return (
     <div className="min-w-[200px] md:w-[500px] lg:w-[600px] grid place-content-center text-sm md:text-base">
       <div className="h-full min-w-44 w-60 lg:w-[300px]">
-        <div id="header-label" className="h-[24px] ">
-          {headerLabel}
-        </div>
+        {form ? (
+          <div id="header-label" className="h-[24px] w-full text-center text-slate-500">
+            {headerLabel}
+          </div>
+        ) : (
+          <div id="header-label" className="h-[24px] ">
+            {headerLabel}
+          </div>
+        )}
+
         {error && (
           <div className="flex w-full items-center h-[24px] text-red-800 bg-red-300 rounded-sm p-4 my-1 font-semibold">
             <FiAlertTriangle className="font-semibold text-sm" />
@@ -56,6 +65,7 @@ const CardWrapper = ({
           backButtonHref={backButtonHref}
           hrefLabel={hrefLabel}
           buttonLabel={buttonLabel}
+          form={form}
         />
       </div>
       <div

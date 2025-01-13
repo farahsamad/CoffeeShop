@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { AddProductSchema } from "@/schemas";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { addProductToDb } from "@/data/add-product";
+import { addProductToDb } from "@/data/product";
 
 // }
 export type AddProductState = {

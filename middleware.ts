@@ -86,8 +86,8 @@ export default auth(async function middleware(req) {
     if (nextUrl.search) {
       callbackUrl += nextUrl.search;
     }
-
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+    console.log("///////encodedCallbackUrl: ", encodedCallbackUrl);
     return Response.redirect(new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl));
   }
 });

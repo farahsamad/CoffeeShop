@@ -7,6 +7,7 @@ export const LoginSchema = z.object({
   password: z.string().min(1, {
     message: "Password is required!",
   }),
+  code: z.optional(z.string()),
 });
 
 export const SignupSchema = z.object({
@@ -92,4 +93,32 @@ export const AddProductSchema = z.object({
   productTypeName: z.string().min(1, {
     message: "Product type name is required!",
   }),
+});
+
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email({
+    message: "Email is required!",
+  }),
+});
+
+export const ResetPasswordSchema = z.object({
+  password: z
+    .string()
+    .min(8, { message: "At least 8 characters required!" })
+    .regex(/[^a-zA-Z0-9]/, {
+      message: "Contain at least one special character.",
+    })
+    .regex(/[0-9]/, { message: "Contain at least one number." })
+    .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
+    .trim(),
+  confirmPassword: z
+    .string()
+    .min(8, { message: "At least 8 characters required!" })
+    .regex(/[^a-zA-Z0-9]/, {
+      message: "Contain at least one special character.",
+    })
+    .regex(/[0-9]/, { message: "Contain at least one number." })
+    .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
+    .trim(),
+  token: z.string(),
 });

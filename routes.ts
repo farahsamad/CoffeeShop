@@ -1,6 +1,6 @@
 export const API_AUTH_PREFIX = "/api/auth";
 
-export const AUTH_ROUTES = ["/login", "/signup"];
+export const AUTH_ROUTES = ["/login", "/signup", "/password/forgotten", "/password/reset"];
 
 export const DEFAULT_LOGIN_REDIRECT = "/";
 export const LOGOUT_ROUTE = ["/logout"];
