@@ -8,7 +8,7 @@ import usePreviousPath from "@/hooks/usePreviousPath";
 import Footer from "./footer";
 import { useMyContext } from "@/context/context";
 import Link from "next/link";
-import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
+import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 import { useRemoveProduct } from "@/hooks/useRemoveProduct";
 
 interface homeProps {
@@ -40,7 +40,7 @@ export interface ProductDetails {
   productName: string;
   productImage: string;
   productTypeName: string;
-  product_size: string;
+  product_size: productSize;
   waterOption?: waterOptionTypes | null;
   icedOption?: icedOptionTypes | null;
   foamOption?: foamOptionTypes | null;
@@ -62,6 +62,7 @@ function Cart() {
 
   const sectionDiv = useRef<HTMLDivElement>(null);
   const totalRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const quantityRefs = useRef<(HTMLDivElement | null)[]>([]);
   const continueDelivery = useRef<HTMLDivElement>(null);
 
   //   const barsVisibility = useOutletContext<homeProps>();
@@ -79,21 +80,63 @@ function Cart() {
     }
   }, []);
 
-  const handleIncrementQuantity = (index: number) => {
+  const handleIncrementQuantity = (index: number, id: string, products: ProductDetails[]) => {
     setTotalAmount((prevAmount) => (prevAmount = 0));
     setQuantities((prevQuantities) => {
       const newQuantities = [...prevQuantities];
       newQuantities[index] += 1;
+      const updatedProducts = products.map((product) => {
+        if (product.id === id) {
+          console.log("product.id: ", product.id);
+          console.log("product.product_quantity: ", newQuantities[index]);
+          return { ...product, product_quantity: newQuantities[index] };
+        }
+        return product;
+      });
+      console.log("updatedProducts: ", updatedProducts);
+
+      if (localStorage.getItem("AddToCart")) {
+        localStorage.setItem("AddToCart", JSON.stringify(updatedProducts));
+      }
       return newQuantities;
     });
   };
-  const handleDecrementQuantity = (index: number) => {
+  const handleDecrementQuantity = (index: number, id: string, products: ProductDetails[]) => {
     setTotalAmount((prevAmount) => (prevAmount = 0));
     setQuantities((prevQuantities) => {
       const newQuantities = [...prevQuantities];
-      if (newQuantities[index] > 1) newQuantities[index] -= 1;
+      if (newQuantities[index] > 1) {
+        newQuantities[index] -= 1;
+        const updatedProducts = products.map((product) => {
+          if (product.id === id) {
+            console.log("product.id: ", product.id);
+            console.log("product.product_quantity: ", newQuantities[index]);
+            return { ...product, product_quantity: newQuantities[index] };
+          }
+          return product;
+        });
+        console.log("updatedProducts: ", updatedProducts);
+
+        if (localStorage.getItem("AddToCart")) {
+          localStorage.setItem("AddToCart", JSON.stringify(updatedProducts));
+        }
+      }
       return newQuantities;
     });
+  };
+  const handleProductRemove = async (
+    id: string,
+    products: ProductDetails[]
+  ): Promise<ProductDetails[]> => {
+    const updatedProducts = products.filter((product) => product.id !== id);
+
+    if (localStorage.getItem("AddToCart")) {
+      localStorage.setItem("AddToCart", JSON.stringify(updatedProducts));
+      setCartProducts(updatedProducts);
+    }
+    await handleRemoveProductCartDb({ productId: id });
+    updatePerformed();
+    return updatedProducts;
   };
 
   // console.log("cartProducts: ", cartProducts);
@@ -173,21 +216,6 @@ function Cart() {
       var val = (totalAmount * 100) / 50;
       return val;
     }
-  };
-
-  const handleProductRemove = async (
-    id: string,
-    products: ProductDetails[]
-  ): Promise<ProductDetails[]> => {
-    const updatedProducts = products.filter((product) => product.id !== id);
-
-    if (localStorage.getItem("AddToCart")) {
-      localStorage.setItem("AddToCart", JSON.stringify(updatedProducts));
-      setCartProducts(updatedProducts);
-    }
-    await handleRemoveProductCartDb({ productId: id });
-    updatePerformed();
-    return updatedProducts;
   };
 
   useEffect(() => {
@@ -333,7 +361,9 @@ function Cart() {
                                   <div className="flex justify-center items-center">
                                     <div
                                       className="cursor-pointer"
-                                      onClick={() => handleDecrementQuantity(index)}
+                                      onClick={() =>
+                                        handleDecrementQuantity(index, val.id, products)
+                                      }
                                     >
                                       <FaMinus className="w-3 h-3 text-slate-400" />
                                     </div>
@@ -342,7 +372,9 @@ function Cart() {
                                     </div>
                                     <div
                                       className="cursor-pointer"
-                                      onClick={() => handleIncrementQuantity(index)}
+                                      onClick={() =>
+                                        handleIncrementQuantity(index, val.id, products)
+                                      }
                                     >
                                       <FaPlus className="w-3 h-3 text-slate-400" />
                                     </div>
@@ -582,7 +614,7 @@ function Cart() {
                           </div> */}
                       <div id="taxes" className="flex justify-between px-4  h-8">
                         <div id="taxes-word">Taxes</div>
-                        <div id="taxes-value">{taxes.toFixed(1)}</div>
+                        <div id="taxes-value">${taxes.toFixed(1)}</div>
                       </div>
                       <div id="discount" className="flex justify-between px-4  h-8">
                         <div id="discount-word">Discount</div>

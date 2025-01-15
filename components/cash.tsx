@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { CashPaymentSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCartUpdater } from "@/hooks/useCartUpdater";
+import { ProductDetails } from "./cart";
 // import { handleUpdateCartDb } from "@/data/handle-cart";
 // import { getSession } from "next-auth/react";
 
@@ -27,9 +28,40 @@ interface homeProps {
   sectionsRef: React.RefObject<(HTMLDivElement | null)[]>;
 }
 
+export interface payloadProps {
+  state: PayCashState;
+  form: FormData;
+  subTotalPrice: number;
+  totalPrice: number;
+  taxesPrice: number;
+  discount: number;
+  cartProducts: ProductDetails[];
+}
+
+export enum deliveryCities {
+  Tripoli = "tripoli",
+  Beirut = "beirut",
+  Akkar = "akkar",
+  Batroun = "batroun",
+  Jbeil = "jbeil",
+  Jounieh = "jounieh",
+  Koura = "koura",
+  Dannieh = "dannieh",
+  Saida = "saida",
+  Sour = "sour",
+}
+
 function Cash() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [cartProducts, setCartProducts] = useState<ProductDetails[]>([]);
+  const [subTotalPrice, SetSubTotalPrice] = useState<number>(0);
+  const [totalPrice, SetTotalPrice] = useState<number>(0);
+  const [taxesPrice, setTaxesPrice] = useState<number>(subTotalPrice * 0.2);
+  const [discount, setDiscount] = useState<number>(0);
+  const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
+  const [deliveryCity, setDeliveryCity] = useState<string>("");
+  const [buyerName, setBuyerName] = useState<string>("");
   const { handleUpdateCartDb } = useCartUpdater();
   const [phone, setPhone] = useState("");
   const firstDiv = useRef<HTMLDivElement>(null);
@@ -61,7 +93,21 @@ function Cash() {
     },
     callbackUrl: callbackUrl,
   };
-  const [state, formAction, isPending] = useActionState(payCash, initialState);
+  // const [state, formAction, isPending] = useActionState(payCash, initialState);
+  const [state, formAction, isPending] = useActionState(
+    (state: PayCashState, payload: payloadProps) =>
+      payCash({
+        state,
+        form: payload.form,
+        subTotalPrice: payload.subTotalPrice,
+        totalPrice: payload.totalPrice,
+        taxesPrice: payload.taxesPrice,
+        discount: payload.discount,
+        cartProducts: payload.cartProducts,
+      }),
+    initialState
+  );
+
   const router = useRouter();
   console.log("state.errors: ", state.errors);
 
@@ -73,12 +119,127 @@ function Cash() {
   //   },
   // });
 
+  useEffect(() => {
+    if (localStorage.getItem("AddToCart")) {
+      const storedCartProducts = localStorage.getItem("AddToCart");
+      if (storedCartProducts) {
+        const parsedCartProducts: ProductDetails[] = JSON.parse(storedCartProducts);
+        setCartProducts(parsedCartProducts);
+        const totalPriceAmount = parsedCartProducts.reduce((total, product) => {
+          return total + product.productPrice * product.product_quantity;
+        }, 0);
+        SetSubTotalPrice(totalPriceAmount);
+        const taxesPriceAmount = parseFloat((totalPriceAmount * 0.2).toFixed(1));
+        setTaxesPrice(taxesPriceAmount);
+        SetTotalPrice(
+          parseFloat((totalPriceAmount + taxesPriceAmount - discount + deliveryPrice).toFixed(1))
+        );
+        console.log("totalPrice: ", subTotalPrice + taxesPrice - discount + deliveryPrice);
+        console.log("totalPrice////: ", totalPrice);
+      }
+    }
+  }, []);
+  console.log("deliveryCity: ", deliveryCity);
+  console.log("deliveryPrice: ", deliveryPrice);
+  useEffect(() => {
+    switch (deliveryCity) {
+      case deliveryCities.Tripoli:
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+        setDeliveryPrice(2);
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 2).toFixed(1)));
+        return;
+      case deliveryCities.Akkar:
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+        setDeliveryPrice(4);
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 4).toFixed(1)));
+        return;
+      case deliveryCities.Batroun:
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+        setDeliveryPrice(4);
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 4).toFixed(1)));
+        return;
+      case deliveryCities.Beirut:
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+        setDeliveryPrice(7);
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 7).toFixed(1)));
+        return;
+      case deliveryCities.Dannieh:
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+        setDeliveryPrice(4);
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 4).toFixed(1)));
+        return;
+      case deliveryCities.Jbeil:
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+        setDeliveryPrice(5);
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 5).toFixed(1)));
+        return;
+      case deliveryCities.Jounieh:
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+        setDeliveryPrice(6);
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 6).toFixed(1)));
+        return;
+      case deliveryCities.Koura:
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+        setDeliveryPrice(4);
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 4).toFixed(1)));
+        return;
+      case deliveryCities.Saida:
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+        setDeliveryPrice(10);
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 10).toFixed(1)));
+        return;
+      case deliveryCities.Sour:
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+        setDeliveryPrice(11);
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 11).toFixed(1)));
+        return;
+      default:
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+        setDeliveryPrice(0);
+        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 0).toFixed(1)));
+        return;
+    }
+  }, [deliveryCity]);
+
+  const getCurrentDate = () => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const year = today.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  };
+
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   setError("");
+  //   setSuccess("");
+  //   // await handleUpdateCartDb();
+  //   const formData = new FormData(e.currentTarget);
+  //   startTransition(() => {
+  //     console.log("formAction");
+  //     formAction(formData);
+  //   });
+  //   // startTransition(() => {
+  //   //   formAction(new FormData(e.currentTarget));
+  //   // });
+  // };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setError("");
     setSuccess("");
-    await handleUpdateCartDb();
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
     startTransition(() => {
-      formAction(new FormData(e.currentTarget));
+      console.log("formAction");
+      formAction({
+        form: formData,
+        state,
+        subTotalPrice,
+        totalPrice,
+        taxesPrice,
+        discount,
+        cartProducts,
+      });
     });
   };
 
@@ -153,6 +314,7 @@ function Cash() {
                     id="name-input-container"
                     type={"text"}
                     name={"name"}
+                    setBuyerName={setBuyerName}
                   />
                   <FloatingInput
                     placeholder={""}
@@ -193,6 +355,7 @@ function Cash() {
                     id="city-input-container"
                     type={"text"}
                     name={"city"}
+                    setDeliveryCity={setDeliveryCity}
                   />
                   <FloatingInput
                     placeholder={"Address"}
@@ -254,10 +417,10 @@ function Cash() {
                 <div className="h-[35%]  text-base font-black font-[cursive] text-gray-800 flex items-center">
                   CoffeeShop
                 </div>
-                <div className="h-[40%] flex items-end text-xs text-white">10/10/2024</div>
+                <div className="h-[40%] flex items-end text-xs text-white">{getCurrentDate()}</div>
                 <div className="h-[20%] w-full flex justify-between text-white text-xs items-center">
                   <div>Cash</div>
-                  <div>Farah Samad</div>
+                  <div>{buyerName}</div>
                 </div>
               </div>
               <div id="second-part-invoice" className="w-full h-[7%] px-5">
@@ -278,24 +441,25 @@ function Cash() {
                 className="w-full h-[35%] flex flex-col pb-[5%]  text-sm justify-around px-5"
               >
                 <div id="items-number" className="text-3xl text-center mb-[10%]">
-                  10 items
+                  {cartProducts && cartProducts.length ? cartProducts.length : 0}
+                  <span className="ml-1">items</span>
                 </div>
                 <div id="delivery-service" className="inline-flex justify-between">
                   <span className="text-gray-500">Delivery Service</span>
-                  <span>+ $3</span>
+                  {deliveryPrice > 0 ? <span>+ ${deliveryPrice}</span> : <span>$0</span>}
                 </div>
                 <div id="taxes" className="inline-flex justify-between">
                   <span className="text-gray-500">Taxes</span>
-                  <span>+$0.6</span>
+                  {subTotalPrice > 0 ? <span>+${taxesPrice}</span> : <span>$0</span>}
                 </div>
                 <div id="discount" className="inline-flex justify-between">
                   <span className="text-gray-500">Discount</span>
-                  <span>- $50</span>
+                  {discount > 0 ? <span>- ${discount}</span> : <span>$0</span>}
                 </div>
 
                 <div id="subtotal" className="inline-flex justify-between">
                   <span className="text-gray-500">Subtotal</span>
-                  <span>$250</span>
+                  {subTotalPrice > 0 ? <span>${subTotalPrice}</span> : <span>$0</span>}
                 </div>
               </div>
               <div
@@ -303,7 +467,7 @@ function Cash() {
                 className="w-full h-[15%] inline-flex justify-between py-[5%] border-t border-t-gray-300 text-xl px-5"
               >
                 <span>Total</span>
-                <span>$203.6</span>
+                {totalPrice > 0 ? <span>${totalPrice}</span> : <span>$0</span>}
               </div>
               <button
                 id="fifth-part-invoice"

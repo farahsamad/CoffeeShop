@@ -8,6 +8,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { currentSession, currentUser } from "@/lib/auth";
 import { makeCashPurchase } from "@/data/make-cash-purchase";
 import { makeCardPurchase } from "@/data/make-card-purchase";
+import { ProductDetails } from "@/components/cart";
 
 export type PayCardState = {
   name: string;
@@ -40,7 +41,16 @@ export type PayCardErrors = {
   other?: string;
 };
 
-export async function payCard(state: PayCardState, form: FormData): Promise<PayCardState> {
+export async function payCard(payload: {
+  state: PayCardState;
+  form: FormData;
+  subTotalPrice: number;
+  totalPrice: number;
+  taxesPrice: number;
+  discount: number;
+  cartProducts: ProductDetails[];
+}): Promise<PayCardState> {
+  const { state, form, subTotalPrice, totalPrice, taxesPrice, discount, cartProducts } = payload;
   const session = await currentSession();
   if (!session) {
     console.log("session didn't exist");
@@ -114,6 +124,11 @@ export async function payCard(state: PayCardState, form: FormData): Promise<PayC
     Address,
     deliveryDate,
     note,
+    subTotalPrice,
+    totalPrice,
+    taxesPrice,
+    discount,
+    cartProducts,
   });
 
   if (!existPurchase) {

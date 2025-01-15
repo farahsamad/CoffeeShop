@@ -7,9 +7,17 @@ interface InputProps {
   id: string;
   type: string;
   name: string;
+  setExpireDate: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const MonthYearInput: React.FC<InputProps> = ({ placeholder, icon, id, type, name }) => {
+const MonthYearInput: React.FC<InputProps> = ({
+  placeholder,
+  icon,
+  id,
+  type,
+  name,
+  setExpireDate,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState<string>("");
 
@@ -20,6 +28,7 @@ const MonthYearInput: React.FC<InputProps> = ({ placeholder, icon, id, type, nam
         .replace(/(\d{2})(\d{4})/, "$1/$2") // Format as MM/YYYY
         .substring(0, 7); // Limit to 7 characters
       setValue(formattedValue);
+      setExpireDate(formattedValue);
     }
   };
 

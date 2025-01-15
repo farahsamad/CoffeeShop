@@ -30,6 +30,7 @@ export const SignupSchema = z.object({
   name: z.string().min(1, {
     message: "name is required!",
   }),
+  code: z.optional(z.string()),
 });
 
 export const CashPaymentSchema = z.object({

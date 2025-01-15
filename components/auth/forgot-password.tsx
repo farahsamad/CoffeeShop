@@ -198,7 +198,7 @@ export function ForgotPassword() {
       //   }
       // });
 
-      router.push(state.callbackUrl || "/");
+      // router.push(state.callbackUrl || "/");
       // });
     }
   }, [state.success, router, state.callbackUrl]);

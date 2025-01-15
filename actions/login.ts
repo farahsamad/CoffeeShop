@@ -99,21 +99,6 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
     };
   }
 
-  if (!existingUser.emailVerified) {
-    const verificationToken = await generateVerificationToken(existingUser.email);
-
-    await sendVerificationEmail(verificationToken.email, verificationToken.token);
-    return {
-      userId: existingUser.id,
-      email,
-      password,
-      twoFactor: false,
-      success: "Confirmation email sent!",
-      callbackUrl: state.callbackUrl || DEFAULT_LOGIN_REDIRECT,
-      errors: {},
-    };
-  }
-
   if (existingUser.isTwoFactorEnabled && existingUser.email) {
     if (code) {
       const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);

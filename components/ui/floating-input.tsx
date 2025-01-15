@@ -39,9 +39,19 @@ interface inputProps {
   id: string;
   type: string;
   name: string;
+  setDeliveryCity?: React.Dispatch<React.SetStateAction<string>>;
+  setBuyerName?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name }) => {
+const FloatingInput: React.FC<inputProps> = ({
+  placeholder,
+  icon,
+  id,
+  type,
+  name,
+  setDeliveryCity,
+  setBuyerName,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState<string>("");
   const [phoneValue, setPhoneValue] = useState<string>("");
@@ -241,6 +251,21 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
                 onChange={(e) => setValue(e.target.value)}
                 className="block w-full  py-2 outline-none cursor-text bg-transparent focus:outline-none sm:!text-base text-xs h-9"
               />
+            ) : name === "city" ? (
+              <input
+                id={id}
+                type={type}
+                name={name}
+                maxLength={20}
+                value={value}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                onChange={(e) => {
+                  setValue(e.target.value),
+                    setDeliveryCity && setDeliveryCity(e.target.value.toLowerCase());
+                }}
+                className="block w-full  py-2 outline-none cursor-text bg-transparent focus:outline-none sm:!text-base text-xs h-9"
+              />
             ) : (
               <input
                 id={id}
@@ -250,7 +275,9 @@ const FloatingInput: React.FC<inputProps> = ({ placeholder, icon, id, type, name
                 value={value}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => {
+                  setValue(e.target.value), setBuyerName && setBuyerName(e.target.value);
+                }}
                 className="block w-full  py-2 outline-none cursor-text bg-transparent focus:outline-none sm:!text-base text-xs h-9"
               />
             )}

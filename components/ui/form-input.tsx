@@ -4,7 +4,7 @@ import { FaRegEnvelope, FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
 import { FiAlertTriangle } from "react-icons/fi";
 import { AiFillLock } from "react-icons/ai";
-import { SignupState } from "@/actions/signin";
+import { SignupState } from "@/actions/signup";
 
 interface InputProps {
   state: LoginState | SignupState;

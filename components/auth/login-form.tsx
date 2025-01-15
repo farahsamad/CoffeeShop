@@ -124,31 +124,58 @@ export function Login() {
       password: "",
     },
   });
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (!showTwoFactor) {
-      setError("");
-      setSuccess("");
-      e.preventDefault();
-      startTransition(() => {
-        formAction(new FormData(e.currentTarget));
-      });
+  const handleSubmit = (formData: FormData | React.FormEvent<HTMLFormElement>) => {
+    let formDataInstance;
+    if (formData instanceof FormData) {
+      formDataInstance = formData;
+    } else {
+      const event = formData as React.FormEvent<HTMLFormElement>;
+      event.preventDefault();
+      formDataInstance = new FormData(event.currentTarget);
     }
-    if (showTwoFactor) {
+    setError("");
+    setSuccess("");
+    if (!showTwoFactor) {
+      startTransition(() => {
+        formAction(formDataInstance);
+      });
+    } else {
       try {
-        setError("");
-        setSuccess("");
-        e.preventDefault();
-        const verificationCode = code.join("");
-        const formData = new FormData(e.currentTarget);
-        formData.append("code", verificationCode); // Append the token only if it's not null
+        const verificationCodeString = code.join("");
+        formDataInstance.append("code", verificationCodeString);
         startTransition(() => {
-          formAction(formData);
+          formAction(formDataInstance);
         });
       } catch (error) {
-        console.log(error);
+        console.log("error is: ", error);
       }
     }
   };
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   if (!showTwoFactor) {
+  //     setError("");
+  //     setSuccess("");
+  //     e.preventDefault();
+  //     startTransition(() => {
+  //       formAction(new FormData(e.currentTarget));
+  //     });
+  //   }
+  //   if (showTwoFactor) {
+  //     try {
+  //       setError("");
+  //       setSuccess("");
+  //       e.preventDefault();
+  //       const verificationCode = code.join("");
+  //       const formData = new FormData(e.currentTarget);
+  //       formData.append("code", verificationCode); // Append the token only if it's not null
+  //       startTransition(() => {
+  //         formAction(formData);
+  //       });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
 
   //     getSession().then(async () => {
   //       console.log("state success");
@@ -235,7 +262,7 @@ export function Login() {
         });
       }
     }
-  }, [state.success, router, state.callbackUrl]);
+  }, [state.success, router, state.callbackUrl, code, state.twoFactor, showTwoFactor]);
 
   useEffect(() => {
     if (state.errors?.other) {
@@ -288,17 +315,32 @@ export function Login() {
     }
   };
 
+  const mockSubmit = () => {
+    const formData = new FormData();
+    formData.append("email", state.email);
+    formData.append("password", state.password);
+    formData.append("code", code.join(""));
+    handleSubmit(formData);
+  };
   useEffect(() => {
     if (code.every((digit) => digit !== "")) {
-      // Create a mock FormEvent
-      const mockEvent = {
-        preventDefault: () => {},
-        // Add any other properties or methods needed by handleSubmit
-      } as React.FormEvent<HTMLFormElement>;
-
-      handleSubmit(mockEvent);
+      console.log("handle mock submit");
+      mockSubmit();
+      console.log("handleSubmit mock submitted!");
     }
   }, [code]);
+
+  // useEffect(() => {
+  //   if (code.every((digit) => digit !== "")) {
+  //     // Create a mock FormEvent
+  //     const mockEvent = {
+  //       preventDefault: () => {},
+  //       // Add any other properties or methods needed by handleSubmit
+  //     } as React.FormEvent<HTMLFormElement>;
+
+  //     handleSubmit(mockEvent);
+  //   }
+  // }, [code]);
 
   return (
     <div className="w-full h-full items-center justify-center p-6 md:py-6 md:px-0 shadow-md">
@@ -310,11 +352,12 @@ export function Login() {
         Close modal
       </button> */}
       <CardWrapper
-        headerLabel="Log in to your account"
-        hrefLabel=" Sign up"
-        buttonLabel="Don't have an account?"
+        headerLabel={showTwoFactor ? "Two step verification" : "Log in to your account"}
+        hrefLabel={showTwoFactor ? "Sign up" : " Sign up"}
+        buttonLabel={showTwoFactor ? "" : "Don't have an account?"}
         backButtonHref="/signup"
         error={state.errors?.other}
+        form={showTwoFactor ? "forget" : undefined}
         showSocial
       >
         <Form
@@ -324,22 +367,52 @@ export function Login() {
           className="w-full h-full flex flex-col justify-evenly"
         >
           {showTwoFactor && (
-            <div className="flex justify-between">
-              {code.map((digit, index) => (
-                <input
-                  key={index}
-                  ref={(el) => {
-                    inputRefs.current[index] = el;
-                  }}
-                  type="text"
-                  maxLength={6}
-                  value={digit}
-                  onChange={(e) => handleChange(index, e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(index, e)}
-                  className="w-12 h-12 text-center text-2xl font-bold bg-gray-700 text-white border-2 border-gray-600 rounded-lg focus:border-green-500 focus:outline-none"
-                />
-              ))}
-            </div>
+            <>
+              <input
+                type="hidden"
+                name="email"
+                value={state.email}
+                placeholder={"Email"}
+                className="bg-slate-50 outline-none placeholder-slate-500 text-slate-500 ml-2 w-[85%] -mt-[2px] autofill:text-slate-500 autofill:bg-yellow-200 "
+                autoComplete="email"
+              />
+              <input
+                type="hidden"
+                name="password"
+                placeholder="Password"
+                autoComplete="new-password"
+                value={state.password}
+              />
+              <div className="flex justify-between">
+                {code.map((digit, index) => (
+                  <input
+                    key={index}
+                    ref={(el) => {
+                      inputRefs.current[index] = el;
+                    }}
+                    type="text"
+                    maxLength={6}
+                    value={digit}
+                    onChange={(e) => handleChange(index, e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(index, e)}
+                    className="w-[14%] h-10 sm:!w-12 sm:!h-12 text-center text-2xl font-bold bg-gray-700 text-white border-2 border-gray-600 rounded-lg focus:border-slate-400 focus:outline-none"
+                  />
+                ))}
+              </div>
+              {state.success && (
+                <div className="flex w-full items-center h-[24px] text-green-800 bg-green-300 rounded-sm p-4  font-semibold my-1 ">
+                  <BiCheckCircle className="font-semibold text-sm" />
+                  <span className="ml-1 -mt-[3px] text-xs">{state.success}</span>
+                </div>
+              )}
+              <button
+                className="w-full max-h-14  h-9 p-2 border border-gray-400 bg-gray-500 grid place-content-center rounded-md shadow-sm text-white cursor-pointer hover:scale-105"
+                type="submit"
+                disabled={isPending}
+              >
+                Log in
+              </button>
+            </>
           )}
           {!showTwoFactor && (
             <>

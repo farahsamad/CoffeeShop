@@ -9,7 +9,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ProductDetails } from "./cart";
-import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
+import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 
 interface homeProps {
   barVisibility: boolean;
@@ -34,7 +34,7 @@ interface homeProps {
 
 const CoffeeProduct: React.FC = () => {
   const router = useRouter();
-  const [size, setSize] = useState<string>("");
+  const [size, setSize] = useState<productSize>();
   const [containWater, setContainWater] = useState<string>("No Water");
   const [containIce, setContainIce] = useState<string>("No Ice");
   const [containFoam, setContainFoam] = useState<string>("No Foam");
@@ -128,7 +128,7 @@ const CoffeeProduct: React.FC = () => {
   };
 
   const handleAddToCart = () => {
-    if (size === "") {
+    if (size === undefined) {
       if (selectSize.current) {
         selectSize.current.style.display = "block";
       }
@@ -271,7 +271,7 @@ const CoffeeProduct: React.FC = () => {
                           className=" h-[30px] w-8 max-w-[35px] sm:!h-[40px] sm:!w-10 sm:!max-w-[45px] z-50 hover:z-50 relative "
                           onClick={() => {
                             setCircleIndex(1);
-                            setSize("Short");
+                            setSize(productSize.Short);
                             setCircle(true);
                           }}
                           onMouseEnter={() => {
@@ -306,7 +306,7 @@ const CoffeeProduct: React.FC = () => {
                             } transition-opacity duration-300`}
                             onClick={() => {
                               setCircleIndex(1);
-                              setSize("Short");
+                              setSize(productSize.Short);
 
                               setCircle(true);
                             }}
@@ -329,7 +329,7 @@ const CoffeeProduct: React.FC = () => {
                           className="h-[35px] w-8 max-w-[35px] sm:!h-[45px] sm:!w-10 sm:!max-w-[45px] z-50 hover:z-50 relative"
                           onClick={() => {
                             setCircleIndex(2);
-                            setSize("Tall");
+                            setSize(productSize.Tall);
 
                             setCircle(true);
                           }}
@@ -364,7 +364,7 @@ const CoffeeProduct: React.FC = () => {
                             } transition-opacity duration-300`}
                             onClick={() => {
                               setCircleIndex(2);
-                              setSize("Tall");
+                              setSize(productSize.Tall);
 
                               setCircle(true);
                             }}
@@ -384,7 +384,7 @@ const CoffeeProduct: React.FC = () => {
                           className="h-[39px] w-8 max-w-[35px] sm:!h-[49px] sm:!w-10 sm:!max-w-[45px] z-50 hover:z-50 relative"
                           onClick={() => {
                             setCircleIndex(3);
-                            setSize("Grande");
+                            setSize(productSize.Grand);
 
                             setCircle(true);
                           }}
@@ -419,7 +419,7 @@ const CoffeeProduct: React.FC = () => {
                             } transition-opacity duration-300`}
                             onClick={() => {
                               setCircleIndex(3);
-                              setSize("Grande");
+                              setSize(productSize.Grand);
 
                               setCircle(true);
                             }}
@@ -440,7 +440,7 @@ const CoffeeProduct: React.FC = () => {
                           className="h-11 w-8 max-w-[35px] sm:!h-[54px] sm:!w-10 sm:!max-w-[45px]  z-50 hover:z-50 relative"
                           onClick={() => {
                             setCircleIndex(4);
-                            setSize("Venti");
+                            setSize(productSize.Venti);
 
                             setCircle(true);
                           }}
@@ -475,7 +475,7 @@ const CoffeeProduct: React.FC = () => {
                             } hover:opacity-100 transition-opacity duration-300`}
                             onClick={() => {
                               setCircleIndex(4);
-                              setSize("Venti");
+                              setSize(productSize.Venti);
 
                               setCircle(true);
                             }}

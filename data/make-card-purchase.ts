@@ -1,3 +1,4 @@
+import { ProductDetails } from "@/components/cart";
 import { db } from "@/lib/db";
 import { PaymentMethod } from "@prisma/client";
 
@@ -14,6 +15,11 @@ interface CardPurchaseProps {
   Address: string;
   deliveryDate: Date;
   note?: string;
+  subTotalPrice: number;
+  totalPrice: number;
+  taxesPrice: number;
+  discount: number;
+  cartProducts: ProductDetails[];
 }
 
 export const makeCardPurchase = async ({
@@ -29,6 +35,11 @@ export const makeCardPurchase = async ({
   Address,
   deliveryDate,
   note,
+  subTotalPrice,
+  totalPrice,
+  taxesPrice,
+  discount,
+  cartProducts,
 }: CardPurchaseProps) => {
   try {
     console.log("userId: ", userId);
@@ -43,10 +54,6 @@ export const makeCardPurchase = async ({
     console.log("Address: ", Address);
     console.log("deliveryDate: ", deliveryDate);
     console.log("note: ", note);
-    const discount = 10;
-    const Tax = 10;
-    const subTotal = 10;
-    const total = 10;
     const createPayment = await db.payment.create({
       data: {
         userId,
@@ -63,10 +70,23 @@ export const makeCardPurchase = async ({
         deliveryDate,
         note,
         discount,
-        Tax,
-        subTotal,
-        total,
+        Tax: taxesPrice,
+        subTotal: subTotalPrice,
+        total: totalPrice,
       },
+    });
+    cartProducts.map((product) => {
+      const createPaymentProducts = db.paymentProducts.create({
+        data: {
+          productId: product.id,
+          paymentId: createPayment.id,
+          productQuantity: product.product_quantity,
+          productSizes: product.product_size,
+          waterOption: product.waterOption,
+          icedOption: product.icedOption,
+          foamOption: product.foamOption,
+        },
+      });
     });
     return createPayment;
   } catch (error) {

@@ -56,7 +56,7 @@ const CardWrapper = ({
         <div id="form-content" className="w-full min-h-48 h-56">
           {children}
         </div>
-        {showSocial && (
+        {showSocial && form !== "forget" && (
           <div id="social-content" className="h-28">
             <Social />
           </div>

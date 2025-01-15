@@ -1,3 +1,4 @@
+import { ProductDetails } from "@/components/cart";
 import { db } from "@/lib/db";
 import { PaymentMethod } from "@prisma/client";
 
@@ -10,6 +11,11 @@ interface CashPurchaseProps {
   Address: string;
   deliveryDate: Date;
   note?: string;
+  subTotalPrice: number;
+  totalPrice: number;
+  taxesPrice: number;
+  discount: number;
+  cartProducts: ProductDetails[];
 }
 
 export const makeCashPurchase = async ({
@@ -21,6 +27,11 @@ export const makeCashPurchase = async ({
   Address,
   deliveryDate,
   note,
+  subTotalPrice,
+  totalPrice,
+  taxesPrice,
+  discount,
+  cartProducts,
 }: CashPurchaseProps) => {
   try {
     const createPayment = await db.payment.create({
@@ -34,8 +45,26 @@ export const makeCashPurchase = async ({
         Address,
         deliveryDate,
         note,
+        discount,
+        Tax: taxesPrice,
+        subTotal: subTotalPrice,
+        total: totalPrice,
       },
     });
+    cartProducts.map((product) => {
+      const createPaymentProducts = db.paymentProducts.create({
+        data: {
+          productId: product.id,
+          paymentId: createPayment.id,
+          productQuantity: product.product_quantity,
+          productSizes: product.product_size,
+          waterOption: product.waterOption,
+          icedOption: product.icedOption,
+          foamOption: product.foamOption,
+        },
+      });
+    });
+
     return createPayment;
   } catch (error) {
     console.log(
