@@ -15,7 +15,7 @@ const CoffeeTypeCartSkeleton = () => {
             {/* <hr /> */}
           </div>
           <div className="coffees-content">
-            <div className="coffees-content-container">
+            <div className="coffees-content-container md:ml-px lg:!mx-0">
               {[0, 1, 2, 3, 4].map((index) => (
                 <CoffeeProductCartSkeleton key={`key-${index}`} />
               ))}
