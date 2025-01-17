@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect, startTransition, useActionState } from "react";
 import FloatingInput from "./ui/floating-input";
 import { useMyContext } from "@/context/context";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight, Download, XCircle } from "lucide-react";
 import MonthYearInput from "./ui/month-input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { payCard, PayCardCashState } from "@/actions/payCard";
@@ -224,23 +224,30 @@ function Card() {
   // };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    setError("");
-    setSuccess("");
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    if (localStorage.getItem("AddToCart")) {
+      setError("");
+      setSuccess("");
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
 
-    startTransition(() => {
-      console.log("formAction");
-      formAction({
-        form: formData,
-        state,
-        subTotalPrice,
-        totalPrice,
-        taxesPrice,
-        discount,
-        cartProducts,
+      startTransition(() => {
+        console.log("formAction");
+        formAction({
+          form: formData,
+          state,
+          subTotalPrice,
+          totalPrice,
+          taxesPrice,
+          discount,
+          cartProducts,
+        });
       });
-    });
+    } else {
+      setError("You must add item to cart first!");
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+    }
   };
 
   useEffect(() => {
@@ -566,7 +573,7 @@ function Card() {
             id="modal-container"
             className="w-full h-full fixed  z-[1000] inset-0 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
           >
-            <div className="min-w-[200px] md:w-[200px] lg:w-[300px] fixed left-[50%] top-[30%] z-50 max-w-[300px] translate-x-[-50%] translate-y-[-50%] border bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg h-[350px] flex flex-col justify-evenly">
+            <div className="min-w-[250px] md:w-[300px]  fixed left-[50%] top-[30%] z-50 max-w-[300px] translate-x-[-50%] translate-y-[-50%] border bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg h-[350px] flex flex-col justify-evenly">
               <div
                 id="payment-success"
                 className="flex flex-col w-full h-1/2 py-2 justify-center items-center"
@@ -592,6 +599,62 @@ function Card() {
                     <div>{getCurrentDate()}</div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {state.errors?.other === "Payment failed!" && (
+          <div
+            id="modal-container"
+            className="w-full h-full fixed  z-[1000] inset-0 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+          >
+            <div className="min-w-[250px] md:w-[300px]  fixed left-[50%] top-[30%] z-50 max-w-[300px] translate-x-[-50%] translate-y-[-50%] border bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg h-[350px] flex flex-col justify-evenly">
+              <div
+                id="payment-success"
+                className="flex flex-col w-full h-full justify-evenly items-center"
+              >
+                <XCircle className="text-red-700 w-[150px] h-[150px]" />
+                <div className="flex flex-col min-h-fit justify-evenly h-[110px]">
+                  <div>
+                    <div className="text-gray-500 text-xs">Recipient</div>
+                    <div className="text-base font-extrabold font-mono">{state.name}</div>
+                  </div>
+
+                  <div>
+                    <div className="text-gray-500 text-xs">Date</div>
+                    <div className="text-base font-extrabold font-mono">{getCurrentDate()}</div>
+                  </div>
+                </div>
+                <div className=" min-h-fit text-xs text-slate-400">
+                  {state.errors.other && state.errors.other}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {error === "You must add item to cart first!" && (
+          <div
+            id="modal-container"
+            className="w-full h-full fixed  z-[1000] inset-0 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+          >
+            <div className="min-w-[250px] md:w-[300px]  fixed left-[50%] top-[30%] z-50 max-w-[300px] translate-x-[-50%] translate-y-[-50%] border bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg h-[350px] flex flex-col justify-evenly">
+              <div
+                id="payment-success"
+                className="flex flex-col w-full h-full justify-evenly items-center"
+              >
+                <XCircle className="text-red-700 w-[150px] h-[150px]" />
+                <div className="flex flex-col min-h-fit justify-evenly h-[110px]">
+                  <div>
+                    <div className="text-gray-500 text-xs">User</div>
+                    <div className="text-base font-extrabold font-mono">{user?.name}</div>
+                  </div>
+
+                  <div>
+                    <div className="text-gray-500 text-xs">Date</div>
+                    <div className="text-base font-extrabold font-mono">{getCurrentDate()}</div>
+                  </div>
+                </div>
+                <div className=" min-h-fit text-xs text-slate-400">{error}</div>
               </div>
             </div>
           </div>
