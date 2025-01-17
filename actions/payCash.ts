@@ -8,39 +8,17 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { currentSession, currentUser } from "@/lib/auth";
 import { makeCashPurchase } from "@/data/make-cash-purchase";
 import { ProductDetails } from "@/components/cart";
-
-export type PayCashState = {
-  name: string;
-  email: string;
-  phone: number;
-  city: string;
-  Address: string;
-  deliveryDate: Date;
-  note?: string;
-  success?: string;
-  errors?: PayCashErrors;
-  callbackUrl?: string | null;
-};
-
-export type PayCashErrors = {
-  name?: string;
-  email?: string;
-  phone?: string;
-  city?: string;
-  Address?: string;
-  deliveryDate?: string;
-  other?: string;
-};
+import { PayCardCashState, PayCashCardErrors } from "./payCard";
 
 export async function payCash(payload: {
-  state: PayCashState;
+  state: PayCardCashState;
   form: FormData;
   subTotalPrice: number;
   totalPrice: number;
   taxesPrice: number;
   discount: number;
   cartProducts: ProductDetails[];
-}): Promise<PayCashState> {
+}): Promise<PayCardCashState> {
   const { state, form, subTotalPrice, totalPrice, taxesPrice, discount, cartProducts } = payload;
   // ... existing logic
   // const updatedState = { ...state, subTotalPrice, totalPrice, taxesPrice, discount };
@@ -54,9 +32,9 @@ export async function payCash(payload: {
   const validatedFields = CashPaymentSchema.safeParse(data);
 
   if (!validatedFields.success) {
-    const errors: PayCashErrors = {};
+    const errors: PayCashCardErrors = {};
     validatedFields.error.issues.forEach((issue) => {
-      const key = issue.path[0] as keyof PayCashErrors;
+      const key = issue.path[0] as keyof PayCashCardErrors;
       errors[key] = issue.message;
     });
 
@@ -108,7 +86,7 @@ export async function payCash(payload: {
   });
 
   if (!existPurchase) {
-    const errors: PayCashErrors = { other: "Payment failed!" };
+    const errors: PayCashCardErrors = { other: "Payment failed!" };
     return {
       ...state,
       success: "",
@@ -119,14 +97,15 @@ export async function payCash(payload: {
   console.log("user succeed to make cash payment");
 
   return {
-    name,
+    name: existPurchase.createPayment.name,
     email,
     phone,
     city,
     Address,
     deliveryDate,
     note,
-    success: "Payment succeeded",
+    paymentId: existPurchase.createPayment.id,
+    success: "Payment succeeded!",
     callbackUrl: state.callbackUrl || DEFAULT_LOGIN_REDIRECT,
     errors: {},
   };

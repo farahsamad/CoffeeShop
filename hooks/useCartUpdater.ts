@@ -28,7 +28,7 @@ export const useCartUpdater = () => {
             const update = await response.json();
             console.log("update in hooks", update);
             console.log("update: ", update);
-            if (update && index === parsedCartProducts.length - 1) {
+            if (index === parsedCartProducts.length - 1) {
               localStorage.removeItem("AddToCart");
               console.log("removeItem");
             }

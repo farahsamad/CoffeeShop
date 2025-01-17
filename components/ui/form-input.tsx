@@ -37,11 +37,26 @@ const Input = ({ state, type, name, placeholder }: InputProps) => {
         }}
       >
         {name === "email" ? (
-          <FaRegEnvelope className="grid place-content-center h-full text-slate-500" />
+          <FaRegEnvelope
+            className="grid place-content-center h-full text-slate-500"
+            style={{
+              color: name === "email" && state.errors?.email ? "red" : "",
+            }}
+          />
         ) : name === "password" ? (
-          <AiFillLock className="grid place-content-center h-full text-slate-500" />
+          <AiFillLock
+            className="grid place-content-center h-full text-slate-500"
+            style={{
+              color: name === "password" && state.errors?.password ? "red" : "",
+            }}
+          />
         ) : name === "name" ? (
-          <FaUser className="grid place-content-center h-full text-slate-500" />
+          <FaUser
+            className="grid place-content-center h-full text-slate-500"
+            style={{
+              color: name === "name" && state.errors?.name ? "red" : "",
+            }}
+          />
         ) : (
           ""
         )}

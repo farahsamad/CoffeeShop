@@ -16,7 +16,7 @@ export const LogoutButton = () => {
         signOut().then(() => {
           router.push("/logout");
         });
-      }, 500);
+      }, 1000);
     });
   };
 

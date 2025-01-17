@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useRef, useState } from "react";
 // import { useLocation, useOutletContext } from "react-router";
 // import "../../component/Styles/Menu.css";
 import "@/styles/menu.css";
@@ -16,6 +16,7 @@ import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/clie
 import CoffeeTypeCart from "./coffee-type-cart";
 import { object } from "zod";
 import { ProductDetails } from "./cart";
+import CoffeeTypeCartSkeleton from "./coffee-type-cart-skeleton";
 
 interface homeProps {
   barVisibility: boolean;
@@ -32,13 +33,13 @@ interface coffeeInfo {
 }
 
 const Menu: React.FC = () => {
-  const [products, setProducts] = useState<ProductDetails[]>();
+  const [products, setProducts] = useState<ProductDetails[] | null>(null);
   const [groupedProducts, setGroupedProducts] = useState<{ [key: string]: ProductDetails[] }>({});
 
   useEffect(() => {
     async function getProducts() {
       try {
-        const response = await fetch("/api/product");
+        const response = await fetch("/api/product", { next: { revalidate: false } });
         if (response.ok) {
           const data = await response.json();
           console.log("data are: ", data.products);
@@ -105,30 +106,6 @@ const Menu: React.FC = () => {
   //   });
   // });
 
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      // console.log("hash: ", hash);
-      var element = hash.split("#").join("");
-      // console.log("element one: ", element);
-      element = element.split("%20").join(" ");
-      const elementId = document.getElementById(element);
-      // console.log("element two: ", element);
-      // console.log(
-      //   "document.getElementById(elementId): ",
-      //   document.getElementById(element)
-      // );
-      if (elementId) {
-        elementId.scrollIntoView({ behavior: "smooth" });
-        window.history.pushState(
-          "",
-          document.title,
-          window.location.pathname + window.location.search
-        );
-      }
-    }
-  }, []);
-
   return (
     <div ref={firstDiv}>
       <div className={`main-home-page-container mt-[100px] ${barVisibility ? "" : "bar-visible"}`}>
@@ -194,14 +171,39 @@ const Menu: React.FC = () => {
                       </div>
                     </div>
                   ))} */}
-                  {products &&
-                    Object.keys(groupedProducts).map((val, key) => (
-                      <CoffeeTypeCart
-                        key={`key-${key}`}
-                        value={val}
-                        groupedProducts={groupedProducts}
-                      />
-                    ))}
+                  {/* <Suspense fallback={<CoffeeTypeCartSkeleton />}>
+                    {products &&
+                      Object.keys(groupedProducts).map((val, key) => (
+                        <CoffeeTypeCart
+                          key={`key-${key}`}
+                          value={val}
+                          groupedProducts={groupedProducts}
+                        />
+                      ))}
+                  </Suspense> */}
+                  <Suspense fallback={<CoffeeTypeCartSkeleton />}>
+                    {products !== null ? (
+                      Object.keys(groupedProducts).map((val, key) => (
+                        <CoffeeTypeCart
+                          key={`key-${key}`}
+                          value={val}
+                          groupedProducts={groupedProducts}
+                        />
+                      ))
+                    ) : (
+                      <CoffeeTypeCartSkeleton />
+                    )}
+                  </Suspense>
+                  {/* <Suspense fallback={<CoffeeTypeCartSkeleton />}>
+                    {products !== null &&
+                      Object.keys(groupedProducts).map((val, key) => (
+                        <CoffeeTypeCart
+                          key={`key-${key}`}
+                          value={val}
+                          groupedProducts={groupedProducts}
+                        />
+                      ))}
+                  </Suspense> */}
                 </div>
               </div>
             </div>

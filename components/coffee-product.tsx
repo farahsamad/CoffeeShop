@@ -35,6 +35,8 @@ interface homeProps {
 const CoffeeProduct: React.FC = () => {
   const router = useRouter();
   const [size, setSize] = useState<productSize>();
+  const [containerId, setContainerId] = useState("");
+  const [isProductAddedToCart, setIsProductAddedToCart] = useState<boolean>(false);
   const [containWater, setContainWater] = useState<string>("No Water");
   const [containIce, setContainIce] = useState<string>("No Ice");
   const [containFoam, setContainFoam] = useState<string>("No Foam");
@@ -49,20 +51,20 @@ const CoffeeProduct: React.FC = () => {
   //   const barsVisibility = useOutletContext<homeProps>();
   //   const barVisibility = barsVisibility.barVisibility;
   //   const pageShowHeader = barsVisibility.pageShowHeader;
-  const pathName = usePathname();
-  const search = useSearchParams();
-  console.log("search: ", search);
+  // console.log("search: ", search);
   // const coffeeState = search.get(
   //   "state"
   // );
+  const pathName = usePathname();
+  const search = useSearchParams();
   const id = search.get("product_id");
   const productName = search.get("product_name");
   const productImage = search.get("product_image");
   const productTypeName = search.get("coffeeType_name");
   const productPrice = search.get("product_price");
-  console.log("coffeeState: ", id);
-  //   const coffeeState = useLocation().state;
   const selectSize = useRef<HTMLDivElement>(null);
+  // console.log("coffeeState: ", id);
+  //   const coffeeState = useLocation().state;
   // console.log("coffeeState: ", coffeeState);
   // console.log("coffeeState.product_image: ", coffeeState.product_image);
 
@@ -128,48 +130,71 @@ const CoffeeProduct: React.FC = () => {
   };
 
   const handleAddToCart = () => {
-    if (size === undefined) {
-      if (selectSize.current) {
-        selectSize.current.style.display = "block";
-      }
-    } else {
-      const item: ProductDetails = {
-        id: id ? id : "",
-        productName: productName ? productName : "",
-        productImage: productImage ? productImage : "",
-        productTypeName: productTypeName ? productTypeName : "",
-        // product_id: coffeeState.coffeeType_id,
-        // productName: coffeeState.productName,
-        // productImage: coffeeState.productImage,
-        // productTypeName: coffeeState.productTypeName,
-        product_size: size,
-        waterOption: isWater(containWater),
-        icedOption: isIce(containIce),
-        foamOption: isFoam(containFoam),
-        product_quantity: 1,
-        productPrice: productPrice ? parseFloat(productPrice) : 0,
-      };
-
-      if (localStorage.getItem("AddToCart") != null) {
-        var saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
-        // item.id = saved_products.length;
-        saved_products.push(item);
-        localStorage.setItem("AddToCart", JSON.stringify(saved_products));
+    if (!isProductAddedToCart) {
+      console.log("Add to carttttttttt");
+      if (size === undefined) {
+        if (selectSize.current) {
+          selectSize.current.style.display = "block";
+        }
       } else {
-        var items: ProductDetails[] = [];
-        // item.id = items.length;
-        items.push(item);
-        localStorage.setItem("AddToCart", JSON.stringify(items));
+        const item: ProductDetails = {
+          id: id ? id : "",
+          productName: productName ? productName : "",
+          productImage: productImage ? productImage : "",
+          productTypeName: productTypeName ? productTypeName : "",
+          // product_id: coffeeState.coffeeType_id,
+          // productName: coffeeState.productName,
+          // productImage: coffeeState.productImage,
+          // productTypeName: coffeeState.productTypeName,
+          product_size: size,
+          waterOption: isWater(containWater),
+          icedOption: isIce(containIce),
+          foamOption: isFoam(containFoam),
+          product_quantity: 1,
+          productPrice: productPrice ? parseFloat(productPrice) : 0,
+        };
+
+        if (localStorage.getItem("AddToCart") != null) {
+          var saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
+          // item.id = saved_products.length;
+          saved_products.push(item);
+          localStorage.setItem("AddToCart", JSON.stringify(saved_products));
+        } else {
+          var items: ProductDetails[] = [];
+          // item.id = items.length;
+          items.push(item);
+          localStorage.setItem("AddToCart", JSON.stringify(items));
+        }
+        setIsProductAddedToCart(true);
+        updatePerformed();
+        if (selectSize.current) selectSize.current.style.display = "none";
       }
-      updatePerformed();
-      if (selectSize.current) selectSize.current.style.display = "none";
     }
   };
 
   useEffect(() => {
-    console.log("once");
+    // console.log("once");
     window.scrollTo({ top: 0 });
+
+    if (localStorage.getItem("AddToCart") != null && id !== null) {
+      var saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
+      const isAddedToCart = saved_products.some((value) => value.id === id);
+      console.log("isAddedToCart: ", isAddedToCart);
+      setIsProductAddedToCart(isAddedToCart);
+    }
   }, []);
+
+  useEffect(() => {
+    if (productTypeName) {
+      if (productTypeName.includes(" ")) {
+        console.log("productTypeName.replace: ", productTypeName.replace(/ /g, "-"));
+        setContainerId(productTypeName.replace(/ /g, "-"));
+      } else {
+        setContainerId(productTypeName);
+        console.log("productTypeName: ", productTypeName);
+      }
+    }
+  }, [productTypeName]);
 
   return (
     <div className="mt-[100px] flex flex-col min-h-screen">
@@ -187,7 +212,7 @@ const CoffeeProduct: React.FC = () => {
                 Menu/
               </Link>
               <Link
-                href={`/menu#${productTypeName}`}
+                href={`/menu#${containerId}`}
                 className="cursor-pointer hover:scale-105 w-fit mx-px"
               >
                 {productTypeName}/
@@ -561,10 +586,12 @@ const CoffeeProduct: React.FC = () => {
       </div>
       <div
         id="add-to-cart"
-        className=" bg-slate-500 right-4 bottom-5 fixed p-4 rounded-full text-white cursor-pointer transform animate-bounce active:animate-none z-[100]"
+        className={`bg-slate-500 right-4 bottom-5 fixed p-4 rounded-full text-white cursor-pointer transform  active:animate-none z-[100] ${
+          isProductAddedToCart ? "animate-none" : "animate-bounce"
+        }`}
         onClick={handleAddToCart}
       >
-        Add to Cart
+        {isProductAddedToCart ? "Added to cart" : "Add to Cart"}
       </div>
     </div>
   );

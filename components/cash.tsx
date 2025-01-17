@@ -11,13 +11,17 @@ import { useMyContext } from "@/context/context";
 import { PhoneInput } from "./ui/phone-input";
 import { ArrowRight, Download } from "lucide-react";
 import Form from "next/form";
-import { payCash, PayCashState } from "@/actions/payCash";
+import { payCash } from "@/actions/payCash";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { CashPaymentSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCartUpdater } from "@/hooks/useCartUpdater";
 import { ProductDetails } from "./cart";
+import { PayCardCashState } from "@/actions/payCard";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { deleteUserCartProduct } from "@/actions/deleteUserCartProduct";
+import { BiCheckCircle } from "react-icons/bi";
 // import { handleUpdateCartDb } from "@/data/handle-cart";
 // import { getSession } from "next-auth/react";
 
@@ -29,7 +33,7 @@ interface homeProps {
 }
 
 export interface payloadProps {
-  state: PayCashState;
+  state: PayCardCashState;
   form: FormData;
   subTotalPrice: number;
   totalPrice: number;
@@ -66,13 +70,14 @@ function Cash() {
   const [phone, setPhone] = useState("");
   const firstDiv = useRef<HTMLDivElement>(null);
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const { barVisibility, aboutRef, pageShowHeader, sectionsRef } = useMyContext();
+  const user = useCurrentUser();
+  const { barVisibility, aboutRef, pageShowHeader, sectionsRef, updatePerformed } = useMyContext();
   //   const outletContext = useOutletContext<homeProps>();
   //   const barVisibility = outletContext.barVisibility;
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
-  const initialState: PayCashState = {
+  const initialState: PayCardCashState = {
     name: "",
     email: "",
 
@@ -95,7 +100,7 @@ function Cash() {
   };
   // const [state, formAction, isPending] = useActionState(payCash, initialState);
   const [state, formAction, isPending] = useActionState(
-    (state: PayCashState, payload: payloadProps) =>
+    (state: PayCardCashState, payload: payloadProps) =>
       payCash({
         state,
         form: payload.form,
@@ -131,9 +136,14 @@ function Cash() {
         SetSubTotalPrice(totalPriceAmount);
         const taxesPriceAmount = parseFloat((totalPriceAmount * 0.2).toFixed(1));
         setTaxesPrice(taxesPriceAmount);
-        SetTotalPrice(
-          parseFloat((totalPriceAmount + taxesPriceAmount - discount + deliveryPrice).toFixed(1))
-        );
+
+        if (totalPriceAmount >= 50) {
+          SetTotalPrice(parseFloat((totalPriceAmount + taxesPriceAmount - discount).toFixed(1)));
+        } else {
+          SetTotalPrice(
+            parseFloat((totalPriceAmount + taxesPriceAmount - discount + deliveryPrice).toFixed(1))
+          );
+        }
         console.log("totalPrice: ", subTotalPrice + taxesPrice - discount + deliveryPrice);
         console.log("totalPrice////: ", totalPrice);
       }
@@ -142,62 +152,64 @@ function Cash() {
   console.log("deliveryCity: ", deliveryCity);
   console.log("deliveryPrice: ", deliveryPrice);
   useEffect(() => {
-    switch (deliveryCity) {
-      case deliveryCities.Tripoli:
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
-        setDeliveryPrice(2);
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 2).toFixed(1)));
-        return;
-      case deliveryCities.Akkar:
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
-        setDeliveryPrice(4);
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 4).toFixed(1)));
-        return;
-      case deliveryCities.Batroun:
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
-        setDeliveryPrice(4);
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 4).toFixed(1)));
-        return;
-      case deliveryCities.Beirut:
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
-        setDeliveryPrice(7);
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 7).toFixed(1)));
-        return;
-      case deliveryCities.Dannieh:
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
-        setDeliveryPrice(4);
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 4).toFixed(1)));
-        return;
-      case deliveryCities.Jbeil:
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
-        setDeliveryPrice(5);
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 5).toFixed(1)));
-        return;
-      case deliveryCities.Jounieh:
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
-        setDeliveryPrice(6);
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 6).toFixed(1)));
-        return;
-      case deliveryCities.Koura:
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
-        setDeliveryPrice(4);
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 4).toFixed(1)));
-        return;
-      case deliveryCities.Saida:
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
-        setDeliveryPrice(10);
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 10).toFixed(1)));
-        return;
-      case deliveryCities.Sour:
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
-        setDeliveryPrice(11);
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 11).toFixed(1)));
-        return;
-      default:
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
-        setDeliveryPrice(0);
-        SetTotalPrice((prevPrice) => parseFloat((prevPrice + 0).toFixed(1)));
-        return;
+    if (subTotalPrice < 50) {
+      switch (deliveryCity) {
+        case deliveryCities.Tripoli:
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+          setDeliveryPrice(2);
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice + 2).toFixed(1)));
+          return;
+        case deliveryCities.Akkar:
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+          setDeliveryPrice(4);
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice + 4).toFixed(1)));
+          return;
+        case deliveryCities.Batroun:
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+          setDeliveryPrice(4);
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice + 4).toFixed(1)));
+          return;
+        case deliveryCities.Beirut:
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+          setDeliveryPrice(7);
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice + 7).toFixed(1)));
+          return;
+        case deliveryCities.Dannieh:
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+          setDeliveryPrice(4);
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice + 4).toFixed(1)));
+          return;
+        case deliveryCities.Jbeil:
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+          setDeliveryPrice(5);
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice + 5).toFixed(1)));
+          return;
+        case deliveryCities.Jounieh:
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+          setDeliveryPrice(6);
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice + 6).toFixed(1)));
+          return;
+        case deliveryCities.Koura:
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+          setDeliveryPrice(4);
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice + 4).toFixed(1)));
+          return;
+        case deliveryCities.Saida:
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+          setDeliveryPrice(10);
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice + 10).toFixed(1)));
+          return;
+        case deliveryCities.Sour:
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+          setDeliveryPrice(11);
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice + 11).toFixed(1)));
+          return;
+        default:
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice - deliveryPrice).toFixed(1)));
+          setDeliveryPrice(0);
+          SetTotalPrice((prevPrice) => parseFloat((prevPrice + 0).toFixed(1)));
+          return;
+      }
     }
   }, [deliveryCity]);
 
@@ -244,8 +256,25 @@ function Cash() {
   };
 
   useEffect(() => {
-    if (state.success !== "" && state.success !== undefined) {
-      state.callbackUrl ? router.push(state.callbackUrl) : router.back();
+    if (
+      state.success !== "" &&
+      state.success !== undefined &&
+      state.success === "Payment succeeded!"
+    ) {
+      if (localStorage.getItem("AddToCart")) {
+        localStorage.removeItem("AddToCart");
+      }
+      const deleteUserCartProductsInDb = async () => {
+        if (user?.id) {
+          const isUserCartProductDeleted = await deleteUserCartProduct(user?.id);
+          console.log("isUserCartProductDeleted: ", isUserCartProductDeleted);
+        }
+      };
+      deleteUserCartProductsInDb();
+      updatePerformed();
+      setTimeout(() => {
+        state.callbackUrl ? router.push(state.callbackUrl) : router.back();
+      }, 3000);
     }
   }, [state.success, router, state.callbackUrl]);
 
@@ -314,6 +343,7 @@ function Cash() {
                     id="name-input-container"
                     type={"text"}
                     name={"name"}
+                    state={state}
                     setBuyerName={setBuyerName}
                   />
                   <FloatingInput
@@ -323,6 +353,7 @@ function Cash() {
                     id="phone-number-input-container"
                     type={""}
                     name={"phone"}
+                    state={state}
                   />
                   <FloatingInput
                     placeholder={"Email"}
@@ -331,6 +362,7 @@ function Cash() {
                     id="email-input-container"
                     type={"email"}
                     name={"email"}
+                    state={state}
                   />
                 </div>
               </div>
@@ -355,6 +387,7 @@ function Cash() {
                     id="city-input-container"
                     type={"text"}
                     name={"city"}
+                    state={state}
                     setDeliveryCity={setDeliveryCity}
                   />
                   <FloatingInput
@@ -364,6 +397,7 @@ function Cash() {
                     id="address-input-container"
                     type={"text"}
                     name={"Address"}
+                    state={state}
                   />
                 </div>
               </div>
@@ -388,6 +422,7 @@ function Cash() {
                     id="date-input-container"
                     type={"date"}
                     name={"deliveryDate"}
+                    state={state}
                   />
                   <FloatingInput
                     placeholder={"note"}
@@ -396,6 +431,7 @@ function Cash() {
                     id="note-input-container"
                     type={"text"}
                     name={"note"}
+                    state={state}
                   />
                   {/* <input type="date" name="" id="" /> */}
                 </div>
@@ -482,6 +518,42 @@ function Cash() {
             </div>
           </div>
         </Form>
+
+        {state.success === "Payment succeeded!" && (
+          <div
+            id="modal-container"
+            className="w-full h-full fixed  z-[1000] inset-0 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+          >
+            <div className="min-w-[200px] md:w-[200px] lg:w-[300px] fixed left-[50%] top-[30%] z-50 max-w-[300px] translate-x-[-50%] translate-y-[-50%] border bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg h-[350px] flex flex-col justify-evenly">
+              <div
+                id="payment-success"
+                className="flex flex-col w-full h-1/2 py-2 justify-center items-center"
+              >
+                <BiCheckCircle className="text-green-700 w-[150px] h-[150px]" />
+                <div className="text-xl h-1/4 font-extrabold font-mono">${totalPrice}</div>
+                <div className=" h-1/4 text-xs text-slate-500">
+                  {state.success && state.success}
+                </div>
+              </div>
+              <div id="payment-info" className="h-1/2 w-full  px-6 mb-4">
+                <div className="shadow-inner bg-gray-100 p-2 w-full h-full flex flex-col justify-around">
+                  <div className="recipient">
+                    <div className="text-gray-500 text-xs">Recipient</div>
+                    <div>{state.name}</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500 text-xs">Payment id</div>
+                    <div>{state.paymentId}</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500 text-xs">Date</div>
+                    <div>{getCurrentDate()}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

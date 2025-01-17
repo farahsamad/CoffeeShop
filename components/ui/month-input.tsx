@@ -1,5 +1,7 @@
+import { PayCardCashState } from "@/actions/payCard";
 import { useState, ChangeEvent } from "react";
 import { BiTime } from "react-icons/bi";
+import { FiAlertTriangle } from "react-icons/fi";
 
 interface InputProps {
   placeholder: string;
@@ -7,6 +9,7 @@ interface InputProps {
   id: string;
   type: string;
   name: string;
+  state: PayCardCashState;
   setExpireDate: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -16,6 +19,7 @@ const MonthYearInput: React.FC<InputProps> = ({
   id,
   type,
   name,
+  state,
   setExpireDate,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -48,55 +52,86 @@ const MonthYearInput: React.FC<InputProps> = ({
   };
 
   return (
-    <div
-      className="flex h-fit items-center w-full"
-      style={{
-        borderBottomWidth: "2px",
-        borderBottomColor: isFocused ? "rgb(17,44,103)" : "",
-      }}
-    >
-      {icon === "BiTime" && (
-        <BiTime
-          style={{
-            color: isFocused ? "rgb(17,44,103)" : "",
-          }}
-          className="text-black ml-[2px] mr-[2px] w-5 h-3"
-        />
-      )}
+    <div className="flex flex-col h-fit justify-evenly  w-full">
+      <div
+        className="flex h-fit items-center w-full"
+        style={{
+          borderBottomWidth: "2px",
+          borderBottomColor:
+            name === "cardExpire" && state.errors?.cardExpire
+              ? "red"
+              : isFocused
+              ? "rgb(17,44,103)"
+              : "",
+        }}
+      >
+        {icon === "BiTime" && (
+          <BiTime
+            style={{
+              color:
+                name === "cardExpire" && state.errors?.cardExpire
+                  ? "red"
+                  : isFocused
+                  ? "rgb(17,44,103)"
+                  : "",
+            }}
+            className="text-black ml-[2px] mr-[2px] w-5 h-3"
+          />
+        )}
 
-      {icon !== "" ? (
-        <hr
-          className="h-[2%] w-[14px] my-2 border rotate-90"
-          style={{
-            borderColor: isFocused ? "rgb(17,44,103)" : "",
-          }}
-        />
-      ) : null}
+        {icon !== "" ? (
+          <hr
+            className="h-[2%] w-[14px] my-2 border rotate-90"
+            style={{
+              borderColor:
+                name === "cardExpire" && state.errors?.cardExpire
+                  ? "red"
+                  : isFocused
+                  ? "rgb(17,44,103)"
+                  : "",
+            }}
+          />
+        ) : null}
 
-      <div className="relative">
-        <label
-          htmlFor={id} // Use the passed id for label connection
-          className={`absolute left-0 transition-all text-xs ${
-            isFocused || value ? "-top-[6px] text-gray-700" : "top-[7px] text-gray-600 cursor-text"
-          }`}
-          style={{
-            color: isFocused ? "rgb(17,44,103)" : "",
-          }}
-        >
-          {placeholder} <span className="text-[6.5px] sm:!text-xs">(MM/YYYY)</span>
-          <span className="text-red-500 font-bold">*</span>
-        </label>
-        <input
-          type={type}
-          id={id} // Pass id directly to input
-          value={value}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          onFocus={() => setIsFocused(true)}
-          name={name}
-          maxLength={7}
-          className="block w-full py-2 outline-none cursor-text bg-transparent focus:outline-none sm:!text-base text-xs h-9"
-        />
+        <div className="relative">
+          <label
+            htmlFor={id} // Use the passed id for label connection
+            className={`absolute left-0 transition-all text-xs ${
+              isFocused || value
+                ? "-top-[6px] text-gray-700"
+                : "top-[7px] text-gray-600 cursor-text"
+            }`}
+            style={{
+              color:
+                name === "cardExpire" && state.errors?.cardExpire
+                  ? "red"
+                  : isFocused
+                  ? "rgb(17,44,103)"
+                  : "",
+            }}
+          >
+            {placeholder} <span className="text-[6.5px] sm:!text-xs">(MM/YYYY)</span>
+            <span className="text-red-500 font-bold">*</span>
+          </label>
+          <input
+            type={type}
+            id={id} // Pass id directly to input
+            value={value}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            onFocus={() => setIsFocused(true)}
+            name={name}
+            maxLength={7}
+            className="block w-full py-2 outline-none cursor-text bg-transparent focus:outline-none sm:!text-base text-xs h-9"
+          />
+        </div>
+      </div>
+      <div className="text-red-500 h-4 mt-[2px] text-xs">
+        {name === "cardExpire" && state.errors?.cardExpire && (
+          <div className="flex w-full h-full items-center">
+            <FiAlertTriangle /> <span className="ml-1">{state.errors.cardExpire}</span>
+          </div>
+        )}
       </div>
     </div>
   );

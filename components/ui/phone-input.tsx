@@ -16,10 +16,11 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { number } from "zod";
 
 type PhoneInputProps = Omit<
   React.ComponentProps<"input">,
-  "onChange" | "value" | "ref" | "setIsFocused" | "isFocused"
+  "onChange" | "value" | "ref" | "setIsFocused" | "isFocused" | "isError"
 > &
   Omit<RPNInput.Props<typeof RPNInput.default>, "onChange" | "onFocus" | "onBlur"> & {
     onChange?: (value: RPNInput.Value) => void;
@@ -27,25 +28,25 @@ type PhoneInputProps = Omit<
     onFocus?: React.FocusEventHandler<HTMLInputElement> | undefined;
     onBlur?: React.FocusEventHandler<HTMLInputElement> | undefined;
     isFocused?: boolean;
+    isError?: string | undefined;
   };
 
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwardRef<
   React.ElementRef<typeof RPNInput.default>,
   PhoneInputProps
->(({ className, onChange, setIsFocused, isFocused, onFocus, onBlur, ...props }, ref) => {
+>(({ className, onChange, setIsFocused, isFocused, onFocus, onBlur, isError, ...props }, ref) => {
   return (
     <>
       <RPNInput.default
         ref={ref}
         defaultCountry="LB"
-        //       inputComponent={(inputProps) => (
-        //         <InputComponent {...inputProps} setIsFocused={setIsFocused} isFocused={isFocused} />
-        //       )}
-
+        // inputComponent={(inputProps) => (
+        //   <InputComponent {...inputProps} phoneValue={phoneValue} />
+        // )}
         onFocus={() => {
           setIsFocused(true);
         }}
-        onBlur={() => setIsFocused(false)}
+        // onBlur={() => setIsFocused(false)}
         {...props}
         className={cn("flex", className)}
         flagComponent={FlagComponent}
@@ -68,14 +69,13 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwa
       <hr
         className=" absolute top-[50%] left-[35px] h-[0%] w-[13px] border rotate-90 !mx-auto !my-0"
         style={{
-          borderColor: isFocused ? "rgb(17,44,103)" : "",
+          borderColor: isError ? "red" : isFocused ? "rgb(17,44,103)" : "",
         }}
       />
     </>
   );
 });
 PhoneInput.displayName = "PhoneInput";
-let val = false;
 
 const InputComponent = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, ...props }, ref) => (

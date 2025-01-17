@@ -75,8 +75,9 @@ export const makeCardPurchase = async ({
         total: totalPrice,
       },
     });
-    cartProducts.map((product) => {
-      const createPaymentProducts = db.paymentProducts.create({
+    console.log("add product to payment");
+    const addedProducts = cartProducts.map(async (product) => {
+      const createPaymentProducts = await db.paymentProducts.create({
         data: {
           productId: product.id,
           paymentId: createPayment.id,
@@ -87,8 +88,10 @@ export const makeCardPurchase = async ({
           foamOption: product.foamOption,
         },
       });
+      console.log("createPaymentProducts: ", createPaymentProducts);
+      console.log("add product to paymentProducts");
     });
-    return createPayment;
+    return { addedProducts, createPayment };
   } catch (error) {
     console.log(
       "//////////////////////////////////////////////////////////////////////////////////////////////////////////"

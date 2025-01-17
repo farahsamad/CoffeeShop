@@ -121,3 +121,17 @@ export const removeProductFromCartFromDb = async ({ productId, userId }: RemoveP
     return null;
   }
 };
+
+export const deleteUserCartProductsDb = async (userId: string) => {
+  try {
+    const deletedUserCartProducts = db.addedToCart.deleteMany({
+      where: {
+        userId,
+      },
+    });
+    return deletedUserCartProducts;
+  } catch (error) {
+    console.log("db error//////////");
+    return null;
+  }
+};

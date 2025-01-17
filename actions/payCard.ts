@@ -10,24 +10,25 @@ import { makeCashPurchase } from "@/data/make-cash-purchase";
 import { makeCardPurchase } from "@/data/make-card-purchase";
 import { ProductDetails } from "@/components/cart";
 
-export type PayCardState = {
+export type PayCardCashState = {
   name: string;
   email: string;
   phone: number;
-  nameOnCard: string;
-  cardNumber: number;
-  cardExpire: string;
-  cvv: string;
+  nameOnCard?: string;
+  cardNumber?: number;
+  cardExpire?: string;
+  cvv?: string;
   city: string;
   Address: string;
   deliveryDate: Date;
   note?: string;
+  paymentId?: string;
   success?: string;
-  errors?: PayCardErrors;
+  errors?: PayCashCardErrors;
   callbackUrl?: string | null;
 };
 
-export type PayCardErrors = {
+export type PayCashCardErrors = {
   name?: string;
   email?: string;
   phone?: string;
@@ -42,14 +43,14 @@ export type PayCardErrors = {
 };
 
 export async function payCard(payload: {
-  state: PayCardState;
+  state: PayCardCashState;
   form: FormData;
   subTotalPrice: number;
   totalPrice: number;
   taxesPrice: number;
   discount: number;
   cartProducts: ProductDetails[];
-}): Promise<PayCardState> {
+}): Promise<PayCardCashState> {
   const { state, form, subTotalPrice, totalPrice, taxesPrice, discount, cartProducts } = payload;
   const session = await currentSession();
   if (!session) {
@@ -61,9 +62,9 @@ export async function payCard(payload: {
   const validatedFields = CardPaymentSchema.safeParse(data);
 
   if (!validatedFields.success) {
-    const errors: PayCardErrors = {};
+    const errors: PayCashCardErrors = {};
     validatedFields.error.issues.forEach((issue) => {
-      const key = issue.path[0] as keyof PayCardErrors;
+      const key = issue.path[0] as keyof PayCashCardErrors;
       errors[key] = issue.message;
     });
 
@@ -132,7 +133,7 @@ export async function payCard(payload: {
   });
 
   if (!existPurchase) {
-    const errors: PayCardErrors = { other: "Payment failed!" };
+    const errors: PayCashCardErrors = { other: "Payment failed!" };
     return {
       ...state,
       success: "",
@@ -143,7 +144,7 @@ export async function payCard(payload: {
   console.log("user succeed to make cash payment");
 
   return {
-    name,
+    name: existPurchase.createPayment.name,
     email,
     phone,
     nameOnCard,
@@ -154,7 +155,8 @@ export async function payCard(payload: {
     Address,
     deliveryDate,
     note,
-    success: "Payment succeeded",
+    paymentId: existPurchase.createPayment.id,
+    success: "Payment succeeded!",
     callbackUrl: state.callbackUrl || DEFAULT_LOGIN_REDIRECT,
     errors: {},
   };

@@ -255,6 +255,8 @@ export function Login() {
               });
 
               // setCartProducts(saved_products);
+            } else {
+              updatePerformed();
             }
           });
 
