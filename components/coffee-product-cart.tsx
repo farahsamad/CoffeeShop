@@ -1,4 +1,3 @@
-import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 import LoadingImage from "./ui/loading-image";

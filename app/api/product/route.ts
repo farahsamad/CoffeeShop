@@ -1,7 +1,7 @@
 import { getProducts } from "@/data/product";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET() {
   try {
     // const products = await getProducts();
     const products = await getProducts();

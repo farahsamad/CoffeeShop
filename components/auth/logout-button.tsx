@@ -1,7 +1,7 @@
-import { logout } from "@/actions/logout";
+// import { logout } from "@/actions/logout";
 import { useMyContext } from "@/context/context";
 import { useCartUpdater } from "@/hooks/useCartUpdater";
-import { getSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 // import { handleUpdateCartDb } from "@/data/handle-cart";
 

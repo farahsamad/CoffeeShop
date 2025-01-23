@@ -2,24 +2,14 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import CardWrapper from "../card-wrapper";
-import * as z from "zod";
-import { LoginSchema } from "@/schemas";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import React, { startTransition, useActionState, useEffect, useRef, useState } from "react";
 import { login, LoginState } from "@/actions/login";
 import Form from "next/form";
-import { FaRegEnvelope } from "react-icons/fa";
-import { FiAlertTriangle } from "react-icons/fi";
 import Input from "../ui/form-input";
 import { BiCheckCircle } from "react-icons/bi";
 import { getSession } from "next-auth/react";
 import "@/styles/modal.css";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { getUserCartProductsFromDb } from "@/actions/getUserCartProducts";
 import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
-import { ProductDetails } from "../cart";
-import { useMyContext } from "@/context/context";
 import Link from "next/link";
 
 export const fetchCartProducts = async (userId: string): Promise<CartProduct[] | null> => {
@@ -38,10 +28,6 @@ export const fetchCartProducts = async (userId: string): Promise<CartProduct[] |
     return null;
   }
 };
-
-interface LoginProps {
-  children: React.ReactNode;
-}
 // ({ product: { id: string; waterOption: waterOptionTypes | null; icedOption: icedOptionTypes | null; foamOption: foamOptionTypes | null; ... 4 more ...; productTypeName: string; }; addedToCart: { ...; }; } & { ...; })
 
 // interface savedProductsProps {
@@ -114,7 +100,7 @@ type CartProduct = {
 export function Login() {
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [code, setCode] = useState(["", "", "", "", "", ""]);
-  const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
+  // const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
   const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -143,14 +129,6 @@ export function Login() {
   const [state, formAction, isPending] = useActionState(login, initialState);
   const router = useRouter();
   console.log("state.errors: ", state.errors);
-
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
 
   const handleSubmit = (formData: FormData | React.FormEvent<HTMLFormElement>) => {
     let formDataInstance;

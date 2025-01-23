@@ -1,10 +1,7 @@
-// pages/api/getCartProducts.ts
-import type { NextApiRequest, NextApiResponse } from "next";
-import { getUserCartProductsById } from "@/data/cart";
 import { NextRequest, NextResponse } from "next/server";
 import { getUserCartProductsFromDb } from "@/actions/getUserCartProducts";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
   // const { userId }: { userId: string } = await req.json();

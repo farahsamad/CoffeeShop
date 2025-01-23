@@ -1,5 +1,3 @@
-// pages/api/updateCart.ts
-import { ProductDetails } from "@/components/cart";
 import { removeProductFromCartFromDb } from "@/data/cart";
 import { NextRequest, NextResponse } from "next/server";
 

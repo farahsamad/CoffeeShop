@@ -9,15 +9,8 @@ import About from "./about";
 import "@/styles/home.css";
 import { useMyContext } from "@/context/context";
 
-interface homeProps {
-  barVisibility: boolean;
-  aboutRef: React.RefObject<HTMLDivElement | null>;
-  pageShowHeader: boolean;
-  sectionsRef: React.RefObject<(HTMLDivElement | null)[]>;
-}
-
 function Home() {
-  const { barVisibility, aboutRef, pageShowHeader, sectionsRef } = useMyContext();
+  const { barVisibility, aboutRef, sectionsRef } = useMyContext();
   // const outletContext = useOutletContext<homeProps>();
   // const barVisibility = outletContext.barVisibility;
   // const pageShowHeader = outletContext.pageShowHeader;

@@ -16,12 +16,6 @@ import { deleteUserCartProduct } from "@/actions/deleteUserCartProduct";
 import { BiCheckCircle } from "react-icons/bi";
 // import { handleUpdateCartDb } from "@/data/handle-cart";
 
-interface homeProps {
-  barVisibility: boolean;
-  aboutRef: React.RefObject<HTMLDivElement>;
-  pageShowHeader: boolean;
-  sectionsRef: React.RefObject<(HTMLDivElement | null)[]>;
-}
 export interface updateValues {
   email: string;
   name: string;
@@ -43,13 +37,9 @@ function Card() {
   const [deliveryCity, setDeliveryCity] = useState<string>("");
   const [buyerName, setBuyerName] = useState<string>("");
   const [expireDate, setExpireDate] = useState<string>("");
-  const { handleUpdateCartDb } = useCartUpdater();
-  const [phoneNumber, setPhoneNumber] = useState<string | undefined>("");
-  const [phone, setPhone] = useState("");
   const firstDiv = useRef<HTMLDivElement>(null);
-  const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const user = useCurrentUser();
-  const { barVisibility, aboutRef, pageShowHeader, sectionsRef, updatePerformed } = useMyContext();
+  const { barVisibility, updatePerformed } = useMyContext();
   //   const outletContext = useOutletContext<homeProps>();
   //   const barVisibility = outletContext.barVisibility;
 

@@ -2,30 +2,15 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import CardWrapper from "../card-wrapper";
-import * as z from "zod";
-import { LoginSchema } from "@/schemas";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { startTransition, useActionState, useEffect, useState } from "react";
-import { login, LoginState } from "@/actions/login";
 import Form from "next/form";
-import { FaLock, FaRegEnvelope } from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
 import { FiAlertTriangle } from "react-icons/fi";
-import Input from "../ui/form-input";
-import { BiCheckCircle, BiLockAlt } from "react-icons/bi";
-import { getSession } from "next-auth/react";
 import "@/styles/modal.css";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { getUserCartProductsFromDb } from "@/actions/getUserCartProducts";
 import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
-import { ProductDetails } from "../cart";
-import { useMyContext } from "@/context/context";
 import { AiFillLock } from "react-icons/ai";
 import { resetPassword, ResetPasswordState } from "@/actions/resetPassword";
 
-interface LoginProps {
-  children: React.ReactNode;
-}
 // ({ product: { id: string; waterOption: waterOptionTypes | null; icedOption: icedOptionTypes | null; foamOption: foamOptionTypes | null; ... 4 more ...; productTypeName: string; }; addedToCart: { ...; }; } & { ...; })
 
 // interface savedProductsProps {
@@ -96,10 +81,10 @@ type CartProduct = {
 };
 
 export function ResetPassword() {
-  const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
+  // const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const { updatePerformed } = useMyContext();
+  // const { updatePerformed } = useMyContext();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const callbackUrl = searchParams.get("callbackUrl");

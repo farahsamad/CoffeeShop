@@ -2,10 +2,6 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import CardWrapper from "../card-wrapper";
-import * as z from "zod";
-import { LoginSchema } from "@/schemas";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { startTransition, useActionState, useEffect, useRef, useState } from "react";
 import Form from "next/form";
 import Input from "../ui/form-input";
@@ -15,10 +11,6 @@ import { FiAlertTriangle } from "react-icons/fi";
 import { AiFillLock } from "react-icons/ai";
 import "@/styles/modal.css";
 import { getSession } from "next-auth/react";
-
-interface SignupProps {
-  children: React.ReactNode;
-}
 
 export function Signup() {
   const [verificationCode, setVerificationCode] = useState(false);
@@ -40,13 +32,13 @@ export function Signup() {
   const [state, formAction, isPending] = useActionState(signup, initialState);
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  // const form = useForm<z.infer<typeof LoginSchema>>({
+  //   resolver: zodResolver(LoginSchema),
+  //   defaultValues: {
+  //     email: "",
+  //     password: "",
+  //   },
+  // });
   const handleSubmit = (formData: FormData | React.FormEvent<HTMLFormElement>) => {
     let formDataInstance;
     if (formData instanceof FormData) {

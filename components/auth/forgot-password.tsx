@@ -2,30 +2,13 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import CardWrapper from "../card-wrapper";
-import * as z from "zod";
-import { LoginSchema } from "@/schemas";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { startTransition, useActionState, useEffect, useState } from "react";
-import { login, LoginState } from "@/actions/login";
 import Form from "next/form";
 import { FaLock, FaRegEnvelope } from "react-icons/fa";
 import { FiAlertTriangle } from "react-icons/fi";
-import Input from "../ui/form-input";
-import { BiCheckCircle, BiLockAlt } from "react-icons/bi";
-import { getSession } from "next-auth/react";
 import "@/styles/modal.css";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { getUserCartProductsFromDb } from "@/actions/getUserCartProducts";
-import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
-import { ProductDetails } from "../cart";
-import { useMyContext } from "@/context/context";
-import { AiFillLock } from "react-icons/ai";
 import { forgotPassword, ForgotPasswordState } from "@/actions/forgotPassword";
 
-interface LoginProps {
-  children: React.ReactNode;
-}
 // ({ product: { id: string; waterOption: waterOptionTypes | null; icedOption: icedOptionTypes | null; foamOption: foamOptionTypes | null; ... 4 more ...; productTypeName: string; }; addedToCart: { ...; }; } & { ...; })
 
 // interface savedProductsProps {
@@ -59,47 +42,46 @@ interface LoginProps {
 //   foamOption: foamOptionTypes;
 // }
 
-type Product = {
-  id: string;
-  productName: string;
-  productImage: string;
-  productPrice: number;
-  productSizes: productSize;
-  productTypeName: string;
-  waterOption: waterOptionTypes | null;
-  icedOption: icedOptionTypes | null;
-  foamOption: foamOptionTypes | null;
-};
+// type Product = {
+//   id: string;
+//   productName: string;
+//   productImage: string;
+//   productPrice: number;
+//   productSizes: productSize;
+//   productTypeName: string;
+//   waterOption: waterOptionTypes | null;
+//   icedOption: icedOptionTypes | null;
+//   foamOption: foamOptionTypes | null;
+// };
 
-type AddedToCart = {
-  id: string;
-  userId: string;
-  discount: number | null;
-  Tax: number | null;
-  subTotal: number;
-  total: number;
-  createdAt: Date;
-};
+// type AddedToCart = {
+//   id: string;
+//   userId: string;
+//   discount: number | null;
+//   Tax: number | null;
+//   subTotal: number;
+//   total: number;
+//   createdAt: Date;
+// };
 
-type CartProduct = {
-  id: string;
-  ProductId: string;
-  userId: string;
-  AddedToCartId: string;
-  productQuantity: number;
-  productSizes: productSize;
-  waterOption: waterOptionTypes | null;
-  icedOption: icedOptionTypes | null;
-  foamOption: foamOptionTypes | null;
-  product: Product;
-  addedToCart: AddedToCart;
-};
+// type CartProduct = {
+//   id: string;
+//   ProductId: string;
+//   userId: string;
+//   AddedToCartId: string;
+//   productQuantity: number;
+//   productSizes: productSize;
+//   waterOption: waterOptionTypes | null;
+//   icedOption: icedOptionTypes | null;
+//   foamOption: foamOptionTypes | null;
+//   product: Product;
+//   addedToCart: AddedToCart;
+// };
 
 export function ForgotPassword() {
-  const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
+  // const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const { updatePerformed } = useMyContext();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const initialState: ForgotPasswordState = {

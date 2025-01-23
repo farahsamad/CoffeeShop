@@ -1,5 +1,4 @@
 import React from "react";
-import CardWrapper from "../card-wrapper";
 import { FiAlertTriangle } from "react-icons/fi";
 import Link from "next/link";
 

@@ -5,18 +5,18 @@ import DropDown from "./ui/drop-down";
 import Footer from "./footer";
 import LoadingImage from "./ui/loading-image";
 import { useMyContext } from "@/context/context";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ProductDetails } from "./cart";
 import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
+import Image from "next/image";
 
-interface homeProps {
-  barVisibility: boolean;
-  aboutRef: React.RefObject<HTMLDivElement>;
-  pageShowHeader: boolean;
-  sectionsRef: React.MutableRefObject<(HTMLDivElement | null)[]>;
-}
+// interface homeProps {
+//   barVisibility: boolean;
+//   aboutRef: React.RefObject<HTMLDivElement>;
+//   pageShowHeader: boolean;
+//   sectionsRef: React.MutableRefObject<(HTMLDivElement | null)[]>;
+// }
 
 // interface productDetails {
 //   id: number;
@@ -33,21 +33,18 @@ interface homeProps {
 // }
 
 const CoffeeProduct: React.FC = () => {
-  const router = useRouter();
   const [size, setSize] = useState<productSize>();
   const [containerId, setContainerId] = useState("");
   const [isProductAddedToCart, setIsProductAddedToCart] = useState<boolean>(false);
   const [containWater, setContainWater] = useState<string>("No Water");
   const [containIce, setContainIce] = useState<string>("No Ice");
   const [containFoam, setContainFoam] = useState<string>("No Foam");
-  const [option, setOption] = useState<string>("");
   const [circle, setCircle] = useState<boolean>(false);
   const [circleHover, setCircleHover] = useState<boolean>(false);
   const [circleIndex, setCircleIndex] = useState<number>(0);
   const [circleIndexHover, setCircleIndexHover] = useState<number>(0);
   const [circleOpacity, setCircleOpacity] = useState<string>("!opacity-100");
-  const { barVisibility, aboutRef, pageShowHeader, sectionsRef, update, updatePerformed } =
-    useMyContext();
+  const { barVisibility, updatePerformed } = useMyContext();
   //   const barsVisibility = useOutletContext<homeProps>();
   //   const barVisibility = barsVisibility.barVisibility;
   //   const pageShowHeader = barsVisibility.pageShowHeader;
@@ -55,7 +52,6 @@ const CoffeeProduct: React.FC = () => {
   // const coffeeState = search.get(
   //   "state"
   // );
-  const pathName = usePathname();
   const search = useSearchParams();
   const id = search.get("product_id");
   const productName = search.get("product_name");
@@ -155,12 +151,12 @@ const CoffeeProduct: React.FC = () => {
         };
 
         if (localStorage.getItem("AddToCart") != null) {
-          var saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
+          let saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
           // item.id = saved_products.length;
           saved_products.push(item);
           localStorage.setItem("AddToCart", JSON.stringify(saved_products));
         } else {
-          var items: ProductDetails[] = [];
+          let items: ProductDetails[] = [];
           // item.id = items.length;
           items.push(item);
           localStorage.setItem("AddToCart", JSON.stringify(items));
@@ -177,7 +173,7 @@ const CoffeeProduct: React.FC = () => {
     window.scrollTo({ top: 0 });
 
     if (localStorage.getItem("AddToCart") != null && id !== null) {
-      var saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
+      let saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
       const isAddedToCart = saved_products.some((value) => value.id === id);
       console.log("isAddedToCart: ", isAddedToCart);
       setIsProductAddedToCart(isAddedToCart);
@@ -289,10 +285,13 @@ const CoffeeProduct: React.FC = () => {
                       className="flex flex-col justify-end items-center max-w-fit mx-5 "
                     >
                       <div id="cup-image" className="cursor-pointer mb-3 ">
-                        <img
+                        <Image
                           src={"/image/medium-icon.png"}
                           // src={require("../../component/image/medium-icon.png")}
                           id="img-cup"
+                          alt="short cup image"
+                          width={100}
+                          height={100}
                           className=" h-[30px] w-8 max-w-[35px] sm:!h-[40px] sm:!w-10 sm:!max-w-[45px] z-50 hover:z-50 relative "
                           onClick={() => {
                             setCircleIndex(1);
@@ -348,9 +347,12 @@ const CoffeeProduct: React.FC = () => {
                       className="flex flex-col justify-end items-center max-w-fit mx-5"
                     >
                       <div id="cup-image" className="cursor-pointer mb-3 ">
-                        <img
+                        <Image
                           src={"/image/medium-icon.png"}
                           id="img-cup"
+                          alt="tall cup image"
+                          width={100}
+                          height={100}
                           className="h-[35px] w-8 max-w-[35px] sm:!h-[45px] sm:!w-10 sm:!max-w-[45px] z-50 hover:z-50 relative"
                           onClick={() => {
                             setCircleIndex(2);
@@ -403,9 +405,12 @@ const CoffeeProduct: React.FC = () => {
                     </div>
                     <div id="size-grande" className="flex flex-col justify-end items-center mx-5">
                       <div id="cup-image" className="cursor-pointer mb-3 ">
-                        <img
+                        <Image
                           src={"/image/medium-icon.png"}
                           id="img-cup"
+                          alt="grand cup image"
+                          width={100}
+                          height={100}
                           className="h-[39px] w-8 max-w-[35px] sm:!h-[49px] sm:!w-10 sm:!max-w-[45px] z-50 hover:z-50 relative"
                           onClick={() => {
                             setCircleIndex(3);
@@ -459,9 +464,12 @@ const CoffeeProduct: React.FC = () => {
 
                     <div id="size-venti" className="flex flex-col justify-end items-center mx-5">
                       <div id="cup-image" className="cursor-pointer mb-3 ">
-                        <img
+                        <Image
                           src={"/image/medium-icon.png"}
                           id="img-cup"
+                          width={100}
+                          height={100}
+                          alt="venti cup image"
                           className="h-11 w-8 max-w-[35px] sm:!h-[54px] sm:!w-10 sm:!max-w-[45px]  z-50 hover:z-50 relative"
                           onClick={() => {
                             setCircleIndex(4);

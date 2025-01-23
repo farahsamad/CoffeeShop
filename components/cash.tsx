@@ -4,18 +4,12 @@ import React, { useState, useRef, useEffect, useActionState, startTransition } f
 // import PhoneInputWithCountrySelect from "react-phone-number-input";
 // import { E164Number } from "libphonenumber-js/types.cjs";
 // import "react-phone-number-input/style.css";
-import * as z from "zod";
 import FloatingInput from "./ui/floating-input";
-import { FaArrowLeft, FaArrowRight, FaAt, FaUser } from "react-icons/fa";
 import { useMyContext } from "@/context/context";
-import { PhoneInput } from "./ui/phone-input";
 import { ArrowRight, Download, XCircle } from "lucide-react";
 import Form from "next/form";
 import { payCash } from "@/actions/payCash";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { CashPaymentSchema } from "@/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useCartUpdater } from "@/hooks/useCartUpdater";
 import { ProductDetails } from "./cart";
 import { PayCardCashState } from "@/actions/payCard";
@@ -24,13 +18,6 @@ import { deleteUserCartProduct } from "@/actions/deleteUserCartProduct";
 import { BiCheckCircle } from "react-icons/bi";
 // import { handleUpdateCartDb } from "@/data/handle-cart";
 // import { getSession } from "next-auth/react";
-
-interface homeProps {
-  barVisibility: boolean;
-  aboutRef: React.RefObject<HTMLDivElement>;
-  pageShowHeader: boolean;
-  sectionsRef: React.RefObject<(HTMLDivElement | null)[]>;
-}
 
 export interface payloadProps {
   state: PayCardCashState;
@@ -66,12 +53,10 @@ function Cash() {
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const [deliveryCity, setDeliveryCity] = useState<string>("");
   const [buyerName, setBuyerName] = useState<string>("");
-  const { handleUpdateCartDb } = useCartUpdater();
-  const [phone, setPhone] = useState("");
   const firstDiv = useRef<HTMLDivElement>(null);
-  const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   const user = useCurrentUser();
-  const { barVisibility, aboutRef, pageShowHeader, sectionsRef, updatePerformed } = useMyContext();
+  const { barVisibility, updatePerformed } = useMyContext();
   //   const outletContext = useOutletContext<homeProps>();
   //   const barVisibility = outletContext.barVisibility;
 
@@ -292,11 +277,6 @@ function Cash() {
       setSuccess(state.success);
     }
   }, [state.errors, state.success]);
-  // const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-  //     setError('')
-  //   setSuccess('')
-  //   use
-  // }
   console.log("message is: ", state);
 
   return (

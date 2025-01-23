@@ -1,13 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import React, { startTransition, useActionState, useEffect, useState } from "react";
 import "@/styles/navbar.css";
 import Form from "next/form";
 import { addProduct, AddProductState } from "@/actions/addProduct";
 import { useSearchParams } from "next/navigation";
 
-const page = () => {
+const TestPage = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const searchParams = useSearchParams();
@@ -80,4 +79,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default TestPage;

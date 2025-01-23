@@ -1,4 +1,3 @@
-import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import CoffeeProductCart from "./coffee-product-cart";
 import { ProductDetails } from "./cart";
@@ -16,7 +15,7 @@ const CoffeeTypeCart = ({ value, groupedProducts }: CoffeeTypeCartProps) => {
     const hash = window.location.hash;
     if (hash) {
       // console.log("hash: ", hash);
-      var element = hash.split("#").join("");
+      let element = hash.split("#").join("");
       // console.log("element one: ", element);
       element = element.split("%20").join(" ");
       if (element === containerId) {

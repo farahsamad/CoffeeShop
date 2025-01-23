@@ -4,19 +4,12 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { FaTicket, FaX } from "react-icons/fa6";
 import LoadingImage from "./ui/loading-image";
-import usePreviousPath from "@/hooks/usePreviousPath";
 import Footer from "./footer";
 import { useMyContext } from "@/context/context";
 import Link from "next/link";
 import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 import { useRemoveProduct } from "@/hooks/useRemoveProduct";
-
-interface homeProps {
-  barVisibility: boolean;
-  aboutRef: React.RefObject<HTMLDivElement>;
-  pageShowHeader: boolean;
-  sectionsRef: React.RefObject<(HTMLDivElement | null)[]>;
-}
+import Image from "next/image";
 
 // enum waterOptionTypes {
 //   No_Water,
@@ -58,12 +51,10 @@ function Cart() {
   const [isMinWidth, setIsMinWidth] = useState<boolean>(false);
   const [secondMinWidth, setSecondMinWidth] = useState<boolean>(false);
   const { handleRemoveProductCartDb } = useRemoveProduct();
-  const { barVisibility, aboutRef, pageShowHeader, sectionsRef, updatePerformed } = useMyContext();
+  const { barVisibility, updatePerformed } = useMyContext();
 
   const sectionDiv = useRef<HTMLDivElement>(null);
   const totalRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const quantityRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const continueDelivery = useRef<HTMLDivElement>(null);
 
   //   const barsVisibility = useOutletContext<homeProps>();
   //   const pageShowHeader = barsVisibility.pageShowHeader;
@@ -431,10 +422,12 @@ function Cart() {
                 >
                   No items added yet
                 </div>
-                <img
+                <Image
                   id="empty-cart-image"
                   src={"/image/empty-cart.png"}
                   alt=""
+                  width={100}
+                  height={100}
                   className="h-32 w-40 sm:!h-64 sm:!w-80"
                 />
               </div>
@@ -453,10 +446,12 @@ function Cart() {
               >
                 No items added yet
               </div>
-              <img
+              <Image
                 id="empty-cart-image"
                 src={"/image/empty-cart.png"}
                 alt=""
+                width={100}
+                height={100}
                 className="h-32 w-40 sm:!h-64 sm:!w-80"
               />
             </div>

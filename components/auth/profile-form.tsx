@@ -1,32 +1,24 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import * as z from "zod";
-import { LoginSchema, twoFactorAuthenticationSchema } from "@/schemas";
+import { twoFactorAuthenticationSchema } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useActionState, useEffect, useRef, useState, useTransition } from "react";
-import { login, LoginState } from "@/actions/login";
-import { BiLogOut, BiMobileAlt } from "react-icons/bi";
+import React, { useEffect, useState, useTransition } from "react";
+import { BiMobileAlt } from "react-icons/bi";
 import "@/styles/modal.css";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
-import { useMyContext } from "@/context/context";
 import { Mail, Trash, User2 } from "lucide-react";
 import { getUserPayment } from "@/actions/getUserPayment";
 import { removePayment } from "@/actions/removePayment";
 import { Switch } from "@/components/ui/switch";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "../ui/form";
+import { Form, FormControl, FormField, FormItem } from "../ui/form";
 import { toast } from "@/hooks/use-toast";
-import { Button } from "../ui/button";
 import { twoFactorAuthentication } from "@/actions/twoFactorAuthentication";
 import { FiLogOut } from "react-icons/fi";
 import { LogoutButton } from "./logout-button";
 import { FaBoxOpen } from "react-icons/fa";
-
-interface LoginProps {
-  children: React.ReactNode;
-}
 
 type Product = {
   id: string;
@@ -89,7 +81,7 @@ export function ProfileForm() {
   const [paymentsData, setPaymentsData] = useState<paymentData[] | null>([]);
   const [uniqAddress, setUniqAddress] = useState<paymentData[] | undefined>([]);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  // const [success, setSuccess] = useState("");
   const [checkEnableModal, setCheckEnableModal] = useState<boolean>(false);
   const [checkDisableModal, setCheckDisableModal] = useState<boolean>(false);
   const [isTwoFactorEnabled, setIsTwoFactorEnabled] = useState<boolean>(
@@ -97,11 +89,9 @@ export function ProfileForm() {
   );
   const [removePaymentOrder, setRemovePaymentOrder] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
-  const { updatePerformed } = useMyContext();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
+  // const searchParams = useSearchParams();
+  // const callbackUrl = searchParams.get("callbackUrl");
   // const [state, formAction, isPending] = useActionState(login, initialState);
-  const router = useRouter();
   // console.log("state.errors: ", state.errors);
 
   // const handleSubmit = (formData: FormData | React.FormEvent<HTMLFormElement>) => {

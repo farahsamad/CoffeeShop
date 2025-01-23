@@ -39,8 +39,11 @@ const Menu: React.FC = () => {
   useEffect(() => {
     async function getProducts() {
       try {
+        console.log("before response");
         const response = await fetch("/api/product", { next: { revalidate: false } });
+        console.log("after response");
         if (response.ok) {
+          console.log("response ok: ", response);
           const data = await response.json();
           console.log("data are: ", data.products);
           setProducts(data.products);
