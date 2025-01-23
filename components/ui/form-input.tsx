@@ -1,7 +1,6 @@
 import { LoginState } from "@/actions/login";
 import React from "react";
 import { FaRegEnvelope, FaUser } from "react-icons/fa";
-import { FaLock } from "react-icons/fa6";
 import { FiAlertTriangle } from "react-icons/fi";
 import { AiFillLock } from "react-icons/ai";
 import { SignupState } from "@/actions/signup";

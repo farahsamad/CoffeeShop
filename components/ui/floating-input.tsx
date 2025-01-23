@@ -1,37 +1,10 @@
-import React, { useState, useEffect } from "react";
-import {
-  FaAddressBook,
-  FaAt,
-  FaCity,
-  FaCreditCard,
-  FaFlag,
-  FaUser,
-  FaUserAlt,
-} from "react-icons/fa";
+import React, { useState } from "react";
+import { FaAt } from "react-icons/fa";
 import { PhoneInput } from "./phone-input";
-import { isValidPhoneNumber } from "react-phone-number-input";
-import { z } from "zod";
-import { CiCreditCard1, CiCreditCard2, CiLocationOn } from "react-icons/ci";
-
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { BiCalendar, BiCard, BiCreditCard, BiSolidCity, BiTime, BiUser } from "react-icons/bi";
+import { BiCreditCard, BiSolidCity, BiTime, BiUser } from "react-icons/bi";
 import { GoCreditCard, GoLocation } from "react-icons/go";
 import { CalendarDays } from "lucide-react";
 import { BsCreditCard, BsPencilSquare } from "react-icons/bs";
-import { FaRegCreditCard } from "react-icons/fa6";
-import { AiOutlineCreditCard, AiTwotoneCreditCard } from "react-icons/ai";
-import Image from "next/image";
 import { PayCardCashState } from "@/actions/payCard";
 import { FiAlertTriangle } from "react-icons/fi";
 

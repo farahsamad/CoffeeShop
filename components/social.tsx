@@ -3,13 +3,12 @@ import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 import { BsFacebook } from "react-icons/bs";
-import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 const Social = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
-  const login = (provider: "google" | "github") => {
+  const login = (provider: "google" | "facebook") => {
     signIn(provider, { callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT });
   };
   return (
@@ -33,10 +32,10 @@ const Social = () => {
         </button>
         <button
           className="w-[47.5%] h-9 flex justify-center items-center   rounded-md p-2 border border-gray-400 bg-slate-50  shadow-sm cursor-pointer"
-          onClick={() => login("github")}
+          onClick={() => login("facebook")}
         >
-          <FaGithub className="h-full" />
-          <span className="ml-1 -mt-[2px] text-slate-500">Github</span>
+          <BsFacebook className="text-blue-700 h-full" />
+          <span className="ml-1 -mt-[2px] text-slate-500">Facebook</span>
         </button>
       </div>
     </div>

@@ -229,10 +229,6 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
                       <img
                         src={user?.image || "/image/default-user.png"}
                         alt="user image"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = "/image/default-user.png";
-                        }}
                         className="aspect-square h-full w-full cursor-pointer"
                       />
                     </Link>

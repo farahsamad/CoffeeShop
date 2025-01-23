@@ -1,6 +1,4 @@
-import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
-import React, { useState } from "react";
-// import "../../component/Styles/Tailwind.css";
+import React from "react";
 import { FaChevronDown } from "react-icons/fa";
 
 type Option = {

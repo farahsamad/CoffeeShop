@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "@/styles/navbar.css";
-import { FaHome, FaShoppingBasket } from "react-icons/fa";
+import { FaShoppingBasket } from "react-icons/fa";
 import Link from "next/link";
 import { ProductDetails } from "./cart";
 import { useMyContext } from "@/context/context";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { LogoutButton } from "./auth/logout-button";
-import { LucideHome, UserCircle2 } from "lucide-react";
-import { BiHome, BiHomeAlt, BiHomeAlt2, BiHomeCircle } from "react-icons/bi";
-import { CiHome } from "react-icons/ci";
-import { FcHome } from "react-icons/fc";
-import { FiHome } from "react-icons/fi";
-import { GoHome, GoHomeFill } from "react-icons/go";
+import { UserCircle2 } from "lucide-react";
+import { GoHomeFill } from "react-icons/go";
 import { usePathname } from "next/navigation";
 
 function FixedFooter() {
@@ -22,8 +17,7 @@ function FixedFooter() {
   console.log("location: ", location);
   const user = useCurrentUser();
   // const cartNumber: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!) || [];
-  const { barVisibility, aboutRef, pageShowHeader, sectionsRef, update, updatePerformed } =
-    useMyContext();
+  const { update } = useMyContext();
 
   const showDropDown = () => {
     setShowBlock((prev) => !prev);

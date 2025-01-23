@@ -20,28 +20,28 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "CoffeeShop",
   description: "Welcome to CoffeeShop, best Website to order beverages and coffees",
-  openGraph: {
-    title: "CoffeeShop",
-    description: "Welcome to CoffeeShop, best Website to order beverages and coffees",
-    url: process.env.NEXT_PUBLIC_APP_URL,
-    siteName: "CoffeeShop",
-    images: "/image/coffee-beans-loading.png",
-    // [
-    //   {
-    //     url: "https://nextjs.org/og.png", // Must be an absolute URL
-    //     width: 800,
-    //     height: 600,
-    //   },
-    //   {
-    //     url: "https://nextjs.org/og-alt.png", // Must be an absolute URL
-    //     width: 1800,
-    //     height: 1600,
-    //     alt: "My custom alt",
-    //   },
-    // ],
-    locale: "en_US",
-    type: "website",
-  },
+  // openGraph: {
+  //   title: "CoffeeShop",
+  //   description: "Welcome to CoffeeShop, best Website to order beverages and coffees",
+  //   url: process.env.NEXT_PUBLIC_APP_URL,
+  //   siteName: "CoffeeShop",
+  //   images: "/image/coffee-beans-loading.png",
+  //   // [
+  //   //   {
+  //   //     url: "https://nextjs.org/og.png", // Must be an absolute URL
+  //   //     width: 800,
+  //   //     height: 600,
+  //   //   },
+  //   //   {
+  //   //     url: "https://nextjs.org/og-alt.png", // Must be an absolute URL
+  //   //     width: 1800,
+  //   //     height: 1600,
+  //   //     alt: "My custom alt",
+  //   //   },
+  //   // ],
+  //   locale: "en_US",
+  //   type: "website",
+  // },
 };
 export default async function RootLayout({
   children,

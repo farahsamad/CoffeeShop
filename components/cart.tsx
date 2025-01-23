@@ -179,7 +179,7 @@ function Cart() {
 
   useEffect(() => {
     let computedTotal = 0;
-    // var newValue: number = 0;
+    // let newValue: number = 0;
     // setTotalAmount(() => 0);
     totalRefs.current.forEach((section, index) => {
       if (section && section.textContent) {
@@ -213,7 +213,7 @@ function Cart() {
     if (50 - totalAmount <= 0) {
       return "100";
     } else {
-      var val = (totalAmount * 100) / 50;
+      let val = (totalAmount * 100) / 50;
       return val;
     }
   };
