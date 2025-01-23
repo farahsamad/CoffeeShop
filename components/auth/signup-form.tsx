@@ -178,7 +178,7 @@ export function Signup() {
         headerLabel={verificationCode ? "Verify an account" : "Create an account"}
         hrefLabel={verificationCode ? "Back to Login" : " Log in"}
         buttonLabel={verificationCode ? "" : "Already have an account?"}
-        backButtonHref="/login"
+        backButtonHref={verificationCode ? "" : "/login"}
         error={state.errors?.other}
         form={verificationCode ? "forget" : undefined}
         showSocial

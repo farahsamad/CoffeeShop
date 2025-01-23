@@ -220,7 +220,7 @@ export function ResetPassword() {
       //   }
       // });
 
-      router.push(state.callbackUrl || "/");
+      router.push(state.callbackUrl || "/login");
       // });
     }
   }, [state.success, router, state.callbackUrl]);

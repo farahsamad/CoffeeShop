@@ -12,7 +12,6 @@ import { useCartUpdater } from "@/hooks/useCartUpdater";
 import { ProductDetails } from "./cart";
 import { deliveryCities, payloadProps } from "./cash";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { paymentDefault } from "@/actions/paymentDefault";
 import { deleteUserCartProduct } from "@/actions/deleteUserCartProduct";
 import { BiCheckCircle } from "react-icons/bi";
 // import { handleUpdateCartDb } from "@/data/handle-cart";

@@ -8,6 +8,19 @@ export const LoginSchema = z.object({
     message: "Password is required!",
   }),
   code: z.optional(z.string()),
+  // rememberMe: z.optional(z.boolean()),
+  rememberMe: z.optional(
+    z.preprocess((value) => {
+      if (typeof value === "string") {
+        if (value === "true") {
+          return true;
+        } else if (value === "false") {
+          return false;
+        }
+      }
+      return value;
+    }, z.boolean())
+  ),
 });
 
 export const SignupSchema = z.object({
@@ -122,4 +135,8 @@ export const ResetPasswordSchema = z.object({
     .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
     .trim(),
   token: z.string(),
+});
+
+export const twoFactorAuthenticationSchema = z.object({
+  isTwoFactorEnabled: z.optional(z.boolean()),
 });

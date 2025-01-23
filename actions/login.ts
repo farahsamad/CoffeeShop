@@ -45,6 +45,7 @@ export type LoginState = {
   password: string;
   name?: string;
   twoFactor?: boolean;
+  rememberMe?: boolean;
   success?: boolean | string;
   errors?: LoginErrors;
   callbackUrl?: string | null;
@@ -56,6 +57,7 @@ export type LoginErrors = {
   password?: string;
   name?: string;
   twoFactor?: string;
+  rememberMe?: string;
   other?: string;
 };
 
@@ -85,7 +87,7 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
   }
 
   // Process validated form inputs here
-  const { email, password, code } = validatedFields.data;
+  const { email, password, code, rememberMe } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
   console.log("//////////existingUser: ", existingUser);
@@ -158,6 +160,7 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
         userId: existingUser.id,
         email,
         password,
+        rememberMe,
         twoFactor: true,
         success: "user succeed to login",
         callbackUrl: state.callbackUrl || DEFAULT_LOGIN_REDIRECT,
@@ -173,9 +176,15 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
   console.log("credentials: email is: ", email, "password is: ", password);
 
   try {
+    console.log(
+      "////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////rememberMe: ",
+      rememberMe
+    );
+    console.log("type of rememberMe: ", typeof rememberMe);
     await signIn("credentials", {
       email,
       password,
+      rememberMe: Boolean(rememberMe),
       redirect: false, // Disable auto-redirect to handle it manually
       // redirectTo: undefined,
       // redirectTo: state.callbackUrl || DEFAULT_LOGIN_REDIRECT,
@@ -210,6 +219,7 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
     email,
     password,
     twoFactor: false,
+    rememberMe,
     success: "user succeed to login",
     callbackUrl: state.callbackUrl || DEFAULT_LOGIN_REDIRECT,
     errors: {},

@@ -219,8 +219,10 @@
 .hr-class {
   margin-top: 1rem !important;
   margin-bottom: 3.2rem !important;
-  margin-left: 3.2rem !important;
-  margin-right: 3.2rem !important;
+  /* margin-left: 3.2rem !important;
+  margin-right: 3.2rem !important; */
+  margin-left: auto !important;
+  margin-right: auto !important;
   height: 1px;
   margin: 0;
   width: 82%;

@@ -117,7 +117,7 @@ export async function resetPassword(
     confirmPassword,
     token,
     success: "Password updated!",
-    callbackUrl: state.callbackUrl || DEFAULT_LOGIN_REDIRECT,
+    callbackUrl: state.callbackUrl,
     errors: {},
   };
 }

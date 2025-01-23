@@ -124,7 +124,7 @@ export const removeProductFromCartFromDb = async ({ productId, userId }: RemoveP
 
 export const deleteUserCartProductsDb = async (userId: string) => {
   try {
-    const deletedUserCartProducts = db.addedToCart.deleteMany({
+    const deletedUserCartProducts = await db.addedToCart.deleteMany({
       where: {
         userId,
       },

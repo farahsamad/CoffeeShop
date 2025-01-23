@@ -101,8 +101,8 @@ export const PASSWORD_RESET_TEMPLATE = `
     <p>Hello,</p>
     <p>We received a request to reset your password. If you didn't make this request, please ignore this email.</p>
     <p>To reset your password, click the button below:</p>
-    <div style="text-align: center;background-color:#7e7d7d ; color: white; width: 50px; height: 50px; line-height: 50px; border-radius: 50%; display: inline-block; font-size: 30px;">
-        <a href="{resetURL}" style="background-color: #f9f9f9; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Reset Password</a>
+    <div style="text-align: center;background-color:#7e7d7d; width:100%; height: 50px; line-height: 50px;display: inline-block; font-size: 30px;">
+        <a href="{resetURL}" style="color: #ffecec;width:100%; padding: 12px 20px; text-decoration: none;font-weight: bold;">Reset Password</a>
       </div>
     <p>If you did not initiate this password reset, please contact our support team immediately.</p>
     <p>This link will expire in 2 minutes for security reasons.</p>

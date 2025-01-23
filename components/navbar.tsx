@@ -219,23 +219,24 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
               <>
                 <div
                   className="flex h-[40px] w-[40px] shrink-0 ml-[20px] overflow-hidden rounded-full cursor-pointer"
-                  onClick={() => showDropDown()}
+                  // onClick={() => showDropDown()}
                 >
                   {/* <div className="flex h-full w-full items-center justify-center rounded-full bg-muted">
                     </div> */}
-                  <div className="h-full w-full">
-                    <img
-                      src={user?.image || "/image/default-user.png"}
-                      alt="user image"
-                      className="aspect-square h-full w-full"
-                    />
-                  </div>
 
-                  {showBlock && (
-                    <div className="absolute top-[75px] right-px bg-[#7e7d7d] !z-[200] w-24 h-16 grid place-content-center rounded-md shadow-sm text-white">
-                      <LogoutButton />
-                    </div>
-                  )}
+                  <div className="h-full w-full">
+                    <Link href={"/profile"}>
+                      <img
+                        src={user?.image || "/image/default-user.png"}
+                        alt="user image"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "/image/default-user.png";
+                        }}
+                        className="aspect-square h-full w-full cursor-pointer"
+                      />
+                    </Link>
+                  </div>
                 </div>
               </>
             ) : (
@@ -309,30 +310,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
             <FaSearch className="search-icon" />
           </div>
           {/* <div className="sign-div">Sign in</div> */}
-          {user ? (
-            <>
-              <div
-                className="flex h-[40px] w-[40px] shrink-0 ml-[20px] overflow-hidden rounded-full cursor-pointer"
-                onClick={() => showDropDown()}
-              >
-                {/* <div className="flex h-full w-full items-center justify-center rounded-full bg-muted">
-                    </div> */}
-                <div className="h-full w-full">
-                  <img
-                    src={user?.image || "/image/default-user.png"}
-                    alt="user image"
-                    className="aspect-square h-full w-full"
-                  />
-                </div>
-
-                {showBlock && (
-                  <div className="absolute top-[75px] right-px bg-[#7e7d7d] !z-[200] w-24 h-16 grid place-content-center rounded-md shadow-sm text-white">
-                    <LogoutButton />
-                  </div>
-                )}
-              </div>
-            </>
-          ) : (
+          {!user && (
             <Link className="sign-div" href="/login">
               Sign in
             </Link>

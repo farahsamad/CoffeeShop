@@ -22,6 +22,23 @@ import { ProductDetails } from "../cart";
 import { useMyContext } from "@/context/context";
 import Link from "next/link";
 
+export const fetchCartProducts = async (userId: string): Promise<CartProduct[] | null> => {
+  try {
+    if (localStorage.getItem("AddToCart") != null) {
+      localStorage.removeItem("AddToCart");
+      console.log("removeItem");
+    }
+    console.log("Fetching cart products for userId:", userId);
+    const response = await fetch(`/api/getCartProduct?userId=${userId}`);
+    const data = await response.json();
+    console.log("Fetched cart products:", data.products);
+    return data.products;
+  } catch (error) {
+    console.error("Error fetching cart products:", error);
+    return null;
+  }
+};
+
 interface LoginProps {
   children: React.ReactNode;
 }
@@ -95,12 +112,13 @@ type CartProduct = {
 };
 
 export function Login() {
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
   const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const { updatePerformed } = useMyContext();
+  // const { updatePerformed } = useMyContext();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const initialState: LoginState = {
@@ -109,8 +127,17 @@ export function Login() {
     password: "",
     name: "",
     twoFactor: false,
+    rememberMe: rememberMe,
     success: false,
-    errors: { userId: "", email: "", password: "", name: "", twoFactor: "", other: "" },
+    errors: {
+      userId: "",
+      email: "",
+      password: "",
+      name: "",
+      twoFactor: "",
+      rememberMe: "",
+      other: "",
+    },
     callbackUrl: callbackUrl,
   };
   const [state, formAction, isPending] = useActionState(login, initialState);
@@ -124,6 +151,7 @@ export function Login() {
       password: "",
     },
   });
+
   const handleSubmit = (formData: FormData | React.FormEvent<HTMLFormElement>) => {
     let formDataInstance;
     if (formData instanceof FormData) {
@@ -133,10 +161,19 @@ export function Login() {
       event.preventDefault();
       formDataInstance = new FormData(event.currentTarget);
     }
+
     setError("");
     setSuccess("");
+
     if (!showTwoFactor) {
       startTransition(() => {
+        const rememberMeValue = formDataInstance.get("rememberMe") === "on";
+        console.log(
+          "//////////////////////////////////formDataInstance.get///////////////: ",
+          formDataInstance.get("rememberMe")
+        );
+        console.log("rememberMeValue.toString(): ", rememberMeValue.toString());
+        formDataInstance.set("rememberMe", rememberMeValue.toString());
         formAction(formDataInstance);
       });
     } else {
@@ -151,6 +188,7 @@ export function Login() {
       }
     }
   };
+
   // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   //   if (!showTwoFactor) {
   //     setError("");
@@ -187,23 +225,6 @@ export function Login() {
   //   }
   // }, [state.success, router, state.callbackUrl]);
 
-  const fetchCartProducts = async (userId: string): Promise<CartProduct[] | null> => {
-    try {
-      if (localStorage.getItem("AddToCart") != null) {
-        localStorage.removeItem("AddToCart");
-        console.log("removeItem");
-      }
-      console.log("Fetching cart products for userId:", userId);
-      const response = await fetch(`/api/getCartProduct?userId=${userId}`);
-      const data = await response.json();
-      console.log("Fetched cart products:", data.products);
-      return data.products;
-    } catch (error) {
-      console.error("Error fetching cart products:", error);
-      return null;
-    }
-  };
-
   useEffect(() => {
     if (state.success) {
       if (state?.twoFactor) {
@@ -213,52 +234,52 @@ export function Login() {
         getSession().then(async () => {
           console.log("state success");
           console.log("in login form userid: ", state?.userId);
-          fetchCartProducts(state.userId).then((saved_products) => {
-            console.log("saved_products here:", saved_products);
-            if (saved_products) {
-              // const p = { id: string;
-              //   productName: string;
-              //   productImage: string;
-              //   productTypeName: string;
-              //   product_size: string;
-              //   waterOption?: waterOptionTypes | null;
-              //   icedOption?: icedOptionTypes | null;
-              //   foamOption?: foamOptionTypes | null;
-              //   product_quantity: number;
-              //             productPrice: number;
-              //           }
-              saved_products.map((product) => {
-                const item: ProductDetails = {
-                  id: product.product.id,
-                  productName: product.product.productName,
-                  productImage: product.product.productImage,
-                  productTypeName: product.product.productTypeName,
-                  product_size: product.productSizes,
-                  waterOption: product.waterOption,
-                  icedOption: product.icedOption,
-                  foamOption: product.foamOption,
-                  product_quantity: product.productQuantity,
-                  productPrice: product.product.productPrice,
-                };
-                if (localStorage.getItem("AddToCart") != null) {
-                  const new_saved_products: ProductDetails[] = JSON.parse(
-                    localStorage.getItem("AddToCart")!
-                  );
-                  new_saved_products.push(item);
-                  localStorage.setItem("AddToCart", JSON.stringify(new_saved_products));
-                } else {
-                  const new_items: ProductDetails[] = [];
-                  new_items.push(item);
-                  localStorage.setItem("AddToCart", JSON.stringify(new_items));
-                }
-                updatePerformed();
-              });
+          // fetchCartProducts(state.userId).then((saved_products) => {
+          //   console.log("saved_products here:", saved_products);
+          //   if (saved_products) {
+          //     // const p = { id: string;
+          //     //   productName: string;
+          //     //   productImage: string;
+          //     //   productTypeName: string;
+          //     //   product_size: string;
+          //     //   waterOption?: waterOptionTypes | null;
+          //     //   icedOption?: icedOptionTypes | null;
+          //     //   foamOption?: foamOptionTypes | null;
+          //     //   product_quantity: number;
+          //     //             productPrice: number;
+          //     //           }
+          //     saved_products.map((product) => {
+          //       const item: ProductDetails = {
+          //         id: product.product.id,
+          //         productName: product.product.productName,
+          //         productImage: product.product.productImage,
+          //         productTypeName: product.product.productTypeName,
+          //         product_size: product.productSizes,
+          //         waterOption: product.waterOption,
+          //         icedOption: product.icedOption,
+          //         foamOption: product.foamOption,
+          //         product_quantity: product.productQuantity,
+          //         productPrice: product.product.productPrice,
+          //       };
+          //       if (localStorage.getItem("AddToCart") != null) {
+          //         const new_saved_products: ProductDetails[] = JSON.parse(
+          //           localStorage.getItem("AddToCart")!
+          //         );
+          //         new_saved_products.push(item);
+          //         localStorage.setItem("AddToCart", JSON.stringify(new_saved_products));
+          //       } else {
+          //         const new_items: ProductDetails[] = [];
+          //         new_items.push(item);
+          //         localStorage.setItem("AddToCart", JSON.stringify(new_items));
+          //       }
+          //       updatePerformed();
+          //     });
 
-              // setCartProducts(saved_products);
-            } else {
-              updatePerformed();
-            }
-          });
+          //     // setCartProducts(saved_products);
+          //   } else {
+          //     updatePerformed();
+          //   }
+          // });
 
           router.push(state.callbackUrl || "/");
         });
@@ -321,7 +342,10 @@ export function Login() {
     const formData = new FormData();
     formData.append("email", state.email);
     formData.append("password", state.password);
+    // formData.append("rememberMe", state.rememberMe);
     formData.append("code", code.join(""));
+    const stateRememberMe = state.rememberMe ? "true" : "false";
+    formData.append("rememberMe", stateRememberMe);
     handleSubmit(formData);
   };
   useEffect(() => {
@@ -355,9 +379,9 @@ export function Login() {
       </button> */}
       <CardWrapper
         headerLabel={showTwoFactor ? "Two step verification" : "Log in to your account"}
-        hrefLabel={showTwoFactor ? "Sign up" : " Sign up"}
+        hrefLabel={showTwoFactor ? "" : " Sign up"}
         buttonLabel={showTwoFactor ? "" : "Don't have an account?"}
-        backButtonHref="/signup"
+        backButtonHref={showTwoFactor ? "" : "/signup"}
         error={state.errors?.other}
         form={showTwoFactor ? "forget" : undefined}
         showSocial
@@ -377,6 +401,13 @@ export function Login() {
                 placeholder={"Email"}
                 className="bg-slate-50 outline-none placeholder-slate-500 text-slate-500 ml-2 w-[85%] -mt-[2px] autofill:text-slate-500 autofill:bg-yellow-200 "
                 autoComplete="email"
+              />
+              <input
+                type="hidden"
+                name="hiddenRememberMe"
+                value={String(state.rememberMe)}
+                placeholder={"Remember Me"}
+                className="bg-slate-50 outline-none placeholder-slate-500 text-slate-500 ml-2 w-[85%] -mt-[2px] autofill:text-slate-500 autofill:bg-yellow-200 "
               />
               <input
                 type="hidden"
@@ -404,7 +435,7 @@ export function Login() {
               {state.success && (
                 <div className="flex w-full items-center h-[24px] text-green-800 bg-green-300 rounded-sm p-4  font-semibold my-1 ">
                   <BiCheckCircle className="font-semibold text-sm" />
-                  <span className="ml-1 -mt-[3px] text-xs">{state.success}</span>
+                  <span className="ml-1 -mt-[3px] text-xs">Two step verification code sent!</span>
                 </div>
               )}
               <button
@@ -422,7 +453,14 @@ export function Login() {
               <Input state={state} type="password" name="password" placeholder="Password" />
               <div className="flex w-full max-h-14 h-fit justify-between items-center">
                 <div className="flex justify-center items-center">
-                  <input type="checkbox" name="" id="remember-checkbox" className="accent-black" />
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    name="rememberMe"
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    id="remember-checkbox"
+                    className="accent-black"
+                  />
                   <label htmlFor="remember-checkbox" className="text-xs ml-1 text-slate-400">
                     Remember me
                   </label>

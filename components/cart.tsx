@@ -485,7 +485,7 @@ function Cart() {
           style={{
             height: isMinWidth
               ? sectionDiv.current
-                ? `${sectionDiv.current.offsetHeight}px`
+                ? `${sectionDiv.current.offsetHeight + 100}px`
                 : `100vh`
               : `fit-content`,
           }}
