@@ -1,5 +1,3 @@
-import { Login } from "../auth/login-form";
-
 export function Modal({ children }: { children: React.ReactNode }) {
   return (
     <div
