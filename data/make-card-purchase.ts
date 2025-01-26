@@ -1,6 +1,6 @@
 import { ProductDetails } from "@/components/cart";
 import { db } from "@/lib/prisma";
-import { PaymentMethod } from "@prisma/client";
+// import { PaymentMethod } from "@prisma/client";
 
 interface CardPurchaseProps {
   userId: string;
@@ -57,7 +57,7 @@ export const makeCardPurchase = async ({
     const createPayment = await db.payment.create({
       data: {
         userId,
-        method: PaymentMethod.Card,
+        method: "Card",
         name,
         email,
         phone,
