@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { db } from "@/lib/prisma";
 
 interface updateTwoFactorAuthenticationProps {
   userId: string;
@@ -7,7 +7,7 @@ interface updateTwoFactorAuthenticationProps {
 
 export const getTwoFactorConfirmationByUserId = async (userId: string) => {
   try {
-    const twoFactorConfirmation = await prisma.twoFactorConfirmation.findUnique({
+    const twoFactorConfirmation = await db.twoFactorConfirmation.findUnique({
       where: { userId },
     });
     return twoFactorConfirmation;
@@ -21,7 +21,7 @@ export const updateTwoFactorAuthentication = async ({
   isTwoFactorEnabled,
 }: updateTwoFactorAuthenticationProps) => {
   try {
-    const updateTwoFactor = await prisma.user.update({
+    const updateTwoFactor = await db.user.update({
       where: {
         id: userId,
       },

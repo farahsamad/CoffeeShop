@@ -1,8 +1,8 @@
-import prisma from "@/lib/prisma";
+import { db } from "@/lib/prisma";
 
 export const getPasswordResetTokenByEmail = async (email: string) => {
   try {
-    const getPasswordResetToken = await prisma.passwordResetToken.findFirst({
+    const getPasswordResetToken = await db.passwordResetToken.findFirst({
       where: { email },
     });
     return getPasswordResetToken;
@@ -14,7 +14,7 @@ export const getPasswordResetTokenByEmail = async (email: string) => {
 
 export const getPasswordResetTokenByToken = async (token: string) => {
   try {
-    const getPasswordResetToken = await prisma.passwordResetToken.findUnique({
+    const getPasswordResetToken = await db.passwordResetToken.findUnique({
       where: { token },
     });
     return getPasswordResetToken;

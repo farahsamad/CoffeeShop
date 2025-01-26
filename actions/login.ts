@@ -10,7 +10,7 @@ import { sendTwoFactorTokenEmail } from "@/lib/mail";
 import { generateTwoFactorToken } from "@/lib/tokens";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
-import prisma from "@/lib/prisma";
+import { db } from "@/lib/prisma";
 
 // export async function login(
 //   state: z.infer<typeof LoginSchema>,
@@ -132,19 +132,19 @@ export async function login(state: LoginState, form: FormData): Promise<LoginSta
         };
       }
 
-      await prisma.twoFactorToken.delete({
+      await db.twoFactorToken.delete({
         where: { id: twoFactorToken.id },
       });
 
       const existingConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
 
       if (existingConfirmation) {
-        await prisma.twoFactorConfirmation.delete({
+        await db.twoFactorConfirmation.delete({
           where: { id: existingConfirmation.id },
         });
       }
 
-      await prisma.twoFactorConfirmation.create({
+      await db.twoFactorConfirmation.create({
         data: {
           userId: existingUser.id,
         },

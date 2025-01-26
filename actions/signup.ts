@@ -3,13 +3,13 @@
 import { SignupSchema } from "@/schemas";
 import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/data/user";
+import { db } from "@/lib/prisma";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 import { AuthError } from "next-auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { getVerificationTokenByToken } from "@/data/verification-token";
 import { signIn } from "@/auth";
-import prisma from "@/lib/prisma";
 
 // export async function login(
 //   state: z.infer<typeof LoginSchema>,
@@ -118,7 +118,7 @@ export async function signup(state: SignupState, form: FormData): Promise<Signup
         };
       }
 
-      await prisma.user.update({
+      await db.user.update({
         where: { id: existingUser.id },
         data: {
           emailVerified: new Date(),
@@ -126,7 +126,7 @@ export async function signup(state: SignupState, form: FormData): Promise<Signup
         },
       });
 
-      await prisma.verificationToken.delete({
+      await db.verificationToken.delete({
         where: { id: existingToken.id },
       });
       console.log("//////////existingUser email verified");
@@ -216,7 +216,7 @@ export async function signup(state: SignupState, form: FormData): Promise<Signup
   console.log("hashedPassword: ", hashedPassword);
 
   try {
-    await prisma.user.create({
+    await db.user.create({
       data: {
         name,
         email,

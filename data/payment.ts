@@ -1,8 +1,8 @@
-import prisma from "@/lib/prisma";
+import { db } from "@/lib/prisma";
 
 export const getUserPayments = async (userId: string) => {
   try {
-    const userPayments = await prisma.payment.findMany({
+    const userPayments = await db.payment.findMany({
       where: {
         userId,
       },
@@ -29,7 +29,7 @@ export const getUserPayments = async (userId: string) => {
 
 export const removePaymentById = async (id: string) => {
   try {
-    const removePayment = await prisma.payment.delete({
+    const removePayment = await db.payment.delete({
       where: {
         id,
       },

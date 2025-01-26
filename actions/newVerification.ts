@@ -1,8 +1,8 @@
 "use server";
 
-import { getUserByEmail } from "@/data/user";
 import { getVerificationTokenByToken } from "@/data/verification-token";
-import prisma from "@/lib/prisma";
+import { getUserByEmail } from "@/data/user";
+import { db } from "@/lib/prisma";
 
 export const newVerification = async (token: string) => {
   // console.log(values);
@@ -22,7 +22,7 @@ export const newVerification = async (token: string) => {
     return { error: "Email does not exist!" };
   }
 
-  await prisma.user.update({
+  await db.user.update({
     where: { id: existingUser.id },
     data: {
       emailVerified: new Date(),
@@ -30,7 +30,7 @@ export const newVerification = async (token: string) => {
     },
   });
 
-  await prisma.verificationToken.delete({
+  await db.verificationToken.delete({
     where: { id: existingToken.id },
   });
   return { success: "Email verified!" };

@@ -3,7 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import authConfig from "./auth.config";
 import { getUserById } from "./data/user";
 import { getAccountByUserId } from "./data/account";
-import prisma from "./lib/prisma";
+import { db } from "./lib/prisma";
 
 export const {
   handlers: { GET, POST },
@@ -17,7 +17,7 @@ export const {
   },
   events: {
     async linkAccount({ user }) {
-      await prisma.user.update({
+      await db.user.update({
         where: { id: user.id },
         data: { emailVerified: new Date() },
       });
@@ -170,7 +170,7 @@ export const {
   jwt: {
     maxAge: 60 * 60 * 24,
   },
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
   ...authConfig,
 });

@@ -1,10 +1,10 @@
 "use server";
 
 import { getUserByEmail } from "@/data/user";
+import { db } from "@/lib/prisma";
 import { ResetPasswordSchema } from "@/schemas";
 import bcrypt from "bcryptjs";
 import { getPasswordResetTokenByToken } from "@/data/reset-password-token";
-import prisma from "@/lib/prisma";
 
 export type ResetPasswordState = {
   password: string;
@@ -97,14 +97,14 @@ export async function resetPassword(
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await prisma.user.update({
+  await db.user.update({
     where: { id: existingUser.id },
     data: {
       password: hashedPassword,
     },
   });
 
-  await prisma.passwordResetToken.delete({
+  await db.passwordResetToken.delete({
     where: { id: existingToken.id },
   });
 
