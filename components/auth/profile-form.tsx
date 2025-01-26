@@ -8,7 +8,7 @@ import React, { useEffect, useState, useTransition } from "react";
 import { BiMobileAlt } from "react-icons/bi";
 import "@/styles/modal.css";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
+// import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 import { Mail, Trash, User2 } from "lucide-react";
 import { getUserPayment } from "@/actions/getUserPayment";
 import { removePayment } from "@/actions/removePayment";
@@ -46,10 +46,10 @@ interface paymentProducts {
   productId: string;
   paymentId: string;
   productQuantity: number;
-  productSizes: productSize | null;
-  waterOption: waterOptionTypes | null;
-  icedOption: icedOptionTypes | null;
-  foamOption: foamOptionTypes | null;
+  productSizes: "Short" | "Tall" | "Grand" | "Venti" | null;
+  waterOption: "No_Water" | "Water" | null;
+  icedOption: "Light_Ice" | "Extra_Ice" | "No_Ice" | null;
+  foamOption: "Light_Foam" | "Extra_Foam" | "No_Foam" | null;
 }
 interface paymentData {
   name: string;
