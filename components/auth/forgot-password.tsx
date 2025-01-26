@@ -1,8 +1,8 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import CardWrapper from "../card-wrapper";
-import { startTransition, useActionState, useEffect, useState } from "react";
+import { startTransition, useActionState } from "react";
 import Form from "next/form";
 import { FaLock, FaRegEnvelope } from "react-icons/fa";
 import { FiAlertTriangle } from "react-icons/fi";
@@ -22,7 +22,6 @@ export function ForgotPassword() {
     callbackUrl: callbackUrl,
   };
   const [state, formAction, isPending] = useActionState(forgotPassword, initialState);
-  const router = useRouter();
   console.log("state.errors: ", state.errors);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -98,7 +97,7 @@ export function ForgotPassword() {
           </div>
 
           <div className="w-full h-9 p-2 min-h-fit text-center text-slate-500 text-xs">
-            Enter your email address and we'll send you a link to get back into your account.
+            Enter your email address and we will send you a link to get back into your account.
           </div>
           <div className="w-full max-h-14 h-52 flex flex-col justify-evenly">
             <div

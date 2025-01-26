@@ -2,12 +2,11 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import CardWrapper from "../card-wrapper";
-import { startTransition, useActionState, useEffect, useState } from "react";
+import { startTransition, useActionState, useEffect } from "react";
 import Form from "next/form";
 import { FaLock } from "react-icons/fa";
 import { FiAlertTriangle } from "react-icons/fi";
 import "@/styles/modal.css";
-import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 import { AiFillLock } from "react-icons/ai";
 import { resetPassword, ResetPasswordState } from "@/actions/resetPassword";
 

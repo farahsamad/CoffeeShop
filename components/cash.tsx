@@ -44,7 +44,7 @@ export enum deliveryCities {
 
 function Cash() {
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  // const [success, setSuccess] = useState("");
   const [cartProducts, setCartProducts] = useState<ProductDetails[]>([]);
   const [subTotalPrice, SetSubTotalPrice] = useState<number>(0);
   const [totalPrice, SetTotalPrice] = useState<number>(0);
@@ -224,7 +224,7 @@ function Cash() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (localStorage.getItem("AddToCart")) {
       setError("");
-      setSuccess("");
+      // setSuccess("");
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
 
@@ -266,7 +266,11 @@ function Cash() {
       deleteUserCartProductsInDb();
       updatePerformed();
       setTimeout(() => {
-        state.callbackUrl ? router.push(state.callbackUrl) : router.back();
+        if (state.callbackUrl) {
+          router.push(state.callbackUrl);
+        } else {
+          router.back();
+        }
       }, 3000);
     }
   }, [state.success, router, state.callbackUrl]);
@@ -274,9 +278,10 @@ function Cash() {
   useEffect(() => {
     if (state.errors?.other) {
       setError(state.errors.other);
-    } else if (state.success !== "" && state.success !== undefined) {
-      setSuccess(state.success);
     }
+    // else if (state.success !== "" && state.success !== undefined) {
+    //   setSuccess(state.success);
+    // }
   }, [state.errors, state.success]);
   console.log("message is: ", state);
 

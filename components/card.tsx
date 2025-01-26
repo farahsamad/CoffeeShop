@@ -257,7 +257,11 @@ function Card() {
       };
       deleteUserCartProductsInDb();
       updatePerformed();
-      state.callbackUrl ? router.push(state.callbackUrl) : router.back();
+      if (state.callbackUrl) {
+        router.push(state.callbackUrl);
+      } else {
+        router.back();
+      }
     }
   }, [state.success, router, state.callbackUrl]);
 

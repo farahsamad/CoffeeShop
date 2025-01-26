@@ -76,7 +76,7 @@ const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
             className="w-full flex flex-col flex-grow min-h-0 max-h-full overflow-auto "
           >
             {searchedProducts ? (
-              searchedProducts.map((value, index, array) => {
+              searchedProducts.map((value) => {
                 return (
                   <Link
                     onClick={() => setIsSearchVisible(false)}

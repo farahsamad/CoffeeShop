@@ -72,7 +72,7 @@ function Cart() {
   }, []);
 
   const handleIncrementQuantity = (index: number, id: string, products: ProductDetails[]) => {
-    setTotalAmount((prevAmount) => (prevAmount = 0));
+    setTotalAmount(0);
     setQuantities((prevQuantities) => {
       const newQuantities = [...prevQuantities];
       newQuantities[index] += 1;
@@ -173,7 +173,7 @@ function Cart() {
     let computedTotal = 0;
     // let newValue: number = 0;
     // setTotalAmount(() => 0);
-    totalRefs.current.forEach((section, index) => {
+    totalRefs.current.forEach((section) => {
       if (section && section.textContent) {
         const newValue: number = parseFloat(section.textContent?.replace("$", ""));
         computedTotal += newValue;
@@ -205,7 +205,7 @@ function Cart() {
     if (50 - totalAmount <= 0) {
       return "100";
     } else {
-      let val = (totalAmount * 100) / 50;
+      const val = (totalAmount * 100) / 50;
       return val;
     }
   };

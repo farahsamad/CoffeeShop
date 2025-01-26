@@ -30,7 +30,12 @@ const CardWrapper = ({
   const pathname = usePathname();
 
   const closeButton = () => {
-    pathname === "/login" ? router.back() : (router.back(), router.back());
+    if (pathname === "/login") {
+      router.back();
+    } else {
+      router.back();
+      router.back();
+    }
   };
 
   return (

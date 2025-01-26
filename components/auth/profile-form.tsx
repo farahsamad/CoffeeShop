@@ -62,19 +62,19 @@ interface paymentData {
   paymentProducts: paymentProducts[];
 }
 
-type CartProduct = {
-  id: string;
-  ProductId: string;
-  userId: string;
-  AddedToCartId: string;
-  productQuantity: number;
-  productSizes: productSize;
-  waterOption: waterOptionTypes | null;
-  icedOption: icedOptionTypes | null;
-  foamOption: foamOptionTypes | null;
-  product: Product;
-  addedToCart: AddedToCart;
-};
+// type CartProduct = {
+//   id: string;
+//   ProductId: string;
+//   userId: string;
+//   AddedToCartId: string;
+//   productQuantity: number;
+//   productSizes: productSize;
+//   waterOption: waterOptionTypes | null;
+//   icedOption: icedOptionTypes | null;
+//   foamOption: foamOptionTypes | null;
+//   product: Product;
+//   addedToCart: AddedToCart;
+// };
 
 export function ProfileForm() {
   const user = useCurrentUser();
@@ -456,7 +456,7 @@ export function ProfileForm() {
             <tbody className="max-h-fit">
               {paymentsData &&
                 window.innerWidth >= 768 &&
-                paymentsData.map((val: paymentData, index: number, products: paymentData[]) => {
+                paymentsData.map((val: paymentData) => {
                   const quantity = val.paymentProducts.reduce((quantity, product) => {
                     return quantity + product.productQuantity;
                   }, 0);
@@ -513,7 +513,7 @@ export function ProfileForm() {
         className="flex flex-col w-full justify-evenly py-px px-2 shadow-inner min-h-fit h-fit max-h-[350px] bg-gray-50 rounded-sm max-w-[500px]  md:!max-h-fit md:!h-fit md:!min-h-[250px] md:!w-1/2 md:!px-10 my-10 md:!my-0"
       >
         {uniqAddress && uniqAddress.length > 0 ? (
-          uniqAddress.map((value, index, array) => {
+          uniqAddress.map((value, index) => {
             // console.log("index: ", index);
             return (
               <div key={`address-${value.id}`}>
@@ -578,7 +578,7 @@ export function ProfileForm() {
           <tbody className="max-h-fit">
             {paymentsData &&
               window.innerWidth < 768 &&
-              paymentsData.map((val: paymentData, index: number, products: paymentData[]) => {
+              paymentsData.map((val: paymentData) => {
                 const quantity = val.paymentProducts.reduce((quantity, product) => {
                   return quantity + product.productQuantity;
                 }, 0);

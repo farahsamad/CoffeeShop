@@ -12,13 +12,12 @@ import SearchForm from "./search-form";
 import { usePathname } from "next/navigation";
 
 interface indexProps {
-  aboutRef: React.RefObject<HTMLDivElement | null>;
   barVisibility: boolean;
   setBarVisibility: React.Dispatch<React.SetStateAction<boolean>>;
   sectionsRef: React.RefObject<(HTMLDivElement | null)[]>;
 }
 
-function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: indexProps) {
+function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
   // const [showBlock, setShowBlock] = useState<boolean>(false);
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);

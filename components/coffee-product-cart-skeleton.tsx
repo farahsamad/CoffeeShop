@@ -1,5 +1,4 @@
 import React from "react";
-import { ProductDetails } from "./cart";
 import { Skeleton } from "./ui/skeleton";
 
 const CoffeeProductCartSkeleton = () => {

@@ -151,12 +151,12 @@ const CoffeeProduct: React.FC = () => {
         };
 
         if (localStorage.getItem("AddToCart") != null) {
-          let saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
+          const saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
           // item.id = saved_products.length;
           saved_products.push(item);
           localStorage.setItem("AddToCart", JSON.stringify(saved_products));
         } else {
-          let items: ProductDetails[] = [];
+          const items: ProductDetails[] = [];
           // item.id = items.length;
           items.push(item);
           localStorage.setItem("AddToCart", JSON.stringify(items));
@@ -173,7 +173,7 @@ const CoffeeProduct: React.FC = () => {
     window.scrollTo({ top: 0 });
 
     if (localStorage.getItem("AddToCart") != null && id !== null) {
-      let saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
+      const saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
       const isAddedToCart = saved_products.some((value) => value.id === id);
       console.log("isAddedToCart: ", isAddedToCart);
       setIsProductAddedToCart(isAddedToCart);

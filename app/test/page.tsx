@@ -1,6 +1,6 @@
 "use client";
 
-import React, { startTransition, useActionState, useEffect, useState } from "react";
+import React, { startTransition, useActionState, useEffect } from "react";
 import "@/styles/navbar.css";
 import Form from "next/form";
 import { addProduct, AddProductState } from "@/actions/addProduct";
