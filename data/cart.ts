@@ -1,5 +1,6 @@
 import { ProductDetails } from "@/components/cart";
-import { db } from "@/lib/db";
+import prisma from "@/lib/prisma";
+
 import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
 
 interface CardPurchaseProps {
@@ -18,7 +19,7 @@ export const updateCartInDb = async ({ product, userId }: CardPurchaseProps) => 
     const Tax = 10;
     const subTotal = 10;
     const total = 10;
-    const isProductAddedToCartProducts = await db.addedToCartProducts.findFirst({
+    const isProductAddedToCartProducts = await prisma.addedToCartProducts.findFirst({
       where: {
         ProductId: product.id,
       },
@@ -29,7 +30,7 @@ export const updateCartInDb = async ({ product, userId }: CardPurchaseProps) => 
     });
     console.log("isProductAddedToCartProducts : ", isProductAddedToCartProducts);
     if (!isProductAddedToCartProducts) {
-      const isProductAddedToCart = await db.addedToCart.create({
+      const isProductAddedToCart = await prisma.addedToCart.create({
         data: {
           userId,
           discount,
@@ -40,7 +41,7 @@ export const updateCartInDb = async ({ product, userId }: CardPurchaseProps) => 
       });
       console.log("isProductAddedToCart: ", isProductAddedToCart);
 
-      const addProductToCart = await db.addedToCartProducts.create({
+      const addProductToCart = await prisma.addedToCartProducts.create({
         data: {
           ProductId: product.id,
           userId,
@@ -67,7 +68,7 @@ export const updateCartInDb = async ({ product, userId }: CardPurchaseProps) => 
 
 export const getUserCartProductsById = async (userId: string) => {
   try {
-    const userCartProducts = await db.addedToCartProducts.findMany({
+    const userCartProducts = await prisma.addedToCartProducts.findMany({
       where: {
         userId,
       },
@@ -88,7 +89,7 @@ export const getUserCartProductsById = async (userId: string) => {
 
 export const removeProductFromCartFromDb = async ({ productId, userId }: RemoveProductProps) => {
   try {
-    const isProductAddedToCartProducts = await db.addedToCartProducts.findFirst({
+    const isProductAddedToCartProducts = await prisma.addedToCartProducts.findFirst({
       where: {
         ProductId: productId,
         userId,
@@ -100,7 +101,7 @@ export const removeProductFromCartFromDb = async ({ productId, userId }: RemoveP
     });
     console.log("isProductAddedToCartProducts : ", isProductAddedToCartProducts);
     if (isProductAddedToCartProducts) {
-      const removeProductAddedToCartProducts = await db.addedToCartProducts.delete({
+      const removeProductAddedToCartProducts = await prisma.addedToCartProducts.delete({
         where: {
           id: isProductAddedToCartProducts.id,
         },
@@ -124,14 +125,14 @@ export const removeProductFromCartFromDb = async ({ productId, userId }: RemoveP
 
 export const deleteUserCartProductsDb = async (userId: string) => {
   try {
-    const deletedUserCartProducts = await db.addedToCart.deleteMany({
+    const deletedUserCartProducts = await prisma.addedToCart.deleteMany({
       where: {
         userId,
       },
     });
     return deletedUserCartProducts;
   } catch (error) {
-    console.log("db error//////////");
+    console.log("prisma error//////////");
     return null;
   }
 };

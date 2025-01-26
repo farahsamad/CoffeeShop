@@ -1,8 +1,8 @@
-import { db } from "@/lib/db";
+import prisma from "@/lib/prisma";
 
 export const getAccountByUserId = async (userId: string) => {
   try {
-    const existingAccount = await db.account.findFirst({
+    const existingAccount = await prisma.account.findFirst({
       where: { userId },
     });
     return existingAccount;

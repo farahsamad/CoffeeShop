@@ -24,7 +24,7 @@ export type AddProductErrors = {
 };
 
 export async function addProduct(state: AddProductState, form: FormData): Promise<AddProductState> {
-  console.log("add product to db .ts");
+  console.log("add product to prisma .ts");
   const data = Object.fromEntries(form);
   // const result = LoginSchema.safeParse(data);
   // const values: z.infer<typeof LoginSchema> = {

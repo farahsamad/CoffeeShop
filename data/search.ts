@@ -1,8 +1,8 @@
-import { db } from "@/lib/db";
+import prisma from "@/lib/prisma";
 
 export const searchProduct = async (search: string) => {
   try {
-    const searchResult = await db.product.findMany({
+    const searchResult = await prisma.product.findMany({
       where: {
         OR: [
           {
@@ -35,7 +35,7 @@ export const searchProduct = async (search: string) => {
         productPrice: true,
       },
     });
-    console.log("searchResult in db: ", searchResult);
+    console.log("searchResult in prisma: ", searchResult);
     return searchResult;
   } catch (error) {
     console.log("error in search:", error);

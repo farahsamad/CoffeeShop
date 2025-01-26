@@ -24,13 +24,24 @@ function matchPublicRoute(pathname: string) {
   ];
   return publicRoutePatterns.some((pattern) => pattern.test(pathname));
 }
+function matchApiRoute(pathname: string) {
+  const apiRoutePatterns = [
+    /^\/api$/,
+    /^\/api\/[^\/]+$/,
+    /^\/api\/[^\/]+\/[^\/]+$/,
+    /^\/api\/[^\/]+\/[^\/]+\/[^\/]+$/,
+  ];
+  return apiRoutePatterns.some((pattern) => pattern.test(pathname));
+}
 
 export const { auth } = NextAuth(authConfig);
 
 export default auth(async function middleware(req) {
   const { nextUrl } = req;
+  console.log("req: ", req);
+  console.log("/////////////nextUrl: ", nextUrl);
   const isAuth = !!req.auth;
-  const isAccessingApiAuthRoute = nextUrl.pathname.startsWith(API_AUTH_PREFIX);
+  const isAccessingApiAuthRoute = matchApiRoute(nextUrl.pathname);
   const isAccessingAuthRoute = AUTH_ROUTES.includes(nextUrl.pathname);
   // const isAccessingPublicRoute = PUBLIC_ROUTES.includes(nextUrl.pathname);
   const isAccessingPublicRoute = matchPublicRoute(nextUrl.pathname);
@@ -38,6 +49,7 @@ export default auth(async function middleware(req) {
   const isAccessingLogoutRoute = LOGOUT_ROUTE.includes(nextUrl.pathname);
 
   if (isAccessingApiAuthRoute) {
+    console.log("isAccessingApiAuthRoute!");
     return NextResponse.next();
   }
   console.log("middleware.ts");

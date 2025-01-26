@@ -249,7 +249,7 @@
 .hamburger-menu:has(input:focus-visible)::after,
 .hamburger-menu input:focus-visible {
   border: 1px solid var(--background);
-  box-shadow: 0 0 0 1px var(--foreground);
+  box-shadow: 0 0 0 1px black;
 }
 
 .hamburger-menu::before,
@@ -258,7 +258,7 @@
   content: "";
   width: var(--bar-width);
   height: var(--bar-height);
-  background-color: var(--foreground);
+  background-color: black;
   border-radius: 9999px;
   transform-origin: left center;
   transition: opacity var(--animation-timing), width var(--animation-timing),

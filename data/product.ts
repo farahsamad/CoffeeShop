@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+import prisma from "@/lib/prisma";
 
 interface addProductToDbProps {
   productName: string;
@@ -8,8 +8,9 @@ interface addProductToDbProps {
 }
 
 export const getProducts = async () => {
+  console.log("Fetching products from database...");
   try {
-    const products = await db.product.findMany({
+    const products = await prisma.product.findMany({
       orderBy: {
         productTypeName: "asc",
       },
@@ -17,7 +18,7 @@ export const getProducts = async () => {
     console.log("products", products);
     return products;
   } catch (error) {
-    console.log("//////////////////////////////////////////");
+    console.log("unknown Error getting products");
     return null;
   }
 };
@@ -29,7 +30,7 @@ export const addProductToDb = async ({
   productTypeName,
 }: addProductToDbProps) => {
   try {
-    const addProduct = await db.product.create({
+    const addProduct = await prisma.product.create({
       data: {
         productName,
         productImage,
