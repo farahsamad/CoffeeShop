@@ -8,7 +8,7 @@ import { useMyContext } from "@/context/context";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ProductDetails } from "./cart";
-import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
+// import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 import Image from "next/image";
 
 // interface homeProps {
@@ -33,7 +33,7 @@ import Image from "next/image";
 // }
 
 const CoffeeProduct: React.FC = () => {
-  const [size, setSize] = useState<productSize>();
+  const [size, setSize] = useState<"Short" | "Tall" | "Grand" | "Venti">();
   const [containerId, setContainerId] = useState("");
   const [isProductAddedToCart, setIsProductAddedToCart] = useState<boolean>(false);
   const [containWater, setContainWater] = useState<string>("No Water");
@@ -83,10 +83,10 @@ const CoffeeProduct: React.FC = () => {
   const isWater = (value: string) => {
     switch (value) {
       case "No Water":
-        return waterOptionTypes.No_Water;
+        return "No_Water";
 
       case "Water":
-        return waterOptionTypes.Water;
+        return "Water";
 
       default:
         break;
@@ -96,13 +96,13 @@ const CoffeeProduct: React.FC = () => {
   const isIce = (value: string) => {
     switch (value) {
       case "Light Ice":
-        return icedOptionTypes.Light_Ice;
+        return "Light_Ice";
 
       case "Extra Ice":
-        return icedOptionTypes.Extra_Ice;
+        return "Extra_Ice";
 
       case "No Ice":
-        return icedOptionTypes.No_Ice;
+        return "No_Ice";
 
       default:
         break;
@@ -112,13 +112,16 @@ const CoffeeProduct: React.FC = () => {
   const isFoam = (value: string) => {
     switch (value) {
       case "Light Foam":
-        return foamOptionTypes.Light_Foam;
+        return "Light_Foam";
+      // return foamOptionTypes.Light_Foam;
 
       case "Extra Foam":
-        return foamOptionTypes.Extra_Foam;
+        return "Extra_Foam";
+      // return foamOptionTypes.Extra_Foam;
 
       case "No Foam":
-        return foamOptionTypes.No_Foam;
+        return "No_Foam";
+      // return foamOptionTypes.No_Foam;
 
       default:
         break;
@@ -295,7 +298,7 @@ const CoffeeProduct: React.FC = () => {
                           className=" h-[30px] w-8 max-w-[35px] sm:!h-[40px] sm:!w-10 sm:!max-w-[45px] z-50 hover:z-50 relative "
                           onClick={() => {
                             setCircleIndex(1);
-                            setSize(productSize.Short);
+                            setSize("Short");
                             setCircle(true);
                           }}
                           onMouseEnter={() => {
@@ -330,7 +333,7 @@ const CoffeeProduct: React.FC = () => {
                             } transition-opacity duration-300`}
                             onClick={() => {
                               setCircleIndex(1);
-                              setSize(productSize.Short);
+                              setSize("Short");
 
                               setCircle(true);
                             }}
@@ -356,7 +359,7 @@ const CoffeeProduct: React.FC = () => {
                           className="h-[35px] w-8 max-w-[35px] sm:!h-[45px] sm:!w-10 sm:!max-w-[45px] z-50 hover:z-50 relative"
                           onClick={() => {
                             setCircleIndex(2);
-                            setSize(productSize.Tall);
+                            setSize("Tall");
 
                             setCircle(true);
                           }}
@@ -391,7 +394,7 @@ const CoffeeProduct: React.FC = () => {
                             } transition-opacity duration-300`}
                             onClick={() => {
                               setCircleIndex(2);
-                              setSize(productSize.Tall);
+                              setSize("Tall");
 
                               setCircle(true);
                             }}
@@ -414,7 +417,7 @@ const CoffeeProduct: React.FC = () => {
                           className="h-[39px] w-8 max-w-[35px] sm:!h-[49px] sm:!w-10 sm:!max-w-[45px] z-50 hover:z-50 relative"
                           onClick={() => {
                             setCircleIndex(3);
-                            setSize(productSize.Grand);
+                            setSize("Grand");
 
                             setCircle(true);
                           }}
@@ -449,7 +452,7 @@ const CoffeeProduct: React.FC = () => {
                             } transition-opacity duration-300`}
                             onClick={() => {
                               setCircleIndex(3);
-                              setSize(productSize.Grand);
+                              setSize("Grand");
 
                               setCircle(true);
                             }}
@@ -473,7 +476,7 @@ const CoffeeProduct: React.FC = () => {
                           className="h-11 w-8 max-w-[35px] sm:!h-[54px] sm:!w-10 sm:!max-w-[45px]  z-50 hover:z-50 relative"
                           onClick={() => {
                             setCircleIndex(4);
-                            setSize(productSize.Venti);
+                            setSize("Venti");
 
                             setCircle(true);
                           }}
@@ -508,7 +511,7 @@ const CoffeeProduct: React.FC = () => {
                             } hover:opacity-100 transition-opacity duration-300`}
                             onClick={() => {
                               setCircleIndex(4);
-                              setSize(productSize.Venti);
+                              setSize("Venti");
 
                               setCircle(true);
                             }}
