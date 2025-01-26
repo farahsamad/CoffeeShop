@@ -7,7 +7,7 @@ import LoadingImage from "./ui/loading-image";
 import Footer from "./footer";
 import { useMyContext } from "@/context/context";
 import Link from "next/link";
-import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
+// import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 import { useRemoveProduct } from "@/hooks/useRemoveProduct";
 import Image from "next/image";
 
@@ -33,10 +33,10 @@ export interface ProductDetails {
   productName: string;
   productImage: string;
   productTypeName: string;
-  product_size: productSize;
-  waterOption?: waterOptionTypes | null;
-  icedOption?: icedOptionTypes | null;
-  foamOption?: foamOptionTypes | null;
+  product_size: "Short" | "Tall" | "Grand" | "Venti";
+  waterOption?: "No_Water" | "Water" | null;
+  icedOption?: "Light_Ice" | "Extra_Ice" | "No_Ice" | null;
+  foamOption?: "Light_Foam" | "Extra_Foam" | "No_Foam" | null;
   product_quantity: number;
   productPrice: number;
 }
