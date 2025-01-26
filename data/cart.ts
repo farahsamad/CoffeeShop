@@ -1,6 +1,6 @@
 import { ProductDetails } from "@/components/cart";
 import { db } from "@/lib/prisma";
-import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
+// import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
 
 interface CardPurchaseProps {
   product: ProductDetails;
@@ -46,9 +46,9 @@ export const updateCartInDb = async ({ product, userId }: CardPurchaseProps) => 
           userId,
           AddedToCartId: isProductAddedToCart.id,
           productQuantity: product.product_quantity,
-          waterOption: product.waterOption as waterOptionTypes | null,
-          icedOption: product.icedOption as icedOptionTypes | null,
-          foamOption: product.foamOption as foamOptionTypes | null,
+          waterOption: product.waterOption as "No_Water" | "Water" | null,
+          icedOption: product.icedOption as "Light_Ice" | "Extra_Ice" | "No_Ice" | null,
+          foamOption: product.foamOption as "Light_Foam" | "Extra_Foam" | "No_Foam" | null,
         },
       });
       console.log("addProductToCart: ", addProductToCart);
