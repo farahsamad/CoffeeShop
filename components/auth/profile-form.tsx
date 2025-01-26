@@ -180,7 +180,7 @@ export function ProfileForm() {
 
   const getUserPayments = async () => {
     if (user?.id) {
-      const data = await getUserPayment(user?.id);
+      const data: paymentData[] | null = await getUserPayment(user?.id);
       setPaymentsData(data);
       // const uniqueAddresses = data?.filter(
       //   (val, index, self) =>
