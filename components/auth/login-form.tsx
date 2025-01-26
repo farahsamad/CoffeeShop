@@ -293,7 +293,7 @@ export function Login() {
       // Focus on the last non-empty input or the first empty one
       const lastFilledIndex = newCode.findLastIndex((digit) => digit !== "");
       const focusIndex = lastFilledIndex < 5 ? lastFilledIndex + 1 : 5;
-      inputRefs.current[focusIndex] && inputRefs.current[focusIndex].focus();
+      if (inputRefs.current[focusIndex]) inputRefs.current[focusIndex].focus();
     } else {
       newCode[index] = value;
       setCode(newCode);

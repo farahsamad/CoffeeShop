@@ -20,27 +20,27 @@ import { FiLogOut } from "react-icons/fi";
 import { LogoutButton } from "./logout-button";
 import { FaBoxOpen } from "react-icons/fa";
 
-type Product = {
-  id: string;
-  productName: string;
-  productImage: string;
-  productPrice: number;
-  productSizes: productSize;
-  productTypeName: string;
-  waterOption: waterOptionTypes | null;
-  icedOption: icedOptionTypes | null;
-  foamOption: foamOptionTypes | null;
-};
+// type Product = {
+//   id: string;
+//   productName: string;
+//   productImage: string;
+//   productPrice: number;
+//   productSizes: productSize;
+//   productTypeName: string;
+//   waterOption: waterOptionTypes | null;
+//   icedOption: icedOptionTypes | null;
+//   foamOption: foamOptionTypes | null;
+// };
 
-type AddedToCart = {
-  id: string;
-  userId: string;
-  discount: number | null;
-  Tax: number | null;
-  subTotal: number;
-  total: number;
-  createdAt: Date;
-};
+// type AddedToCart = {
+//   id: string;
+//   userId: string;
+//   discount: number | null;
+//   Tax: number | null;
+//   subTotal: number;
+//   total: number;
+//   createdAt: Date;
+// };
 interface paymentProducts {
   id: string;
   productId: string;
@@ -84,9 +84,9 @@ export function ProfileForm() {
   // const [success, setSuccess] = useState("");
   const [checkEnableModal, setCheckEnableModal] = useState<boolean>(false);
   const [checkDisableModal, setCheckDisableModal] = useState<boolean>(false);
-  const [isTwoFactorEnabled, setIsTwoFactorEnabled] = useState<boolean>(
-    user?.isTwoFactorEnabled ? true : false
-  );
+  // const [isTwoFactorEnabled, setIsTwoFactorEnabled] = useState<boolean>(
+  //   user?.isTwoFactorEnabled ? true : false
+  // );
   const [removePaymentOrder, setRemovePaymentOrder] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
 
@@ -247,7 +247,7 @@ export function ProfileForm() {
             console.log("data: ", data);
             if (data) {
               console.log("setIsTwoFactorEnabled: true");
-              setIsTwoFactorEnabled(isTwoFactorEnabled);
+              // setIsTwoFactorEnabled(isTwoFactorEnabled);
               setCheckEnableModal(false);
               setCheckDisableModal(false);
             } else {
