@@ -9,8 +9,10 @@ import Input from "../ui/form-input";
 import { BiCheckCircle } from "react-icons/bi";
 import { getSession } from "next-auth/react";
 import "@/styles/modal.css";
-import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
+// import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
+
 import Link from "next/link";
+import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 
 export const fetchCartProducts = async (userId: string): Promise<CartProduct[] | null> => {
   try {
