@@ -191,7 +191,7 @@ export function ProfileForm() {
       //         predicate.city.toLocaleLowerCase() === val.city.toLocaleLowerCase()
       //     )
       // );
-      const uniqueAddresses = Array.from(
+      const uniqueAddresses: paymentData[] = Array.from(
         new Map(data?.map((item: paymentData) => [`${item.Address}|${item.city}`, item])).values()
       );
       setUniqAddress(uniqueAddresses);
