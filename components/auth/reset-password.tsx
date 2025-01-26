@@ -44,46 +44,46 @@ import { resetPassword, ResetPasswordState } from "@/actions/resetPassword";
 //   foamOption: foamOptionTypes;
 // }
 
-type Product = {
-  id: string;
-  productName: string;
-  productImage: string;
-  productPrice: number;
-  productSizes: productSize;
-  productTypeName: string;
-  waterOption: waterOptionTypes | null;
-  icedOption: icedOptionTypes | null;
-  foamOption: foamOptionTypes | null;
-};
+// type Product = {
+//   id: string;
+//   productName: string;
+//   productImage: string;
+//   productPrice: number;
+//   productSizes: productSize;
+//   productTypeName: string;
+//   waterOption: waterOptionTypes | null;
+//   icedOption: icedOptionTypes | null;
+//   foamOption: foamOptionTypes | null;
+// };
 
-type AddedToCart = {
-  id: string;
-  userId: string;
-  discount: number | null;
-  Tax: number | null;
-  subTotal: number;
-  total: number;
-  createdAt: Date;
-};
+// type AddedToCart = {
+//   id: string;
+//   userId: string;
+//   discount: number | null;
+//   Tax: number | null;
+//   subTotal: number;
+//   total: number;
+//   createdAt: Date;
+// };
 
-type CartProduct = {
-  id: string;
-  ProductId: string;
-  userId: string;
-  AddedToCartId: string;
-  productQuantity: number;
-  productSizes: productSize;
-  waterOption: waterOptionTypes | null;
-  icedOption: icedOptionTypes | null;
-  foamOption: foamOptionTypes | null;
-  product: Product;
-  addedToCart: AddedToCart;
-};
+// type CartProduct = {
+//   id: string;
+//   ProductId: string;
+//   userId: string;
+//   AddedToCartId: string;
+//   productQuantity: number;
+//   productSizes: productSize;
+//   waterOption: waterOptionTypes | null;
+//   icedOption: icedOptionTypes | null;
+//   foamOption: foamOptionTypes | null;
+//   product: Product;
+//   addedToCart: AddedToCart;
+// };
 
 export function ResetPassword() {
   // const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  // const [error, setError] = useState("");
+  // const [success, setSuccess] = useState("");
   // const { updatePerformed } = useMyContext();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -101,15 +101,15 @@ export function ResetPassword() {
   console.log("state.errors: ", state.errors);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    setError("");
-    setSuccess("");
+    // setError("");
+    // setSuccess("");
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
     if (token) {
       formData.append("token", token); // Append the token only if it's not null
     } else {
-      setError("Missing token");
+      // setError("Missing token");
       console.error("Token is null");
       return; // Prevent form submission if token is null
     }
@@ -210,13 +210,13 @@ export function ResetPassword() {
     }
   }, [state.success, router, state.callbackUrl]);
 
-  useEffect(() => {
-    if (state.errors?.other) {
-      setError(state.errors.other);
-    } else if (state.success) {
-      setSuccess("Password reset!");
-    }
-  }, [state.errors, state.success]);
+  // useEffect(() => {
+  //   if (state.errors?.other) {
+  //     setError(state.errors.other);
+  //   } else if (state.success) {
+  //     setSuccess("Password reset!");
+  //   }
+  // }, [state.errors, state.success]);
   console.log("message is: ", state);
 
   return (

@@ -5,8 +5,7 @@ import { redirect } from "next/navigation";
 import { CardPaymentSchema, CashPaymentSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { currentSession, currentUser } from "@/lib/auth";
-import { makeCashPurchase } from "@/data/make-cash-purchase";
+import { currentSession } from "@/lib/auth";
 import { makeCardPurchase } from "@/data/make-card-purchase";
 import { ProductDetails } from "@/components/cart";
 

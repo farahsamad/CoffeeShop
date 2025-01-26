@@ -7,8 +7,8 @@ import { addProduct, AddProductState } from "@/actions/addProduct";
 import { useSearchParams } from "next/navigation";
 
 const TestPage = () => {
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  // const [error, setError] = useState("");
+  // const [success, setSuccess] = useState("");
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const initialState: AddProductState = {
@@ -24,8 +24,8 @@ const TestPage = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     console.log("submit");
-    setError("");
-    setSuccess("");
+    // setError("");
+    // setSuccess("");
     e.preventDefault();
     startTransition(() => {
       formAction(new FormData(e.currentTarget));
@@ -34,9 +34,9 @@ const TestPage = () => {
 
   useEffect(() => {
     if (state.errors?.other) {
-      setError(state.errors.other);
+      console.log(state.errors.other);
     } else if (state.success) {
-      setSuccess("Added successful!");
+      console.log(state.success.toString());
     }
   }, [state.errors, state.success]);
 

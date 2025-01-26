@@ -9,79 +9,10 @@ import { FiAlertTriangle } from "react-icons/fi";
 import "@/styles/modal.css";
 import { forgotPassword, ForgotPasswordState } from "@/actions/forgotPassword";
 
-// ({ product: { id: string; waterOption: waterOptionTypes | null; icedOption: icedOptionTypes | null; foamOption: foamOptionTypes | null; ... 4 more ...; productTypeName: string; }; addedToCart: { ...; }; } & { ...; })
-
-// interface savedProductsProps {
-//   product: {
-//     id: string;
-//     waterOption: waterOptionTypes | null;
-//     icedOption: icedOptionTypes | null;
-//     foamOption: foamOptionTypes | null;
-//     productName: string;
-//     productImage: string;
-//     productPrice: number;
-//     productSizes: productSize;
-//     productTypeName: string;
-//   };
-//   addedToCart: {
-//     id: string;
-//     userId: string;
-//     discount: number;
-//     Tax: number;
-//     subTotal: number;
-//     total: number;
-//     createdAt: Date;
-//   };
-//   id: string;
-//   ProductId: string;
-//   userId: string;
-//   AddedToCartId: string;
-//   productQuantity: number;
-//   waterOption: waterOptionTypes;
-//   icedOption: icedOptionTypes;
-//   foamOption: foamOptionTypes;
-// }
-
-// type Product = {
-//   id: string;
-//   productName: string;
-//   productImage: string;
-//   productPrice: number;
-//   productSizes: productSize;
-//   productTypeName: string;
-//   waterOption: waterOptionTypes | null;
-//   icedOption: icedOptionTypes | null;
-//   foamOption: foamOptionTypes | null;
-// };
-
-// type AddedToCart = {
-//   id: string;
-//   userId: string;
-//   discount: number | null;
-//   Tax: number | null;
-//   subTotal: number;
-//   total: number;
-//   createdAt: Date;
-// };
-
-// type CartProduct = {
-//   id: string;
-//   ProductId: string;
-//   userId: string;
-//   AddedToCartId: string;
-//   productQuantity: number;
-//   productSizes: productSize;
-//   waterOption: waterOptionTypes | null;
-//   icedOption: icedOptionTypes | null;
-//   foamOption: foamOptionTypes | null;
-//   product: Product;
-//   addedToCart: AddedToCart;
-// };
-
 export function ForgotPassword() {
   // const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  // const [error, setError] = useState("");
+  // const [success, setSuccess] = useState("");
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const initialState: ForgotPasswordState = {
@@ -95,8 +26,8 @@ export function ForgotPassword() {
   console.log("state.errors: ", state.errors);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    setError("");
-    setSuccess("");
+    // setError("");
+    // setSuccess("");
     e.preventDefault();
     startTransition(() => {
       formAction(new FormData(e.currentTarget));
@@ -130,68 +61,13 @@ export function ForgotPassword() {
   //   }
   // };
 
-  useEffect(() => {
-    if (state.success) {
-      // getSession().then(async () => {
-      console.log("state success");
-      // console.log("in login form userid: ", state?.userId);
-      // fetchCartProducts(state.userId).then((saved_products) => {
-      //   console.log("saved_products here:", saved_products);
-      //   if (saved_products) {
-      //     // const p = { id: string;
-      //     //   productName: string;
-      //     //   productImage: string;
-      //     //   productTypeName: string;
-      //     //   product_size: string;
-      //     //   waterOption?: waterOptionTypes | null;
-      //     //   icedOption?: icedOptionTypes | null;
-      //     //   foamOption?: foamOptionTypes | null;
-      //     //   product_quantity: number;
-      //     //             productPrice: number;
-      //     //           }
-      //     saved_products.map((product) => {
-      //       const item: ProductDetails = {
-      //         id: product.product.id,
-      //         productName: product.product.productName,
-      //         productImage: product.product.productImage,
-      //         productTypeName: product.product.productTypeName,
-      //         product_size: product.productSizes,
-      //         waterOption: product.waterOption,
-      //         icedOption: product.icedOption,
-      //         foamOption: product.foamOption,
-      //         product_quantity: product.productQuantity,
-      //         productPrice: product.product.productPrice,
-      //       };
-      //       if (localStorage.getItem("AddToCart") != null) {
-      //         const new_saved_products: ProductDetails[] = JSON.parse(
-      //           localStorage.getItem("AddToCart")!
-      //         );
-      //         new_saved_products.push(item);
-      //         localStorage.setItem("AddToCart", JSON.stringify(new_saved_products));
-      //       } else {
-      //         const new_items: ProductDetails[] = [];
-      //         new_items.push(item);
-      //         localStorage.setItem("AddToCart", JSON.stringify(new_items));
-      //       }
-      //       updatePerformed();
-      //     });
-
-      //     // setCartProducts(saved_products);
-      //   }
-      // });
-
-      // router.push(state.callbackUrl || "/");
-      // });
-    }
-  }, [state.success, router, state.callbackUrl]);
-
-  useEffect(() => {
-    if (state.errors?.other) {
-      setError(state.errors.other);
-    } else if (state.success) {
-      setSuccess("Email sent!");
-    }
-  }, [state.errors, state.success]);
+  // useEffect(() => {
+  //   if (state.errors?.other) {
+  //     setError(state.errors.other);
+  //   } else if (state.success) {
+  //     setSuccess("Email sent!");
+  //   }
+  // }, [state.errors, state.success]);
   console.log("message is: ", state);
 
   return (

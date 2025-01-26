@@ -1,6 +1,5 @@
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { ProductDetails } from "@/components/cart";
-import { updateCartInDb } from "@/data/cart";
 import { useCallback } from "react";
 
 export const useCartUpdater = () => {

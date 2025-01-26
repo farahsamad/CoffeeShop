@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import authConfig from "./auth.config";
 import NextAuth from "next-auth";
 import {
   API_AUTH_PREFIX,
-  PUBLIC_ROUTES,
   AUTH_ROUTES,
   DEFAULT_LOGIN_REDIRECT,
   PROTECTED_ROUTES,
@@ -79,7 +77,6 @@ export default auth(async function middleware(req) {
   // if (isAccessingPublicRoute && nextUrl.pathname !== "/") {
   //   return NextResponse.redirect(new URL(`/`, nextUrl));
   // }
-
   if (!isAuth && !isAccessingPublicRoute) {
     console.log("///////true");
     let callbackUrl = nextUrl.pathname;

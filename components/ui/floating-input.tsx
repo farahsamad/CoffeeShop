@@ -35,7 +35,8 @@ const FloatingInput: React.FC<inputProps> = ({
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState<string>("");
-  const [phoneValue, setPhoneValue] = useState<string>("");
+  // const [phoneValue, setPhoneValue] = useState<string>("");
+  const phoneValue = "";
   // console.log("value: ", value);
   // console.log("isFocused: ", isFocused);
   // console.log("phoneValue", phoneValue.length);

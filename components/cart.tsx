@@ -47,7 +47,7 @@ function Cart() {
   const [taxes, setTaxes] = useState<number>(totalAmount * 0.2);
   const [cartProducts, setCartProducts] = useState<ProductDetails[]>([]);
   const [quantities, setQuantities] = useState<number[]>([]);
-  const [sectionHeight, setSectionHeight] = useState<number>(0);
+  // const [sectionHeight, setSectionHeight] = useState<number>(0);
   const [isMinWidth, setIsMinWidth] = useState<boolean>(false);
   const [secondMinWidth, setSecondMinWidth] = useState<boolean>(false);
   const { handleRemoveProductCartDb } = useRemoveProduct();
@@ -93,7 +93,8 @@ function Cart() {
     });
   };
   const handleDecrementQuantity = (index: number, id: string, products: ProductDetails[]) => {
-    setTotalAmount((prevAmount) => (prevAmount = 0));
+    // setTotalAmount((prevAmount) => (prevAmount = 0));
+    setTotalAmount(0);
     setQuantities((prevQuantities) => {
       const newQuantities = [...prevQuantities];
       if (newQuantities[index] > 1) {
@@ -159,9 +160,9 @@ function Cart() {
   }, [handleResize]);
 
   useEffect(() => {
-    if (sectionDiv.current) {
-      setSectionHeight(sectionDiv.current.offsetHeight);
-    }
+    // if (sectionDiv.current) {
+    //   setSectionHeight(sectionDiv.current.offsetHeight);
+    // }
 
     handleResize();
     window.addEventListener("resize", handleResize);

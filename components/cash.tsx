@@ -10,7 +10,7 @@ import { ArrowRight, Download, XCircle } from "lucide-react";
 import Form from "next/form";
 import { payCash } from "@/actions/payCash";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCartUpdater } from "@/hooks/useCartUpdater";
+// import { useCartUpdater } from "@/hooks/useCartUpdater";
 import { ProductDetails } from "./cart";
 import { PayCardCashState } from "@/actions/payCard";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
@@ -49,7 +49,8 @@ function Cash() {
   const [subTotalPrice, SetSubTotalPrice] = useState<number>(0);
   const [totalPrice, SetTotalPrice] = useState<number>(0);
   const [taxesPrice, setTaxesPrice] = useState<number>(subTotalPrice * 0.2);
-  const [discount, setDiscount] = useState<number>(0);
+  // const [discount, setDiscount] = useState<number>(0);
+  const discount = 0;
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const [deliveryCity, setDeliveryCity] = useState<string>("");
   const [buyerName, setBuyerName] = useState<string>("");
@@ -496,6 +497,7 @@ function Cash() {
                 id="fifth-part-invoice"
                 className="w-full h-[10%] flex items-center bg-gray-500 justify-center cursor-pointer text-xl hover:scale-105 rounded-sm text-white"
                 type="submit"
+                disabled={isPending}
               >
                 <div>Pay</div>
                 <div className="ml-2 animate-bounce mt-[6px]">

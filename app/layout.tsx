@@ -54,6 +54,10 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en">
+        <div>{signup}</div>
+        <head>
+          <link rel="preconnect" href="https://your-cdn.com" />
+        </head>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <Header>
             <div>{login}</div>

@@ -1,12 +1,10 @@
 "use server";
 
 import { getUserByEmail } from "@/data/user";
-import { db } from "@/lib/db";
 import { sendPasswordResetEmail } from "@/lib/mail";
 import { generatePasswordResetToken } from "@/lib/tokens";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { ForgotPasswordSchema } from "@/schemas";
-import * as z from "zod";
 
 export type ForgotPasswordState = {
   email: string;

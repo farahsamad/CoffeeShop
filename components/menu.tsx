@@ -5,36 +5,24 @@ import React, { Suspense, useCallback, useEffect, useRef, useState } from "react
 // import "../../component/Styles/Menu.css";
 import "@/styles/menu.css";
 import Footer from "./footer";
-import LoadingImage from "./ui/loading-image";
-import { FaArrowCircleUp } from "react-icons/fa";
-import Link from "next/link";
+import { IoIosArrowUp } from "react-icons/io";
 // import { Coffee, ProductsType } from "../../data/coffee";
-import { Coffee, ProductsType } from "@/data/coffee";
 import { useMyContext } from "@/context/context";
-// import { ProductDetails } from "./cart";
-import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
 import CoffeeTypeCart from "./coffee-type-cart";
-import { object } from "zod";
 import { ProductDetails } from "./cart";
 import CoffeeTypeCartSkeleton from "./coffee-type-cart-skeleton";
 
-interface homeProps {
-  barVisibility: boolean;
-  aboutRef: React.RefObject<HTMLDivElement>;
-  pageShowHeader: boolean;
-  sectionsRef: React.RefObject<(HTMLDivElement | null)[]>;
-}
-
-interface coffeeInfo {
-  product_id: number;
-  product_name: string;
-  product_image: string;
-  coffeeType_name: string;
-}
+// interface homeProps {
+//   barVisibility: boolean;
+//   aboutRef: React.RefObject<HTMLDivElement>;
+//   pageShowHeader: boolean;
+//   sectionsRef: React.RefObject<(HTMLDivElement | null)[]>;
+// }
 
 const Menu: React.FC = () => {
   const [products, setProducts] = useState<ProductDetails[] | null>(null);
   const [groupedProducts, setGroupedProducts] = useState<{ [key: string]: ProductDetails[] }>({});
+  const menuContainerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     async function getProducts() {
@@ -71,7 +59,7 @@ const Menu: React.FC = () => {
   }, []);
   // const coffeeInstance = new Coffee();
   // var products = coffeeInstance.coffeeProducts;
-  const { barVisibility, aboutRef, pageShowHeader, sectionsRef } = useMyContext();
+  const { barVisibility } = useMyContext();
   //   const barsVisibility = useOutletContext<homeProps>();
   //   const pageShowHeader = barsVisibility.pageShowHeader;
   //   const barVisibility = barsVisibility.barVisibility;
@@ -98,6 +86,26 @@ const Menu: React.FC = () => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   let lastScrollTop = 0;
+  //   const handleScroll = () => {
+  //     const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  //     if (scrollTop < lastScrollTop) {
+  //       // Scroll up
+  //       document.getElementById("arrow-up-button")?.classList.remove("bottom-2");
+  //       document.getElementById("arrow-up-button")?.classList.add("bottom-2");
+  //     } else {
+  //       // Scroll down
+  //       document.getElementById("arrow-up-button")?.classList.remove("bottom-2");
+  //       document.getElementById("arrow-up-button")?.classList.add("bottom-2");
+  //     }
+  //     lastScrollTop = scrollTop;
+  //   };
+
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
+
   // Object.entries(coffeeInstance.coffeeProducts).forEach(([key, coffeeType]) => {
   //   console.log(`Category: ${coffeeType.name}`);
   //   coffeeType.products.forEach((product: ProductsType, index: number) => {
@@ -120,9 +128,9 @@ const Menu: React.FC = () => {
                 <div className="menu-sentence">Menu</div>
                 <hr />
               </div>
-              <div className="second-section-menu-container relative">
+              <div className="second-section-menu-container relative overflow-hidden">
                 <div className="first-part-menu"></div>
-                <div className="second-part-menu">
+                <div className="second-part-menu mt-11">
                   {/* {Object.entries(coffeeInstance.coffeeProducts).map(([key, coffeeType]) => (
                     <div className={key} key={key}>
                       <div className="hot-coffees-sentence">
@@ -190,7 +198,10 @@ const Menu: React.FC = () => {
                         <CoffeeTypeCart
                           key={`key-${key}`}
                           value={val}
+                          index={key}
                           groupedProducts={groupedProducts}
+                          menuContainerRefs={menuContainerRefs}
+                          lastIndex={Object.keys(groupedProducts).length - 1}
                         />
                       ))
                     ) : (
@@ -219,10 +230,9 @@ const Menu: React.FC = () => {
               }}
               style={{ display: "none" }}
             >
-              <FaArrowCircleUp
+              <IoIosArrowUp
                 id="arrow-up-button"
-                className="fixed bottom-2 right-3 bg-black rounded-full
-               text-white animate-bounce w-7 h-7 cursor-pointer z-50"
+                className="fixed right-3 bg-white rounded-full text-slate-500 animate-bounce w-7 h-7 cursor-pointer z-50 border !border-slate-500 bottom-4 md:!bottom-2"
               />
             </div>
           </div>

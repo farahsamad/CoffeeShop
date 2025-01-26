@@ -1,18 +1,15 @@
 "use client";
 
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "@/styles/navbar.css";
 // import "../../component/Styles/Tailwind.css";
 import Link from "next/link";
-import { FaShoppingBasket, FaBars, FaSearch } from "react-icons/fa";
-import { FaX } from "react-icons/fa6";
+import { FaShoppingBasket, FaSearch } from "react-icons/fa";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import Image from "next/image";
-import { GoSignOut } from "react-icons/go";
-import { LogoutButton } from "./auth/logout-button";
 import { ProductDetails } from "./cart";
 import { useMyContext } from "@/context/context";
 import SearchForm from "./search-form";
+import { usePathname } from "next/navigation";
 
 interface indexProps {
   aboutRef: React.RefObject<HTMLDivElement | null>;
@@ -22,12 +19,13 @@ interface indexProps {
 }
 
 function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: indexProps) {
-  const [showBlock, setShowBlock] = useState<boolean>(false);
+  // const [showBlock, setShowBlock] = useState<boolean>(false);
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [cartNumber, setCartNumber] = useState<ProductDetails[]>([]);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const searchRef = useRef<HTMLDivElement | null>(null);
+  const location = usePathname();
   const { update } = useMyContext();
 
   const user = useCurrentUser();
@@ -52,16 +50,16 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
       setBarVisibility(() => !barVisibility);
     }
   }
-  const scrollToAboutSection = () => {
-    setTimeout(() => {
-      // console.log("first scroll");
-      if (aboutRef.current) {
-        // console.log("second scroll");
-        aboutRef.current.scrollIntoView({ behavior: "smooth" });
-        // console.log("third scroll");
-      }
-    }, 1000);
-  };
+  // const scrollToAboutSection = () => {
+  //   setTimeout(() => {
+  //     // console.log("first scroll");
+  //     if (aboutRef.current) {
+  //       // console.log("second scroll");
+  //       aboutRef.current.scrollIntoView({ behavior: "smooth" });
+  //       // console.log("third scroll");
+  //     }
+  //   }, 1000);
+  // };
   const barClick = () => {
     setBarVisibility(() => !barVisibility);
     if (barRef.current) barRef.current.checked = false;
@@ -78,22 +76,22 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
         document.body.style.maxHeight = "100vh";
       }
   }, [barVisibility]);
-  const scrollToAboutSectionPhone = () => {
-    if (phoneContainer.current)
-      if (!barVisibility) {
-        phoneContainer.current.style.width = "0vw";
-        document.body.style.overflow = "unset";
-        setTimeout(() => {
-          if (aboutRef.current) {
-            if (barRef.current) barRef.current.checked = false;
-            setBarVisibility(() => !barVisibility);
-            aboutRef.current.scrollIntoView({ behavior: "smooth" });
-          }
-        }, 50);
-      }
+  // const scrollToAboutSectionPhone = () => {
+  //   if (phoneContainer.current)
+  //     if (!barVisibility) {
+  //       phoneContainer.current.style.width = "0vw";
+  //       document.body.style.overflow = "unset";
+  //       setTimeout(() => {
+  //         if (aboutRef.current) {
+  //           if (barRef.current) barRef.current.checked = false;
+  //           setBarVisibility(() => !barVisibility);
+  //           aboutRef.current.scrollIntoView({ behavior: "smooth" });
+  //         }
+  //       }, 50);
+  //     }
 
-    // setBarVisibility(() => !barVisibility);
-  };
+  //   // setBarVisibility(() => !barVisibility);
+  // };
 
   const handleScroll = () => {
     // console.log("window.scrollY: ", window.scrollY);
@@ -142,9 +140,9 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
     };
   }, [lastScrollY]);
 
-  const showDropDown = () => {
-    setShowBlock((prev) => !prev);
-  };
+  // const showDropDown = () => {
+  //   setShowBlock((prev) => !prev);
+  // };
   const handleClickOutside = (event: MouseEvent) => {
     if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
       setIsSearchVisible(false);
@@ -184,6 +182,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
               <li className="home h-full">
                 <Link
                   href="/"
+                  className={`${location === "/" ? "text-slate-400" : ""}`}
                   // className={({ isActive }) =>
                   //   isActive
                   //     ? currentSection !== "fourth-container"
@@ -198,6 +197,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
               <li className="about h-full">
                 <Link
                   href="/#about"
+                  className={`${location === "/#about" ? "text-slate-400" : ""}`}
                   // className={({ isActive }) =>
                   //   isActive
                   //     ? currentSection === "fourth-container"
@@ -216,6 +216,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
                   //   isActive ? "h-full border-b-4 border-gray-600" : "h-full"
                   // }
                   href={`/menu`}
+                  className={`${location === "/menu" ? "text-slate-400" : ""}`}
                 >
                   <div className="h-[96px] w-full grid place-content-center">MENU</div>
                 </Link>
@@ -226,7 +227,9 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
             <div className="second-sign-container not-phone">
               <div id="cart-icon" className="relative mr-[20px] h-full">
                 <Link href="/cart">
-                  <FaShoppingBasket className="search-icon" />
+                  <FaShoppingBasket
+                    className={`search-icon ${location === "/cart" ? "text-slate-400" : ""}`}
+                  />
                 </Link>
                 <div
                   id="cart-products-number"
@@ -285,6 +288,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
               <li className="home">
                 <Link
                   href={`/`}
+                  className={`${location === "/" ? "text-slate-400" : ""}`}
                   onClick={barClick}
                   // className={({ isActive }) =>
                   //   isActive
@@ -300,6 +304,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
               <li className="about">
                 <Link
                   href={"/#about"}
+                  className={`${location === "/#about" ? "text-slate-400" : ""}`}
                   // className={({ isActive }) =>
                   //   isActive
                   //     ? currentSection === "fourth-container"
@@ -315,6 +320,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
               <li className="menu">
                 <Link
                   href="/menu"
+                  className={`${location === "/menu" ? "text-slate-400" : ""}`}
                   // className={({ isActive }) =>
                   //   isActive
                   //     ? "h-full border-b-4 border-gray-600  grid place-content-center"
@@ -346,7 +352,7 @@ function NavBar({ aboutRef, barVisibility, setBarVisibility, sectionsRef }: inde
       </div>
       {isSearchVisible && (
         <div id="search-section" className="absolute h-full w-full">
-          <SearchForm searchRef={searchRef} />
+          <SearchForm searchRef={searchRef} setIsSearchVisible={setIsSearchVisible} />
         </div>
       )}
     </>

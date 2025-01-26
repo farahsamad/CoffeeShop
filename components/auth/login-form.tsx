@@ -102,8 +102,8 @@ export function Login() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   // const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
   const [showTwoFactor, setShowTwoFactor] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  // const [error, setError] = useState("");
+  // const [success, setSuccess] = useState("");
   // const { updatePerformed } = useMyContext();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
@@ -140,8 +140,8 @@ export function Login() {
       formDataInstance = new FormData(event.currentTarget);
     }
 
-    setError("");
-    setSuccess("");
+    // setError("");
+    // setSuccess("");
 
     if (!showTwoFactor) {
       startTransition(() => {
@@ -265,13 +265,13 @@ export function Login() {
     }
   }, [state.success, router, state.callbackUrl, code, state.twoFactor, showTwoFactor]);
 
-  useEffect(() => {
-    if (state.errors?.other) {
-      setError(state.errors.other);
-    } else if (state.success) {
-      setSuccess("Login successful!");
-    }
-  }, [state.errors, state.success]);
+  // useEffect(() => {
+  //   if (state.errors?.other) {
+  //     setError(state.errors.other);
+  //   } else if (state.success) {
+  //     setSuccess("Login successful!");
+  //   }
+  // }, [state.errors, state.success]);
   console.log("message is: ", state);
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);

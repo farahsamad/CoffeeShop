@@ -14,7 +14,7 @@ export const getProducts = async () => {
         productTypeName: "asc",
       },
     });
-    console.log("getProducts", getProducts);
+    console.log("products", products);
     return products;
   } catch (error) {
     console.log("//////////////////////////////////////////");

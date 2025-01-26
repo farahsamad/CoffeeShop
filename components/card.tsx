@@ -8,7 +8,7 @@ import MonthYearInput from "./ui/month-input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { payCard, PayCardCashState } from "@/actions/payCard";
 import Form from "next/form";
-import { useCartUpdater } from "@/hooks/useCartUpdater";
+// import { useCartUpdater } from "@/hooks/useCartUpdater";
 import { ProductDetails } from "./cart";
 import { deliveryCities, payloadProps } from "./cash";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
@@ -26,13 +26,14 @@ export interface updateValues {
 
 function Card() {
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  // const [success, setSuccess] = useState("");
   const [cartProducts, setCartProducts] = useState<ProductDetails[]>([]);
   // const [inputDefaultValues, setInputDefaultValues] = useState<updateValues>();
   const [subTotalPrice, SetSubTotalPrice] = useState<number>(0);
   const [totalPrice, SetTotalPrice] = useState<number>(0);
   const [taxesPrice, setTaxesPrice] = useState<number>(subTotalPrice * 0.2);
-  const [discount, setDiscount] = useState<number>(0);
+  // const [discount, setDiscount] = useState<number>(0);
+  const discount = 0;
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const [deliveryCity, setDeliveryCity] = useState<string>("");
   const [buyerName, setBuyerName] = useState<string>("");
@@ -215,7 +216,7 @@ function Card() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (localStorage.getItem("AddToCart")) {
       setError("");
-      setSuccess("");
+      // setSuccess("");
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
 
@@ -264,7 +265,7 @@ function Card() {
     if (state.errors?.other) {
       setError(state.errors.other);
     } else if (state.success !== "" && state.success !== undefined) {
-      setSuccess(state.success);
+      // setSuccess(state.success);
     }
   }, [state.errors, state.success]);
   // const onSubmit = (values: z.infer<typeof LoginSchema>) => {
@@ -548,6 +549,7 @@ function Card() {
                 type="submit"
                 id="fifth-part-invoice"
                 className="w-full h-[10%] flex items-center bg-gray-500 justify-center cursor-pointer text-xl hover:scale-105 rounded-sm text-white"
+                disabled={isPending}
               >
                 <div>Pay</div>
                 <div className="ml-2 animate-bounce mt-[6px]">

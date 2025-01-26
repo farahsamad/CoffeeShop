@@ -1,32 +1,30 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
-interface blurredProps {
+interface BlurredProps {
   src: string;
   blurredSrc: string;
   imageAlt: string;
+  priority?: boolean;
 }
 
-const BlurredImage: React.FC<blurredProps> = ({ src, blurredSrc, imageAlt }) => {
+const BlurredImage: React.FC<BlurredProps> = ({ src, blurredSrc, imageAlt, priority }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     const img = new window.Image();
     img.onload = () => {
       setIsLoaded(true);
     };
     img.src = src;
-  }, [src, blurredSrc]);
-
-  // const handleImageLoad = () => {
-  //   setIsLoaded(true);
-  // };
+  }, [src]);
 
   return (
     <>
       {!isLoaded ? (
         <Image
           src={blurredSrc}
-          alt={`${imageAlt} blurred `}
+          alt={`${imageAlt} blurred`}
           style={{ display: isLoaded ? "none" : "block" }}
           width={500}
           height={300}
@@ -34,11 +32,12 @@ const BlurredImage: React.FC<blurredProps> = ({ src, blurredSrc, imageAlt }) => 
       ) : (
         <Image
           src={src}
-          alt={`${imageAlt} `}
-          // onLoad={handleImageLoad}
+          alt={imageAlt}
+          loading={priority ? "eager" : "lazy"}
+          priority={priority}
           width={500}
           height={300}
-          style={{ display: isLoaded ? "block" : "none" }}
+          style={{ display: "block" }}
         />
       )}
     </>

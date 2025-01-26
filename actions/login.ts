@@ -1,15 +1,13 @@
 "use server";
 
-import * as z from "zod";
 import { redirect } from "next/navigation";
 import { LoginSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { getUserCartProductsFromDb } from "./getUserCartProducts";
-import { sendTwoFactorTokenEmail, sendVerificationEmail } from "@/lib/mail";
-import { generateTwoFactorToken, generateVerificationToken } from "@/lib/tokens";
+import { sendTwoFactorTokenEmail } from "@/lib/mail";
+import { generateTwoFactorToken } from "@/lib/tokens";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 import { db } from "@/lib/db";

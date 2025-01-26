@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import BlurredImage from "./ui/blurred-image";
 import Footer from "./footer";
-import { FaArrowCircleUp } from "react-icons/fa";
+import { IoIosArrowUp } from "react-icons/io";
 import About from "./about";
 import "@/styles/home.css";
 import { useMyContext } from "@/context/context";
@@ -55,6 +55,26 @@ function Home() {
     product_price: 5,
   };
 
+  useEffect(() => {
+    let lastScrollTop = 0;
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      if (scrollTop < lastScrollTop) {
+        // Scroll up
+        document.getElementById("arrow-up-button")?.classList.remove("bottom-2");
+        document.getElementById("arrow-up-button")?.classList.add("bottom-[0.75rem]");
+      } else {
+        // Scroll down
+        document.getElementById("arrow-up-button")?.classList.remove("bottom-[0.75rem]");
+        document.getElementById("arrow-up-button")?.classList.add("bottom-2");
+      }
+      lastScrollTop = scrollTop;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div ref={firstDiv} className={`${barVisibility ? "" : "bar-visible"}`}>
       <div className={`main-home-page-container  mt-[100px]`}>
@@ -69,13 +89,11 @@ function Home() {
           >
             <div className="second-intro-container">
               <div className="intro-image">
-                {/* <img src={require("../../component/image/coffee-banner.png")} alt="" /> */}
                 <BlurredImage
-                  //   src={require("../../component/image/coffee-banner.png")}
                   src="/image/coffee-banner.png"
-                  //   blurredSrc={require("../../component/image/blurred-coffee-banner.png")}
                   blurredSrc="/image/blurred-coffee-banner.png"
                   imageAlt="coffee banner"
+                  priority={true}
                 ></BlurredImage>
               </div>
               <div className="intro-sentence">
@@ -203,10 +221,9 @@ function Home() {
             }}
             style={{ display: "none" }}
           >
-            <FaArrowCircleUp
+            <IoIosArrowUp
               id="arrow-up-button"
-              className="fixed bottom-2 right-3 bg-black rounded-full
-               text-white animate-bounce w-7 h-7 cursor-pointer z-50"
+              className="fixed right-3 bg-white rounded-full text-slate-500 animate-bounce w-7 h-7 cursor-pointer z-50 border !border-slate-500"
             />
           </div>
           <div className="footer-pages-container  mb-[64px] -mx-[10px]">

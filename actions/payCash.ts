@@ -1,11 +1,10 @@
 "use server";
 
-import * as z from "zod";
 import { redirect } from "next/navigation";
 import { CashPaymentSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { currentSession, currentUser } from "@/lib/auth";
+import { currentSession } from "@/lib/auth";
 import { makeCashPurchase } from "@/data/make-cash-purchase";
 import { ProductDetails } from "@/components/cart";
 import { PayCardCashState, PayCashCardErrors } from "./payCard";

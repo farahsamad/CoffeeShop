@@ -14,8 +14,8 @@ import { getSession } from "next-auth/react";
 
 export function Signup() {
   const [verificationCode, setVerificationCode] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  // const [error, setError] = useState("");
+  // const [success, setSuccess] = useState("");
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
@@ -48,8 +48,8 @@ export function Signup() {
       event.preventDefault();
       formDataInstance = new FormData(event.currentTarget);
     }
-    setError("");
-    setSuccess("");
+    // setError("");
+    // setSuccess("");
     if (!verificationCode) {
       startTransition(() => {
         formAction(formDataInstance);

@@ -1,6 +1,6 @@
 import { ProductDetails } from "@/components/cart";
 import { db } from "@/lib/db";
-import { foamOptionTypes, icedOptionTypes, PaymentMethod, waterOptionTypes } from "@prisma/client";
+import { foamOptionTypes, icedOptionTypes, waterOptionTypes } from "@prisma/client";
 
 interface CardPurchaseProps {
   product: ProductDetails;

@@ -1,5 +1,4 @@
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { ProductDetails } from "@/components/cart";
 import { useCallback } from "react";
 
 interface handleRemoveProductCartDbProps {

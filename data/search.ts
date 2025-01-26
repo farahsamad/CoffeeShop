@@ -15,6 +15,16 @@ export const searchProduct = async (search: string) => {
               startsWith: search,
             },
           },
+          {
+            productName: {
+              contains: search,
+            },
+          },
+          {
+            productTypeName: {
+              contains: search,
+            },
+          },
         ],
       },
       select: {

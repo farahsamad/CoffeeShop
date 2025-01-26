@@ -43,7 +43,7 @@ const CoffeeProduct: React.FC = () => {
   const [circleHover, setCircleHover] = useState<boolean>(false);
   const [circleIndex, setCircleIndex] = useState<number>(0);
   const [circleIndexHover, setCircleIndexHover] = useState<number>(0);
-  const [circleOpacity, setCircleOpacity] = useState<string>("!opacity-100");
+  const circleOpacity = "!opacity-100";
   const { barVisibility, updatePerformed } = useMyContext();
   //   const barsVisibility = useOutletContext<homeProps>();
   //   const barVisibility = barsVisibility.barVisibility;

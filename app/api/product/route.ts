@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    // const products = await getProducts();
     const products = await getProducts();
+    console.log("route products: ", products);
     if (products) {
       return NextResponse.json({ products }, { status: 200 });
     } else {

@@ -275,7 +275,7 @@ html {
     }
     #add-to-cart,
     #arrow-up-button {
-      bottom: 64px;
+      bottom: 80px;
     }
   }
   @media (min-width: 200px) and (min-height: 900px) {
@@ -433,5 +433,104 @@ a {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+#searched-value-container::-webkit-scrollbar {
+  width: 6px !important;
+}
+#searched-value-container::-webkit-scrollbar-track {
+  background: antiquewhite !important;
+}
+#searched-value-container::-webkit-scrollbar-thumb {
+  background: #6b7280 !important;
+}
+#searched-value-container::-webkit-scrollbar-thumb:hover {
+  background: #34383f !important;
+}
+@keyframes stretchBounce {
+  0% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.5);
+  }
+  70% {
+    transform: scaleY(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+@keyframes rays {
+  0% {
+    box-shadow: 0 0 10px rgba(108, 117, 125, 0.5), 0 0 20px rgba(108, 117, 125, 0.5),
+      0 0 30px rgba(108, 117, 125, 0.5), 0 0 40px rgba(108, 117, 125, 0.5),
+      0 0 50px rgba(108, 117, 125, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(108, 117, 125, 0), 0 0 20px rgba(108, 117, 125, 0),
+      0 0 30px rgba(108, 117, 125, 0), 0 0 40px rgba(108, 117, 125, 0),
+      0 0 50px rgba(108, 117, 125, 0);
+  }
+}
+
+.animate-rays {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(108, 117, 125, 0.5), rgba(108, 117, 125, 0));
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  display: none;
+}
+
+.animate-rays.visible {
+  display: block;
+  animation: rays 1.5s infinite alternate;
+}
+/* @keyframes moveMask {
+  0% {
+    mask-position: 0% 0%;
+    -webkit-mask-position: 0% 0%;
+  }
+  100% {
+    mask-position: 0% 100%;
+    -webkit-mask-position: 0% 100%;
+  }
+} */
+
+/* #zigzag-div {
+  background: linear-gradient(45deg, #ff7f50, #6a5acd);
+  clip-path: url(#zigzagPath);
+  mask-image: linear-gradient(to bottom, black, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+  animation: moveMask 3s infinite linear;
+} */
+.zigzag-div {
+  visibility: hidden;
+}
+.zigzag-div.visible {
+  visibility: visible;
+  display: block;
+  background: linear-gradient(45deg, #ffffff, #000000);
+  animation: brightnessChange 3s infinite alternate;
+}
+
+@keyframes brightnessChange {
+  0% {
+    filter: brightness(0.5);
+  }
+  50% {
+    filter: brightness(1.5);
+  }
+  100% {
+    filter: brightness(0.5);
   }
 }

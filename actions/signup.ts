@@ -1,7 +1,5 @@
 "use server";
 
-import * as z from "zod";
-import { redirect } from "next/navigation";
 import { SignupSchema } from "@/schemas";
 import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/data/user";
@@ -10,12 +8,7 @@ import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 import { AuthError } from "next-auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
-import {
-  getVerificationTokenByEmail,
-  getVerificationTokenByToken,
-} from "@/data/verification-token";
-import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+import { getVerificationTokenByToken } from "@/data/verification-token";
 import { signIn } from "@/auth";
 
 // export async function login(

@@ -2,13 +2,9 @@
 
 import { getUserByEmail } from "@/data/user";
 import { db } from "@/lib/db";
-import { sendPasswordResetEmail } from "@/lib/mail";
-import { generatePasswordResetToken } from "@/lib/tokens";
-import { ForgotPasswordSchema, ResetPasswordSchema } from "@/schemas";
-import * as z from "zod";
+import { ResetPasswordSchema } from "@/schemas";
 import bcrypt from "bcryptjs";
 import { getPasswordResetTokenByToken } from "@/data/reset-password-token";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 export type ResetPasswordState = {
   password: string;

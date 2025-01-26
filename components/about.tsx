@@ -58,7 +58,7 @@ function About({ aboutRef, barVisibility, sectionRef }: homeProps) {
             <div className="first-section-image">
               {/* <img src={require("../../component/image/strawberry-smoothie.png")} /> */}
               <BlurredImage
-                src={"../../component/image/strawberry-smoothie.png"}
+                src={"/image/strawberry-smoothie.png"}
                 // src={require("../../component/image/strawberry-smoothie.png")}
                 blurredSrc={"/image/blurred-strawberry-smoothie.png"}
                 // blurredSrc={require("../../component/image/blurred-strawberry-smoothie.png")}

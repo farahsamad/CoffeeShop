@@ -80,7 +80,7 @@ export function ProfileForm() {
   const user = useCurrentUser();
   const [paymentsData, setPaymentsData] = useState<paymentData[] | null>([]);
   const [uniqAddress, setUniqAddress] = useState<paymentData[] | undefined>([]);
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   // const [success, setSuccess] = useState("");
   const [checkEnableModal, setCheckEnableModal] = useState<boolean>(false);
   const [checkDisableModal, setCheckDisableModal] = useState<boolean>(false);
@@ -89,75 +89,23 @@ export function ProfileForm() {
   );
   const [removePaymentOrder, setRemovePaymentOrder] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
-  // const searchParams = useSearchParams();
-  // const callbackUrl = searchParams.get("callbackUrl");
-  // const [state, formAction, isPending] = useActionState(login, initialState);
-  // console.log("state.errors: ", state.errors);
 
-  // const handleSubmit = (formData: FormData | React.FormEvent<HTMLFormElement>) => {
-  //   let formDataInstance;
-  //   if (formData instanceof FormData) {
-  //     formDataInstance = formData;
-  //   } else {
-  //     const event = formData as React.FormEvent<HTMLFormElement>;
-  //     event.preventDefault();
-  //     formDataInstance = new FormData(event.currentTarget);
-  //   }
-  //   setError("");
-  //   setSuccess("");
-  // };
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   if (!showTwoFactor) {
-  //     setError("");
-  //     setSuccess("");
-  //     e.preventDefault();
-  //     startTransition(() => {
-  //       formAction(new FormData(e.currentTarget));
-  //     });
-  //   }
-  //   if (showTwoFactor) {
-  //     try {
-  //       setError("");
-  //       setSuccess("");
-  //       e.preventDefault();
-  //       const verificationCode = code.join("");
-  //       const formData = new FormData(e.currentTarget);
-  //       formData.append("code", verificationCode); // Append the token only if it's not null
-  //       startTransition(() => {
-  //         formAction(formData);
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
+  // const fetchCartProducts = async (userId: string): Promise<CartProduct[] | null> => {
+  //   try {
+  //     if (localStorage.getItem("AddToCart") != null) {
+  //       localStorage.removeItem("AddToCart");
+  //       console.log("removeItem");
   //     }
+  //     console.log("Fetching cart products for userId:", userId);
+  //     const response = await fetch(`/api/getCartProduct?userId=${userId}`);
+  //     const data = await response.json();
+  //     console.log("Fetched cart products:", data.products);
+  //     return data.products;
+  //   } catch (error) {
+  //     console.error("Error fetching cart products:", error);
+  //     return null;
   //   }
   // };
-
-  //     getSession().then(async () => {
-  //       console.log("state success");
-  //       console.log("in login form userid: ", state?.userId);
-  //       await updateProducts(state?.userId);
-  //       console.log("state.success");
-  //       router.push(state.callbackUrl || "/");
-  //     });
-  //   }
-  // }, [state.success, router, state.callbackUrl]);
-
-  const fetchCartProducts = async (userId: string): Promise<CartProduct[] | null> => {
-    try {
-      if (localStorage.getItem("AddToCart") != null) {
-        localStorage.removeItem("AddToCart");
-        console.log("removeItem");
-      }
-      console.log("Fetching cart products for userId:", userId);
-      const response = await fetch(`/api/getCartProduct?userId=${userId}`);
-      const data = await response.json();
-      console.log("Fetched cart products:", data.products);
-      return data.products;
-    } catch (error) {
-      console.error("Error fetching cart products:", error);
-      return null;
-    }
-  };
 
   // useEffect(() => {
   //   if (state.success) {
@@ -221,30 +169,6 @@ export function ProfileForm() {
   //   }
   // }, [state.success, router, state.callbackUrl, code, state.twoFactor, showTwoFactor]);
 
-  // useEffect(() => {
-  //   if (state.errors?.other) {
-  //     setError(state.errors.other);
-  //   } else if (state.success) {
-  //     setSuccess("Login successful!");
-  //   }
-  // }, [state.errors, state.success]);
-  // console.log("message is: ", state);
-
-  // const navigate = useNavigate();
-
-  // const { error, isLoading, verifyEmail } = useAuthStore();
-
-  // useEffect(() => {
-  //   if (code.every((digit) => digit !== "")) {
-  //     // Create a mock FormEvent
-  //     const mockEvent = {
-  //       preventDefault: () => {},
-  //       // Add any other properties or methods needed by handleSubmit
-  //     } as React.FormEvent<HTMLFormElement>;
-
-  //     handleSubmit(mockEvent);
-  //   }
-  // }, [code]);
   const formatDate = (date: string) => {
     const today = new Date(date);
     const day = String(today.getDate()).padStart(2, "0");
@@ -277,7 +201,7 @@ export function ProfileForm() {
   };
 
   useEffect(() => {
-    const data = getUserPayments();
+    getUserPayments();
   }, [removePaymentOrder]);
 
   const handleRemoveOrder = async (id: string) => {
@@ -319,23 +243,22 @@ export function ProfileForm() {
       console.log("isTwoFactorEnabled: ", isTwoFactorEnabled);
       if (isTwoFactorEnabled === true || isTwoFactorEnabled === false) {
         startTransition(() => {
-          twoFactorAuthentication({ userId, isTwoFactorEnabled })
-            .then((data) => {
-              console.log("data: ", data);
-              if (data) {
-                console.log("setIsTwoFactorEnabled: true");
-                setIsTwoFactorEnabled(isTwoFactorEnabled);
-                setCheckEnableModal(false);
-                setCheckDisableModal(false);
-              } else {
-                console.log("setIsTwoFactorEnabled: false");
+          twoFactorAuthentication({ userId, isTwoFactorEnabled }).then((data) => {
+            console.log("data: ", data);
+            if (data) {
+              console.log("setIsTwoFactorEnabled: true");
+              setIsTwoFactorEnabled(isTwoFactorEnabled);
+              setCheckEnableModal(false);
+              setCheckDisableModal(false);
+            } else {
+              console.log("setIsTwoFactorEnabled: false");
 
-                // setIsTwoFactorEnabled(isTwoFactorEnabled);
-                setCheckEnableModal(false);
-                setCheckDisableModal(false);
-              }
-            })
-            .catch(() => setError("Something went wrong"));
+              // setIsTwoFactorEnabled(isTwoFactorEnabled);
+              setCheckEnableModal(false);
+              setCheckDisableModal(false);
+            }
+          });
+          // .catch(() => setError("Something went wrong"));
         });
       }
     }
