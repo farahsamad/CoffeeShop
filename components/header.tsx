@@ -52,7 +52,6 @@ function Header({ children }: HeaderProps) {
         value={{ barVisibility, aboutRef, pageShowHeader, sectionsRef, update, updatePerformed }}
       >
         <NavBar
-          aboutRef={aboutRef}
           barVisibility={barVisibility}
           setBarVisibility={setBarVisibility}
           sectionsRef={sectionsRef}
