@@ -12,7 +12,7 @@ import "@/styles/modal.css";
 // import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 
 import Link from "next/link";
-import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
+// import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 
 export const fetchCartProducts = async (userId: string): Promise<CartProduct[] | null> => {
   try {
@@ -68,11 +68,11 @@ type Product = {
   productName: string;
   productImage: string;
   productPrice: number;
-  productSizes: productSize;
+  productSizes: "Short" | "Tall" | "Grand" | "Venti";
   productTypeName: string;
-  waterOption: waterOptionTypes | null;
-  icedOption: icedOptionTypes | null;
-  foamOption: foamOptionTypes | null;
+  waterOption: "No_Water" | "Water" | null;
+  icedOption: "Light_Ice" | "Extra_Ice" | "No_Ice" | null;
+  foamOption: "Light_Foam" | "Extra_Foam" | "No_Foam" | null;
 };
 
 type AddedToCart = {
@@ -91,10 +91,10 @@ type CartProduct = {
   userId: string;
   AddedToCartId: string;
   productQuantity: number;
-  productSizes: productSize;
-  waterOption: waterOptionTypes | null;
-  icedOption: icedOptionTypes | null;
-  foamOption: foamOptionTypes | null;
+  productSizes: "Short" | "Tall" | "Grand" | "Venti";
+  waterOption: "No_Water" | "Water" | null;
+  icedOption: "Light_Ice" | "Extra_Ice" | "No_Ice" | null;
+  foamOption: "Light_Foam" | "Extra_Foam" | "No_Foam" | null;
   product: Product;
   addedToCart: AddedToCart;
 };
