@@ -1,0 +1,206 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") // uses connection pooling
+  directUrl = env("DATABASE_URL_UNPOOLED") // uses a direct connection
+}
+
+enum PaymentMethod {
+  Card
+  Cash
+}
+
+enum productSize {
+  Short
+  Tall
+  Grand
+  Venti
+}
+
+enum waterOptionTypes {
+  No_Water
+  Water
+}
+
+enum icedOptionTypes {
+  Light_Ice
+  Extra_Ice
+  No_Ice
+}
+
+enum foamOptionTypes {
+  Light_Foam
+  Extra_Foam
+  No_Foam
+}
+
+model User {
+  id                    String                 @id @default(cuid())
+  name                  String?
+  email                 String?                @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String?
+  accounts              Account[]
+  sessions              Session[]
+  payments              Payment[]
+  createdAt             DateTime               @default(now()) @map(name: "created_at")
+  updatedAt             DateTime               @updatedAt @map(name: "updated_at")
+  isTwoFactorEnabled    Boolean                @default(false)
+  rememberMe            Boolean?
+  twoFactorConfirmation TwoFactorConfirmation?
+  addedToCart           AddedToCart[]
+  addedToCartProducts   AddedToCartProducts[]
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
+}
+
+model Product {
+  id                  String                @id @default(cuid())
+  productName         String
+  productImage        String
+  productPrice        Float
+  productSizes        productSize?          @default(Tall)
+  productTypeName     String
+  waterOption         waterOptionTypes?
+  icedOption          icedOptionTypes?
+  foamOption          foamOptionTypes?
+  paymentProducts     PaymentProducts[]
+  addedToCartProducts AddedToCartProducts[]
+}
+
+model Payment {
+  id              String            @id @default(cuid())
+  userId          String
+  method          PaymentMethod     @default(Cash)
+  name            String
+  email           String
+  phone           Int
+  nameOnCard      String?
+  cardNumber      BigInt?
+  cardExpire      String?
+  cvv             String?
+  city            String
+  Address         String
+  deliveryDate    DateTime          @default(now())
+  note            String?
+  discount        Int?
+  Tax             Float?
+  subTotal        Float
+  total           Float
+  createdAt       DateTime          @default(now()) @map(name: "created_at")
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paymentProducts PaymentProducts[]
+}
+
+model AddedToCart {
+  id                  String                @id @default(cuid())
+  userId              String
+  discount            Int?
+  Tax                 Float?
+  subTotal            Float
+  total               Float
+  createdAt           DateTime              @default(now()) @map(name: "created_at")
+  user                User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  addedToCartProducts AddedToCartProducts[]
+}
+
+model PaymentProducts {
+  id              String            @id @default(cuid())
+  productId       String
+  paymentId       String
+  productQuantity Int
+  productSizes    productSize?      @default(Tall)
+  waterOption     waterOptionTypes?
+  icedOption      icedOptionTypes?
+  foamOption      foamOptionTypes?
+  payment         Payment           @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  product         Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model AddedToCartProducts {
+  id              String            @id @default(cuid())
+  ProductId       String
+  userId          String
+  AddedToCartId   String
+  productQuantity Int
+  productSizes    productSize?      @default(Tall)
+  waterOption     waterOptionTypes?
+  icedOption      icedOptionTypes?
+  foamOption      foamOptionTypes?
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  addedToCart     AddedToCart       @relation(fields: [AddedToCartId], references: [id], onDelete: Cascade)
+  product         Product           @relation(fields: [ProductId], references: [id], onDelete: Cascade)
+}
