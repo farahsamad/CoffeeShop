@@ -192,7 +192,7 @@ export function ProfileForm() {
       //     )
       // );
       const uniqueAddresses = Array.from(
-        new Map(data?.map((item) => [`${item.Address}|${item.city}`, item])).values()
+        new Map(data?.map((item: paymentData) => [`${item.Address}|${item.city}`, item])).values()
       );
       setUniqAddress(uniqueAddresses);
       console.log("data: ", data);
