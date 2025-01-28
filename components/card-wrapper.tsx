@@ -40,7 +40,7 @@ const CardWrapper = ({
 
   return (
     <div className="min-w-[200px] md:w-[500px] lg:w-[600px] grid place-content-center text-sm md:text-base">
-      <div className="h-full min-w-44 w-60 lg:w-[300px]">
+      <div className="h-full min-w-[310px] w-60 lg:w-[320px]">
         {form ? (
           <div id="header-label" className="h-[24px] w-full text-center text-slate-500">
             {headerLabel}
