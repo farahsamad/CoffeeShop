@@ -17,7 +17,8 @@ export function Signup() {
   // const [error, setError] = useState("");
   // const [success, setSuccess] = useState("");
   const [code, setCode] = useState(["", "", "", "", "", ""]);
-  const environment = process.env.NEXT_ENVIRONMENT;
+  const env = process.env.NODE_ENV === "production";
+  console.log("Current Environment:", env);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const initialState: SignupState = {
@@ -180,12 +181,12 @@ export function Signup() {
                   />
                 ))}
               </div>
-              {environment === "production" && (
+              {env && (
                 <div className="flex w-full items-center h-[24px] text-slate-500 font-semibold my-1">
                   Since you are in production mode enter this code 111111
                 </div>
               )}
-              {environment === "development" && state.success && (
+              {!env && state.success && (
                 <div className="flex w-full items-center h-[24px] text-green-800 bg-green-300 rounded-sm p-4  font-semibold my-1 ">
                   <BiCheckCircle className="font-semibold text-sm" />
                   <span className="ml-1 -mt-[3px] text-xs">{state.success}</span>
