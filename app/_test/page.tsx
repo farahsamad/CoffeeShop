@@ -23,7 +23,6 @@ const TestPage = () => {
   const [state, formAction, isPending] = useActionState(addProduct, initialState);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("submit");
     // setError("");
     // setSuccess("");
     e.preventDefault();

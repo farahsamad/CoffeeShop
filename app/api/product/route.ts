@@ -4,14 +4,12 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const products = await getProducts();
-    console.log("route products: ", products);
     if (products) {
       return NextResponse.json({ products }, { status: 200 });
     } else {
       return NextResponse.json({ error: "Products not found" }, { status: 404 });
     }
   } catch (error) {
-    console.error(error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

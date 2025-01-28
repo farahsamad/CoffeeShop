@@ -20,10 +20,6 @@ export const LogoutButton = () => {
     });
   };
 
-  // const handleSignout = async () => {
-  //   const updatedLikes = await handleUpdateCartDb();
-  // };
-
   return (
     <button
       onClick={async () => {

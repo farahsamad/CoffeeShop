@@ -15,8 +15,6 @@ interface inputProps {
   type: string;
   name: string;
   state: PayCardCashState;
-  // defaultValue?: string;
-  // phoneDefaultValue?: number;
   setDeliveryCity?: React.Dispatch<React.SetStateAction<string>>;
   setBuyerName?: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -28,44 +26,12 @@ const FloatingInput: React.FC<inputProps> = ({
   type,
   name,
   state,
-  // defaultValue,
-  // phoneDefaultValue,
   setDeliveryCity,
   setBuyerName,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState<string>("");
-  // const [phoneValue, setPhoneValue] = useState<string>("");
   const phoneValue = "";
-  // console.log("value: ", value);
-  // console.log("isFocused: ", isFocused);
-  // console.log("phoneValue", phoneValue.length);
-
-  //   function onSubmit(data: z.infer<typeof FormSchema>) {
-  //   toast({
-  //     title: "You submitted the following values:",
-  //     description: (
-  //       <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-  //         <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-  //       </pre>
-  //     ),
-  //   });
-  // }
-
-  // const FormSchema = z.object({
-  //   phone: z.string().refine(isValidPhoneNumber, { message: "Invalid phone number" }),
-  // });
-
-  // const form = useForm<z.infer<typeof FormSchema>>({
-  //   resolver: zodResolver(FormSchema),
-  //   defaultValues: {
-  //     phone: "",
-  //   },
-  // });
-  // useEffect(() => {
-  //   setPhoneValue(JSON.stringify(form.watch("phone"), null));
-  //   // console.log("phone value: ", phoneValue.length);
-  // }, [form.watch("phone")]);
 
   return (
     <div className="flex flex-col h-fit justify-evenly w-full">
@@ -260,30 +226,11 @@ const FloatingInput: React.FC<inputProps> = ({
                 Phone
                 <span className="text-red-500 font-bold">*</span>
               </label>
-              {/* <Form {...form}>
-              <form
-              // onSubmit={form.handleSubmit(onSubmit)}
-              >
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col items-start relative">
-                      <FormControl className="w-full">
-                        <PhoneInput {...field} setIsFocused={setIsFocused} isFocused={isFocused} /> */}
               <PhoneInput
                 setIsFocused={setIsFocused}
                 isFocused={isFocused}
                 isError={state.errors?.phone}
-                // phoneValue={phoneValue}
               />
-              {/* </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </form>
-            </Form> */}
             </>
           ) : (
             <>
@@ -295,7 +242,6 @@ const FloatingInput: React.FC<inputProps> = ({
                 }`}
                 htmlFor={id}
                 style={{
-                  // color: isFocused ? "rgb(17,44,103)" : "",
                   color:
                     name === "email" && state.errors?.email
                       ? "red"

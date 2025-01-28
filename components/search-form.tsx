@@ -31,10 +31,8 @@ const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
     },
   });
   const watchSearch = watch("search");
-  console.log("watchSearch: ", watchSearch);
   useEffect(() => {
     if (watchSearch) {
-      console.log("handleSubmit");
       handleSubmit(onSubmit)();
     } else {
       setSearchedProducts(null);
@@ -42,13 +40,9 @@ const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
   }, [watchSearch]);
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log("Submit");
-    console.log("data.search: ", data.search);
     const searched = data.search.charAt(0).toUpperCase() + data.search.slice(1);
-    console.log("searched: ", searched);
     const searching = await search(searched);
     setSearchedProducts(searching);
-    console.log("searching: ", searching);
   };
 
   return (
@@ -93,13 +87,6 @@ const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
                     key={value.id}
                     className="group/item px-7 py-4 font-semibold hover:bg-[#c4bbbb] cursor-pointer hover:rounded-md    duration-300 transform flex items-center border-b border-b-neutral-300 transition-all"
                   >
-                    {/* <Image
-                      src={`/image/${value.productImage}`}
-                      alt={value.productName}
-                      width={30}
-                      height={30}
-                      className="rounded-full mr-7 h-7 w-7 object-cover"
-                    /> */}
                     <LoadingImage
                       src={`/image/${value.productImage}`}
                       imageAlt={value.productName}

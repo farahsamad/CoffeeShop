@@ -9,8 +9,6 @@ import Input from "../ui/form-input";
 import { BiCheckCircle } from "react-icons/bi";
 import { getSession } from "next-auth/react";
 import "@/styles/modal.css";
-// import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
-
 import Link from "next/link";
 // import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 
@@ -18,50 +16,15 @@ export const fetchCartProducts = async (userId: string): Promise<CartProduct[] |
   try {
     if (localStorage.getItem("AddToCart") != null) {
       localStorage.removeItem("AddToCart");
-      console.log("removeItem");
     }
-    console.log("Fetching cart products for userId:", userId);
     const response = await fetch(`/api/getCartProduct?userId=${userId}`);
     const data = await response.json();
-    console.log("Fetched cart products:", data.products);
     return data.products;
   } catch (error) {
     console.error("Error fetching cart products:", error);
     return null;
   }
 };
-// ({ product: { id: string; waterOption: waterOptionTypes | null; icedOption: icedOptionTypes | null; foamOption: foamOptionTypes | null; ... 4 more ...; productTypeName: string; }; addedToCart: { ...; }; } & { ...; })
-
-// interface savedProductsProps {
-//   product: {
-//     id: string;
-//     waterOption: waterOptionTypes | null;
-//     icedOption: icedOptionTypes | null;
-//     foamOption: foamOptionTypes | null;
-//     productName: string;
-//     productImage: string;
-//     productPrice: number;
-//     productSizes: productSize;
-//     productTypeName: string;
-//   };
-//   addedToCart: {
-//     id: string;
-//     userId: string;
-//     discount: number;
-//     Tax: number;
-//     subTotal: number;
-//     total: number;
-//     createdAt: Date;
-//   };
-//   id: string;
-//   ProductId: string;
-//   userId: string;
-//   AddedToCartId: string;
-//   productQuantity: number;
-//   waterOption: waterOptionTypes;
-//   icedOption: icedOptionTypes;
-//   foamOption: foamOptionTypes;
-// }
 
 type Product = {
   id: string;
@@ -130,8 +93,6 @@ export function Login() {
   };
   const [state, formAction, isPending] = useActionState(login, initialState);
   const router = useRouter();
-  console.log("state.errors: ", state.errors);
-
   const handleSubmit = (formData: FormData | React.FormEvent<HTMLFormElement>) => {
     let formDataInstance;
     if (formData instanceof FormData) {
@@ -148,11 +109,6 @@ export function Login() {
     if (!showTwoFactor) {
       startTransition(() => {
         const rememberMeValue = formDataInstance.get("rememberMe") === "on";
-        console.log(
-          "//////////////////////////////////formDataInstance.get///////////////: ",
-          formDataInstance.get("rememberMe")
-        );
-        console.log("rememberMeValue.toString(): ", rememberMeValue.toString());
         formDataInstance.set("rememberMe", rememberMeValue.toString());
         formAction(formDataInstance);
       });
@@ -212,8 +168,6 @@ export function Login() {
       } else {
         setShowTwoFactor(false);
         getSession().then(async () => {
-          console.log("state success");
-          console.log("in login form userid: ", state?.userId);
           // fetchCartProducts(state.userId).then((saved_products) => {
           //   console.log("saved_products here:", saved_products);
           //   if (saved_products) {
@@ -267,19 +221,7 @@ export function Login() {
     }
   }, [state.success, router, state.callbackUrl, code, state.twoFactor, showTwoFactor]);
 
-  // useEffect(() => {
-  //   if (state.errors?.other) {
-  //     setError(state.errors.other);
-  //   } else if (state.success) {
-  //     setSuccess("Login successful!");
-  //   }
-  // }, [state.errors, state.success]);
-  console.log("message is: ", state);
-
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  // const navigate = useNavigate();
-
-  // const { error, isLoading, verifyEmail } = useAuthStore();
 
   const handleChange = (index: number, value: string) => {
     const newCode = [...code];
@@ -302,11 +244,6 @@ export function Login() {
 
       // Move focus to the next input field if value is entered
       if (value && index < 5) {
-        //  if (inputRefs.current[index + 1]) {
-        //  inputRefs.current[index + 1].focus();
-        //  }
-
-        // Alternatively, for added safety, use optional chaining:
         inputRefs.current[index + 1]?.focus();
       }
     }
@@ -330,33 +267,12 @@ export function Login() {
   };
   useEffect(() => {
     if (code.every((digit) => digit !== "")) {
-      console.log("handle mock submit");
       mockSubmit();
-      console.log("handleSubmit mock submitted!");
     }
   }, [code]);
 
-  // useEffect(() => {
-  //   if (code.every((digit) => digit !== "")) {
-  //     // Create a mock FormEvent
-  //     const mockEvent = {
-  //       preventDefault: () => {},
-  //       // Add any other properties or methods needed by handleSubmit
-  //     } as React.FormEvent<HTMLFormElement>;
-
-  //     handleSubmit(mockEvent);
-  //   }
-  // }, [code]);
-
   return (
     <div className="w-full h-full items-center justify-center p-6 md:py-6 md:px-0 shadow-md">
-      {/* <button
-        onClick={() => {
-          router.back();
-        }}
-      >
-        Close modal
-      </button> */}
       <CardWrapper
         headerLabel={showTwoFactor ? "Two step verification" : "Log in to your account"}
         hrefLabel={showTwoFactor ? "" : " Sign up"}

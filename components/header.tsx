@@ -5,15 +5,6 @@ import NavBar from "./navbar";
 import FixedFooter from "./fixed-footer";
 import { MyContextProvider } from "@/context/context";
 
-// interface ContextType {
-//   barVisibility: boolean;
-//   aboutRef: React.RefObject<HTMLDivElement | null>;
-//   pageShowHeader: boolean;
-//   sectionsRef: React.RefObject<(HTMLDivElement | null)[]>;
-//   update: number;
-//   updatePerformed: () => void;
-// }
-
 interface HeaderProps {
   children: React.ReactNode;
 }

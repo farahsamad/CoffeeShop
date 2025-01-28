@@ -26,13 +26,10 @@ export interface updateValues {
 
 function Card() {
   const [error, setError] = useState("");
-  // const [success, setSuccess] = useState("");
   const [cartProducts, setCartProducts] = useState<ProductDetails[]>([]);
-  // const [inputDefaultValues, setInputDefaultValues] = useState<updateValues>();
   const [subTotalPrice, SetSubTotalPrice] = useState<number>(0);
   const [totalPrice, SetTotalPrice] = useState<number>(0);
   const [taxesPrice, setTaxesPrice] = useState<number>(subTotalPrice * 0.2);
-  // const [discount, setDiscount] = useState<number>(0);
   const discount = 0;
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const [deliveryCity, setDeliveryCity] = useState<string>("");
@@ -41,8 +38,6 @@ function Card() {
   const firstDiv = useRef<HTMLDivElement>(null);
   const user = useCurrentUser();
   const { barVisibility, updatePerformed } = useMyContext();
-  //   const outletContext = useOutletContext<homeProps>();
-  //   const barVisibility = outletContext.barVisibility;
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
@@ -70,7 +65,6 @@ function Card() {
     },
     callbackUrl: callbackUrl,
   };
-  // const [state, formAction, isPending] = useActionState(payCard, initialState);
   const [state, formAction, isPending] = useActionState(
     (state: PayCardCashState, payload: payloadProps) =>
       payCard({
@@ -85,7 +79,6 @@ function Card() {
     initialState
   );
   const router = useRouter();
-  console.log("state.errors: ", state.errors);
 
   useEffect(() => {
     if (localStorage.getItem("AddToCart")) {
@@ -106,26 +99,10 @@ function Card() {
             parseFloat((totalPriceAmount + taxesPriceAmount - discount + deliveryPrice).toFixed(1))
           );
         }
-        console.log("totalPrice: ", subTotalPrice + taxesPrice - discount + deliveryPrice);
-        console.log("totalPrice////: ", totalPrice);
       }
     }
-    // const inputsDefaultValue = async () => {
-    //   if (user?.id) {
-    //     console.log("userrrrrrrrrrrrrrrrrrrr");
-    //     const updateValues = await paymentDefault(user?.id);
-    //     console.log("updateValues: ", updateValues);
-    //     if (updateValues) {
-    //       setInputDefaultValues(updateValues);
-    //       console.log("updateValues are: ", updateValues);
-    //     }
-    //   }
-    // };
-
-    // inputsDefaultValue();
   }, []);
-  console.log("deliveryCity: ", deliveryCity);
-  console.log("deliveryPrice: ", deliveryPrice);
+
   useEffect(() => {
     if (subTotalPrice < 50) {
       switch (deliveryCity) {
@@ -197,31 +174,13 @@ function Card() {
     return `${day}/${month}/${year}`;
   };
 
-  // const form = useForm<z.infer<typeof CashPaymentSchema>>({
-  //   resolver: zodResolver(CashPaymentSchema),
-  //   defaultValues: {
-  //     email: "",
-  //     password: "",
-  //   },
-  // });
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   setError("");
-  //   setSuccess("");
-  //   await handleUpdateCartDb();
-  //   startTransition(() => {
-  //     formAction(new FormData(e.currentTarget));
-  //   });
-  // };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (localStorage.getItem("AddToCart")) {
       setError("");
-      // setSuccess("");
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
 
       startTransition(() => {
-        console.log("formAction");
         formAction({
           form: formData,
           state,
@@ -252,7 +211,6 @@ function Card() {
       const deleteUserCartProductsInDb = async () => {
         if (user?.id) {
           const isUserCartProductDeleted = await deleteUserCartProduct(user?.id);
-          console.log("isUserCartProductDeleted: ", isUserCartProductDeleted);
         }
       };
       deleteUserCartProductsInDb();
@@ -272,12 +230,6 @@ function Card() {
       // setSuccess(state.success);
     }
   }, [state.errors, state.success]);
-  // const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-  //     setError('')
-  //   setSuccess('')
-  //   use
-  // }
-  console.log("message is: ", state);
 
   return (
     <div ref={firstDiv}>
@@ -325,34 +277,28 @@ function Card() {
                 >
                   <FloatingInput
                     placeholder={"Name"}
-                    // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"FaUser"}
                     id="name-input-container"
                     type={"text"}
                     name={"name"}
                     state={state}
-                    // defaultValue={inputDefaultValues?.name}
                     setBuyerName={setBuyerName}
                   />
                   <FloatingInput
                     placeholder={""}
-                    // labelRef={(el) => (labelRefs.current[1] = el)}
                     icon={""}
                     id="phone-number-input-container"
                     type={""}
                     state={state}
                     name={"phone"}
-                    // phoneDefaultValue={inputDefaultValues?.phone}
                   />
                   <FloatingInput
                     placeholder={"Email"}
-                    // labelRef={(el) => (labelRefs.current[1] = el)}
                     icon={"FaAt"}
                     id="email-input-container"
                     type={"email"}
                     name={"email"}
                     state={state}
-                    // defaultValue={inputDefaultValues?.email}
                   />
                 </div>
               </div>
@@ -372,7 +318,6 @@ function Card() {
                 >
                   <FloatingInput
                     placeholder={"Name On Card"}
-                    // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"BiCreditCard"}
                     id="name-on-card-input-container"
                     type={"text"}
@@ -381,7 +326,6 @@ function Card() {
                   />
                   <FloatingInput
                     placeholder={"Card Number"}
-                    // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"BsCreditCard"}
                     id="card-number-input-container"
                     type={"number"}
@@ -424,24 +368,20 @@ function Card() {
                 >
                   <FloatingInput
                     placeholder={"City"}
-                    // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"FaCity"}
                     id="city-input-container"
                     type={"text"}
                     name={"city"}
                     state={state}
-                    // defaultValue={inputDefaultValues?.city}
                     setDeliveryCity={setDeliveryCity}
                   />
                   <FloatingInput
                     placeholder={"Address"}
-                    // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"CiLocationOn"}
                     id="address-input-container"
                     type={"text"}
                     name={"Address"}
                     state={state}
-                    // defaultValue={inputDefaultValues?.address}
                   />
                 </div>
               </div>
@@ -461,7 +401,6 @@ function Card() {
                 >
                   <FloatingInput
                     placeholder={"Date"}
-                    // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"CalendarDays"}
                     id="date-input-container"
                     type={"date"}
@@ -470,14 +409,12 @@ function Card() {
                   />
                   <FloatingInput
                     placeholder={"note"}
-                    // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"BsPencilSquare"}
                     id="note-input-container"
                     type={"text"}
                     name={"note"}
                     state={state}
                   />
-                  {/* <input type="date" name="" id="" /> */}
                 </div>
               </div>
             </div>
@@ -508,10 +445,7 @@ function Card() {
                   id="download-invoice"
                   className="inline-flex w-full justify-between items-center px-1 text-sm"
                 >
-                  {/* <span className="inline-flex items-center "> */}
-                  {/* <Download className="text-xs w-3 h-3 mr-1" /> */}
                   <div> Download invoice</div>
-                  {/* </span> */}
                   <Download className=" w-4 h-4 cursor-pointer" />
                 </div>
                 <hr className="my-2" />

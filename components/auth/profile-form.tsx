@@ -20,27 +20,6 @@ import { FiLogOut } from "react-icons/fi";
 import { LogoutButton } from "./logout-button";
 import { FaBoxOpen } from "react-icons/fa";
 
-// type Product = {
-//   id: string;
-//   productName: string;
-//   productImage: string;
-//   productPrice: number;
-//   productSizes: productSize;
-//   productTypeName: string;
-//   waterOption: waterOptionTypes | null;
-//   icedOption: icedOptionTypes | null;
-//   foamOption: foamOptionTypes | null;
-// };
-
-// type AddedToCart = {
-//   id: string;
-//   userId: string;
-//   discount: number | null;
-//   Tax: number | null;
-//   subTotal: number;
-//   total: number;
-//   createdAt: Date;
-// };
 interface paymentProducts {
   id: string;
   productId: string;
@@ -62,112 +41,14 @@ interface paymentData {
   paymentProducts: paymentProducts[];
 }
 
-// type CartProduct = {
-//   id: string;
-//   ProductId: string;
-//   userId: string;
-//   AddedToCartId: string;
-//   productQuantity: number;
-//   productSizes: productSize;
-//   waterOption: waterOptionTypes | null;
-//   icedOption: icedOptionTypes | null;
-//   foamOption: foamOptionTypes | null;
-//   product: Product;
-//   addedToCart: AddedToCart;
-// };
-
 export function ProfileForm() {
   const user = useCurrentUser();
   const [paymentsData, setPaymentsData] = useState<paymentData[] | null>([]);
   const [uniqAddress, setUniqAddress] = useState<paymentData[] | undefined>([]);
-  // const [error, setError] = useState("");
-  // const [success, setSuccess] = useState("");
   const [checkEnableModal, setCheckEnableModal] = useState<boolean>(false);
   const [checkDisableModal, setCheckDisableModal] = useState<boolean>(false);
-  // const [isTwoFactorEnabled, setIsTwoFactorEnabled] = useState<boolean>(
-  //   user?.isTwoFactorEnabled ? true : false
-  // );
   const [removePaymentOrder, setRemovePaymentOrder] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
-
-  // const fetchCartProducts = async (userId: string): Promise<CartProduct[] | null> => {
-  //   try {
-  //     if (localStorage.getItem("AddToCart") != null) {
-  //       localStorage.removeItem("AddToCart");
-  //       console.log("removeItem");
-  //     }
-  //     console.log("Fetching cart products for userId:", userId);
-  //     const response = await fetch(`/api/getCartProduct?userId=${userId}`);
-  //     const data = await response.json();
-  //     console.log("Fetched cart products:", data.products);
-  //     return data.products;
-  //   } catch (error) {
-  //     console.error("Error fetching cart products:", error);
-  //     return null;
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (state.success) {
-  //     if (state?.twoFactor) {
-  //       setShowTwoFactor(true);
-  //     } else {
-  //       setShowTwoFactor(false);
-  //       getSession().then(async () => {
-  //         console.log("state success");
-  //         console.log("in login form userid: ", state?.userId);
-  //         fetchCartProducts(state.userId).then((saved_products) => {
-  //           console.log("saved_products here:", saved_products);
-  //           if (saved_products) {
-  //             // const p = { id: string;
-  //             //   productName: string;
-  //             //   productImage: string;
-  //             //   productTypeName: string;
-  //             //   product_size: string;
-  //             //   waterOption?: waterOptionTypes | null;
-  //             //   icedOption?: icedOptionTypes | null;
-  //             //   foamOption?: foamOptionTypes | null;
-  //             //   product_quantity: number;
-  //             //             productPrice: number;
-  //             //           }
-  //             saved_products.map((product) => {
-  //               const item: ProductDetails = {
-  //                 id: product.product.id,
-  //                 productName: product.product.productName,
-  //                 productImage: product.product.productImage,
-  //                 productTypeName: product.product.productTypeName,
-  //                 product_size: product.productSizes,
-  //                 waterOption: product.waterOption,
-  //                 icedOption: product.icedOption,
-  //                 foamOption: product.foamOption,
-  //                 product_quantity: product.productQuantity,
-  //                 productPrice: product.product.productPrice,
-  //               };
-  //               if (localStorage.getItem("AddToCart") != null) {
-  //                 const new_saved_products: ProductDetails[] = JSON.parse(
-  //                   localStorage.getItem("AddToCart")!
-  //                 );
-  //                 new_saved_products.push(item);
-  //                 localStorage.setItem("AddToCart", JSON.stringify(new_saved_products));
-  //               } else {
-  //                 const new_items: ProductDetails[] = [];
-  //                 new_items.push(item);
-  //                 localStorage.setItem("AddToCart", JSON.stringify(new_items));
-  //               }
-  //               updatePerformed();
-  //             });
-
-  //             // setCartProducts(saved_products);
-  //           } else {
-  //             updatePerformed();
-  //           }
-  //         });
-
-  //         router.push(state.callbackUrl || "/");
-  //       });
-  //     }
-  //   }
-  // }, [state.success, router, state.callbackUrl, code, state.twoFactor, showTwoFactor]);
 
   const formatDate = (date: string) => {
     const today = new Date(date);
@@ -182,20 +63,10 @@ export function ProfileForm() {
     if (user?.id) {
       const data: paymentData[] | null = await getUserPayment(user?.id);
       setPaymentsData(data);
-      // const uniqueAddresses = data?.filter(
-      //   (val, index, self) =>
-      //     index ===
-      //     self.findIndex(
-      //       (predicate) =>
-      //         predicate.Address.toLocaleLowerCase() === val.Address.toLocaleLowerCase() &&
-      //         predicate.city.toLocaleLowerCase() === val.city.toLocaleLowerCase()
-      //     )
-      // );
       const uniqueAddresses: paymentData[] = Array.from(
         new Map(data?.map((item: paymentData) => [`${item.Address}|${item.city}`, item])).values()
       );
       setUniqAddress(uniqueAddresses);
-      console.log("data: ", data);
       return data;
     }
   };
@@ -205,9 +76,7 @@ export function ProfileForm() {
   }, [removePaymentOrder]);
 
   const handleRemoveOrder = async (id: string) => {
-    console.log("order to be deleted id: ", id);
     const removedOrder = await removePayment(id);
-    console.log("removedOrder: ", removedOrder);
     if (removedOrder) {
       setRemovePaymentOrder(true);
     }
@@ -215,11 +84,6 @@ export function ProfileForm() {
       setRemovePaymentOrder(false);
     }
   };
-  // useEffect(() => {
-  //   const data = paymentsData?.map
-  // }, [paymentsData]);
-  // console.log("//////paymentsData: ", paymentsData);
-  // console.log("window.innerWidth: ", window.innerWidth);
 
   const form = useForm<z.infer<typeof twoFactorAuthenticationSchema>>({
     resolver: zodResolver(twoFactorAuthenticationSchema),
@@ -240,37 +104,24 @@ export function ProfileForm() {
     if (user?.id) {
       const userId = user.id;
       const isTwoFactorEnabled = data.isTwoFactorEnabled;
-      console.log("isTwoFactorEnabled: ", isTwoFactorEnabled);
       if (isTwoFactorEnabled === true || isTwoFactorEnabled === false) {
         startTransition(() => {
           twoFactorAuthentication({ userId, isTwoFactorEnabled }).then((data) => {
-            console.log("data: ", data);
             if (data) {
-              console.log("setIsTwoFactorEnabled: true");
-              // setIsTwoFactorEnabled(isTwoFactorEnabled);
               setCheckEnableModal(false);
               setCheckDisableModal(false);
             } else {
-              console.log("setIsTwoFactorEnabled: false");
-
-              // setIsTwoFactorEnabled(isTwoFactorEnabled);
               setCheckEnableModal(false);
               setCheckDisableModal(false);
             }
           });
-          // .catch(() => setError("Something went wrong"));
         });
       }
     }
   }
 
-  console.log("uniqAddress: ", uniqAddress);
-
   return (
-    <div
-      className="w-full h-full flex flex-col md:!flex md:!flex-row md:justify-center p-6   mt-[100px]"
-      // style={{ maxHeight: `calc(100vh - 150px)` }}
-    >
+    <div className="w-full h-full flex flex-col md:!flex md:!flex-row md:justify-center p-6   mt-[100px]">
       <div className="md:!w-1/2 md:!h-full md:!flex md:!flex-col h-fit max-h-[40%] md:!my-0 ">
         <div
           id="user-info-container"
@@ -460,7 +311,6 @@ export function ProfileForm() {
                   const quantity = val.paymentProducts.reduce((quantity, product) => {
                     return quantity + product.productQuantity;
                   }, 0);
-                  // console.log("//////////index here: ", index);
                   return (
                     <tr
                       id="cart-product"
@@ -514,7 +364,6 @@ export function ProfileForm() {
       >
         {uniqAddress && uniqAddress.length > 0 ? (
           uniqAddress.map((value, index) => {
-            // console.log("index: ", index);
             return (
               <div key={`address-${value.id}`}>
                 <div className="text-slate-500 font-semibold my-2">Address {index + 1}</div>
@@ -582,7 +431,6 @@ export function ProfileForm() {
                 const quantity = val.paymentProducts.reduce((quantity, product) => {
                   return quantity + product.productQuantity;
                 }, 0);
-                // console.log("//////////index: ", index);
                 return (
                   <tr
                     id="cart-product"

@@ -12,11 +12,6 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 function Home() {
   const { barVisibility, aboutRef, sectionsRef } = useMyContext();
-  // const outletContext = useOutletContext<homeProps>();
-  // const barVisibility = outletContext.barVisibility;
-  // const pageShowHeader = outletContext.pageShowHeader;
-  // const aboutRef = outletContext.aboutRef;
-  // const sectionsRef = outletContext.sectionsRef;
   const user = useCurrentUser();
   const arrowDown = useRef<HTMLDivElement>(null);
   const firstDiv = useRef<HTMLDivElement>(null);
@@ -106,7 +101,7 @@ function Home() {
                     Create account
                   </Link>
                 ) : (
-                  <Link href="/signup" className="create-account-phrase capitalize">
+                  <Link href="/menu" className="create-account-phrase capitalize">
                     order now
                   </Link>
                 )}
@@ -123,24 +118,14 @@ function Home() {
           >
             <div className="first-section first-section-home berry-background" data-aos="fade-up">
               <div className="first-section-image">
-                {/* <img
-                src={require("../../component/image/triple-berry-smoothie-feat-min.png")}
-                // width={200}
-                // height={200}
-              /> */}
                 <BlurredImage
                   src={"/image/triple-berry-smoothie-feat-min.png"}
-                  //   src={require("../../component/image/triple-berry-smoothie-feat-min.png")}
                   blurredSrc={"/image/blurred-triple-berry-smoothie-feat-min.png"}
-                  //   blurredSrc={require("../../component/image/blurred-triple-berry-smoothie-feat-min.png")}
                   imageAlt="berry smoothie"
                 ></BlurredImage>
               </div>
               <div className="first-section-paragraph-container">
                 <div className="first-section-paragraph">
-                  {/* Indulge in the refreshing taste of our Mixed Berry Smoothie with
-            Yogurt – a perfect blend of juicy berries and creamy yogurt for a
-            deliciously healthy treat!  */}
                   Experience the ultimate refreshment with our Mixed Berry Smoothie with Yogurt.
                   This delightful blend combines the natural sweetness of ripe strawberries,
                   blueberries, and raspberries with the creamy richness of yogurt.
@@ -177,14 +162,9 @@ function Home() {
           >
             <div className="first-section first-section-home black-background" data-aos="fade-up">
               <div className="first-section-image">
-                {/* <img
-                src={require("../../component/image/iced-chocolate-frappe-coffee.png")}
-              /> */}
                 <BlurredImage
                   src={"/image/iced-chocolate-frappe-coffee.png"}
-                  //   src={require("../../component/image/iced-chocolate-frappe-coffee.png")}
                   blurredSrc={"/image/blurred-iced-chocolate-frappe-coffee.png"}
-                  //   blurredSrc={require("../../component/image/blurred-iced-chocolate-frappe-coffee.png")}
                   imageAlt="iced chocolate frappe coffee"
                 ></BlurredImage>
               </div>
@@ -206,7 +186,6 @@ function Home() {
                         coffeeType_name: frappeState.coffeeType_name,
                       },
                     }}
-                    // state={frappeState}
                     className="order-now"
                   >
                     Order now

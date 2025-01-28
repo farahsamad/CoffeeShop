@@ -19,10 +19,6 @@ const LoadingImage: React.FC<blurredProps> = ({ src, imageAlt, className = "" })
     img.src = src;
   }, [src]);
 
-  // const handleImageLoad = () => {
-  //   setIsLoaded(true);
-  // };
-
   return (
     <>
       {!isLoaded ? (

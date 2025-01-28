@@ -11,17 +11,10 @@ import { usePathname } from "next/navigation";
 
 function FixedFooter() {
   const [cartNumber, setCartNumber] = useState<ProductDetails[]>([]);
-  // const [showBlock, setShowBlock] = useState<boolean>(false);
   const location = usePathname();
 
-  console.log("location: ", location);
   const user = useCurrentUser();
-  // const cartNumber: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!) || [];
   const { update } = useMyContext();
-
-  // const showDropDown = () => {
-  //   setShowBlock((prev) => !prev);
-  // };
 
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem("AddToCart") || "[]");
@@ -50,8 +43,6 @@ function FixedFooter() {
                 className="flex h-full w-full shrink-0 overflow-hidden"
                 // onClick={() => showDropDown()}
               >
-                {/* <div className="flex h-full w-full items-center justify-center rounded-full bg-muted">
-                    </div> */}
                 <div className="h-full w-full grid place-content-center">
                   <Link
                     href={"/profile"}

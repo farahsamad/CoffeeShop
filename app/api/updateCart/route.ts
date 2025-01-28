@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ update }, { status: 200 });
   } catch (error) {
-    console.error("Error updating cart:", error);
     return NextResponse.json({ error: "Error updating cart" }, { status: 500 });
   }
 }

@@ -47,7 +47,6 @@ function Cart() {
   const [taxes, setTaxes] = useState<number>(totalAmount * 0.2);
   const [cartProducts, setCartProducts] = useState<ProductDetails[]>([]);
   const [quantities, setQuantities] = useState<number[]>([]);
-  // const [sectionHeight, setSectionHeight] = useState<number>(0);
   const [isMinWidth, setIsMinWidth] = useState<boolean>(false);
   const [secondMinWidth, setSecondMinWidth] = useState<boolean>(false);
   const { handleRemoveProductCartDb } = useRemoveProduct();
@@ -55,10 +54,6 @@ function Cart() {
 
   const sectionDiv = useRef<HTMLDivElement>(null);
   const totalRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  //   const barsVisibility = useOutletContext<homeProps>();
-  //   const pageShowHeader = barsVisibility.pageShowHeader;
-  //   const barVisibility = barsVisibility.barVisibility;
 
   useEffect(() => {
     if (localStorage.getItem("AddToCart")) {
@@ -78,13 +73,10 @@ function Cart() {
       newQuantities[index] += 1;
       const updatedProducts = products.map((product) => {
         if (product.id === id) {
-          console.log("product.id: ", product.id);
-          console.log("product.product_quantity: ", newQuantities[index]);
           return { ...product, product_quantity: newQuantities[index] };
         }
         return product;
       });
-      console.log("updatedProducts: ", updatedProducts);
 
       if (localStorage.getItem("AddToCart")) {
         localStorage.setItem("AddToCart", JSON.stringify(updatedProducts));
@@ -101,13 +93,10 @@ function Cart() {
         newQuantities[index] -= 1;
         const updatedProducts = products.map((product) => {
           if (product.id === id) {
-            console.log("product.id: ", product.id);
-            console.log("product.product_quantity: ", newQuantities[index]);
             return { ...product, product_quantity: newQuantities[index] };
           }
           return product;
         });
-        console.log("updatedProducts: ", updatedProducts);
 
         if (localStorage.getItem("AddToCart")) {
           localStorage.setItem("AddToCart", JSON.stringify(updatedProducts));
@@ -131,7 +120,6 @@ function Cart() {
     return updatedProducts;
   };
 
-  // console.log("cartProducts: ", cartProducts);
   const handleProductTotalPrice = (price: number, quantity: number): number => {
     return quantity * price;
   };
@@ -139,7 +127,6 @@ function Cart() {
   const totalHeight = () => {
     setTimeout(() => {
       if (sectionDiv.current) {
-        // console.log("sectionHeight: ", sectionDiv.current.offsetHeight);
         const height = sectionDiv.current.offsetHeight + 100;
         return `${height}px`;
       }
@@ -160,10 +147,6 @@ function Cart() {
   }, [handleResize]);
 
   useEffect(() => {
-    // if (sectionDiv.current) {
-    //   setSectionHeight(sectionDiv.current.offsetHeight);
-    // }
-
     handleResize();
     window.addEventListener("resize", handleResize);
     window.addEventListener("load", handleResize);
@@ -171,29 +154,16 @@ function Cart() {
 
   useEffect(() => {
     let computedTotal = 0;
-    // let newValue: number = 0;
-    // setTotalAmount(() => 0);
     totalRefs.current.forEach((section) => {
       if (section && section.textContent) {
         const newValue: number = parseFloat(section.textContent?.replace("$", ""));
         computedTotal += newValue;
-        // console.log("firth newValue: ", newValue);
-        // console.log("second computedTotal: ", computedTotal);
       }
     });
     setTotalAmount(computedTotal);
-    // setTotalAmount((prevTotal) => {
-    //   console.log("third prevTotal: ", prevTotal);
-    //   console.log("fourth secondValue: ", secondValue);
-    //   const newTotal = prevTotal + secondValue;
-    //   console.log("fifth newTotal: ", newTotal);
-    //   return newTotal;
-    // });
-    // console.log("third total Amount: ", totalAmount);
     newTotal();
   }, [quantities]);
   const newTotal = (): number => {
-    // console.log("fourth total here: ", totalAmount);
     if (50 - totalAmount <= 0) {
       return 0;
     } else {
@@ -214,24 +184,6 @@ function Cart() {
     setTaxes(() => totalAmount * 0.2);
     setTotalPrice(() => taxes + totalAmount);
   }, [totalAmount, taxes]);
-
-  // console.log("totalHeight: ", totalHeight());
-
-  // useEffect(() => {
-  //   handleProductTotalPrice();
-  // }, [quantities]);
-
-  //   <div>
-  //     {true ? (
-  // ) : (
-  //     <div
-  //       className="mt-[100px] w-full grid place-content-center"
-  //       style={{ height: `calc(100vh - 100px)` }}
-  //     >
-  //       <div className="animate-spin h-12 w-12 rounded-full mr-3 border-[10px]  border-t-gray-200 border-gray-400"></div>
-  //     </div>
-  //   )}
-  // </div>
 
   return (
     <div className={`h-full mt-[100px] ${barVisibility ? "" : "bar-visible"} `}>
@@ -387,15 +339,7 @@ function Cart() {
                                 <td
                                   id="product-removes"
                                   className="cursor-pointer py-2 w-fit min-w-fit flex items-start"
-                                  // className="cursor-pointer absolute right-2 top-4"
                                 >
-                                  {/* <FontAwesomeIcon
-                                  icon={faX}
-                                  className="w-3 h-3 text-slate-400 hover:transform hover:scale-125"
-                                  onClick={() =>
-                                    handleProductRemove(val.id, products)
-                                  }
-                                /> */}
                                   <FaX
                                     className="w-3 h-3 mt-1 sm:!mt-3 sm:!mr-1 text-slate-400 hover:transform hover:scale-125"
                                     onClick={() => handleProductRemove(val.id, products)}
@@ -457,23 +401,6 @@ function Cart() {
               />
             </div>
           )}
-          {/* {cartProducts ? null : (
-                <div className="mb-20 mt-3">No items added yet</div>
-              )} */}
-          {/* <NavLink
-            to={"/menu"}
-            id="third-container"
-            className="hidden min-w-fit h-1/4 min-h-fit px-3 mb-8 cursor-pointer mt-4 sm:block"
-          >
-            <div className="flex w-full h-full">
-              <div id="arrow">
-                <FontAwesomeIcon icon={faArrowLeft} className="w-3 h-4" />
-              </div>
-              <div id="continue-shopping" className="ml-2 font-serif ">
-                Continue Shopping
-              </div>
-            </div>
-          </NavLink> */}
         </section>
         <section
           id="second-section"
@@ -485,19 +412,10 @@ function Cart() {
                 : `100vh`
               : `fit-content`,
           }}
-          // style={{
-          //   height: isMinWidth
-          //     ? sectionHeight
-          //       ? `${totalHeight()}`
-          //       : `100vh`
-          //     : `fit-content`,
-          // }}
-          // className="w-full h-fit sm:!w-60 md:!w-[25%] md:!max-w-1/4 sm:!max-w-1/4 sm:!min-w-60 sm:!h-full lg:!max-w-1/4 lg:!min-w-1/4 lg:!w-1/4 !text-white "
         >
           <div
             id="second-section-container"
             className="w-full sm:!w-1/4  sm:!max-h-[750px] flex flex-col sm:!min-w-[250px] sm:!top-0 sm:sticky sm:right-0 sm:!bottom-0"
-            // className="w-full h-full flex flex-col sm:top-0 sm:fixed sm:right-0
             style={{
               height: isMinWidth ? "100vh" : "fit-content",
             }}
@@ -577,12 +495,6 @@ function Cart() {
                         id="coupon-button"
                         className="w-[23%] min-h-full rounded-full bg-gray-500 cursor-pointer flex justify-center items-center text-base  px-[4px]"
                       >
-                        {/* <button className="flex justify-center items-center w-full h-full text-base  px-[4px] my-auto">
-                      <FontAwesomeIcon
-                        className="h-5 w-5"
-                        icon={faCreditCard}
-                      ></FontAwesomeIcon>
-                    </button> */}
                         <FaPlus className="h-5 w-5" />
                       </div>
                     </div>
@@ -599,15 +511,6 @@ function Cart() {
                         <div id="amount-word">Amount</div>
                         <div id="amount-value">${totalAmount}</div>
                       </div>
-                      {/* <div
-                            id="shipping-fees"
-                            className="flex justify-between px-4  h-8"
-                          >
-                            <div id="shipping-fees-word">Shipping Fees</div>
-                            <div id="shipping-fees-value">
-                              {newTotal() === 0 ? "$0" : "$10"}
-                            </div>
-                          </div> */}
                       <div id="taxes" className="flex justify-between px-4  h-8">
                         <div id="taxes-word">Taxes</div>
                         <div id="taxes-value">${taxes.toFixed(1)}</div>
@@ -665,20 +568,6 @@ function Cart() {
           </div>
         </section>
       </div>
-      {/* <NavLink
-        to={"/menu"}
-        id="third-container"
-        className="block min-w-fit h-1/4 min-h-fit px-3 mb-8 cursor-pointer mt-4 sm:hidden"
-      >
-        <div className="flex w-full h-full">
-          <div id="arrow">
-            <FontAwesomeIcon icon={faArrowLeft} className="w-3 h-4" />
-          </div>
-          <div id="continue-shopping" className="ml-2 font-serif ">
-            Continue Shopping
-          </div>
-        </div>
-      </NavLink> */}
       <div className="footer-pages-container  mb-[64px] bg-amber-950 sm:!bg-white -mt-[10px]">
         <Footer />
       </div>

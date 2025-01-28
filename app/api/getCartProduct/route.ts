@@ -5,7 +5,6 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
   // const { userId }: { userId: string } = await req.json();
-  // console.log("userId in api: ", userId);
   if (!userId) {
     return NextResponse.json({ error: "User id is required" }, { status: 400 });
   }
@@ -17,7 +16,6 @@ export async function GET(req: NextRequest) {
     }
     return NextResponse.json({ products }, { status: 200 });
   } catch (error) {
-    console.error("Error fetching cart products:", error);
     return NextResponse.json({ error: "Error fetching cart products" }, { status: 500 });
   }
 }

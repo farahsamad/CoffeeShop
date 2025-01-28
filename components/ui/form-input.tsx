@@ -19,13 +19,6 @@ const Input = ({ state, type, name, placeholder }: InputProps) => {
         className="h-9 p-2 border border-gray-400 bg-slate-50 flex rounded-md shadow-sm"
         style={{
           borderColor:
-            // name === "email"
-            //   ? state.errors?.email
-            //     ? "red"
-            //     : ""
-            //   : state.errors?.password
-            //   ? "red"
-            //     : ""
             name === "email" && state.errors?.email
               ? "red"
               : name === "password" && state.errors?.password

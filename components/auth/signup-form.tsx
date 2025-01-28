@@ -32,13 +32,6 @@ export function Signup() {
   const [state, formAction, isPending] = useActionState(signup, initialState);
   const router = useRouter();
 
-  // const form = useForm<z.infer<typeof LoginSchema>>({
-  //   resolver: zodResolver(LoginSchema),
-  //   defaultValues: {
-  //     email: "",
-  //     password: "",
-  //   },
-  // });
   const handleSubmit = (formData: FormData | React.FormEvent<HTMLFormElement>) => {
     let formDataInstance;
     if (formData instanceof FormData) {
@@ -67,35 +60,6 @@ export function Signup() {
     }
   };
 
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   if (!verificationCode) {
-  //     setError("");
-  //     setSuccess("");
-  //     e.preventDefault();
-  //     startTransition(() => {
-  //       formAction(new FormData(e.currentTarget));
-  //     });
-  //   }
-  //   if (verificationCode) {
-  //     console.log("verificationCode!!!!!!!!!!!!!!!!!!!!!");
-  //     try {
-  //       setError("");
-  //       setSuccess("");
-  //       e.preventDefault();
-  //       const verificationCode = code.join("");
-  //       const formData = new FormData(e.currentTarget);
-  //       console.log("verificationCode!!!!!!!!!!!!!!!!!!!!!: ", verificationCode);
-  //       formData.append("code", verificationCode); // Append the token only if it's not null
-  //       startTransition(() => {
-  //         console.log("formAction");
-  //         formAction(formData);
-  //       });
-  //     } catch (error) {
-  //       console.log("error is: ", error);
-  //     }
-  //   }
-  // };
-
   useEffect(() => {
     if (state.success === "Confirmation email sent!") {
       if (state.verificationCode) {
@@ -105,8 +69,6 @@ export function Signup() {
     if (state.success === "Signin success!") {
       setVerificationCode(false);
       getSession().then(async () => {
-        console.log("state success");
-        console.log("in login form userid: ", state?.userId);
         setTimeout(() => {
           window.location.reload();
           router.push(state.callbackUrl || "/");
@@ -156,13 +118,9 @@ export function Signup() {
   };
   useEffect(() => {
     if (code.every((digit) => digit !== "")) {
-      console.log("handle mock submit");
       mockSubmit();
-      console.log("handleSubmit mock submitted!");
     }
   }, [code]);
-
-  console.log("message is: ", state);
 
   return (
     <div className="w-full h-full items-center justify-center p-6 md:py-6 md:px-0 shadow-md">

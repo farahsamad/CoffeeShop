@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import "@/styles/navbar.css";
-// import "../../component/Styles/Tailwind.css";
 import Link from "next/link";
 import { FaShoppingBasket, FaSearch } from "react-icons/fa";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
@@ -18,14 +17,16 @@ interface indexProps {
 }
 
 function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
-  // const [showBlock, setShowBlock] = useState<boolean>(false);
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [cartNumber, setCartNumber] = useState<ProductDetails[]>([]);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [currentSection, setCurrentSection] = useState<string>("");
   const searchRef = useRef<HTMLDivElement | null>(null);
   const location = usePathname();
   const { update } = useMyContext();
+  const barRef = useRef<HTMLInputElement>(null);
+  const phoneContainer = useRef<HTMLDivElement>(null);
 
   const user = useCurrentUser();
 
@@ -34,16 +35,6 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
     setCartNumber(cartItems);
   }, [update]);
 
-  const barRef = useRef<HTMLInputElement>(null);
-  const phoneContainer = useRef<HTMLDivElement>(null);
-  // const currentlocation = useLocation().pathname;
-  const [currentSection, setCurrentSection] = useState<string>("");
-  // if (currentlocation == `/Friend/${name}`) {
-  //   var directTo = true;
-  // } else {
-  //   directTo = false;
-  // }
-
   function barClicked() {
     if (barRef.current) {
       setBarVisibility(() => !barVisibility);
@@ -51,11 +42,8 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
   }
   // const scrollToAboutSection = () => {
   //   setTimeout(() => {
-  //     // console.log("first scroll");
   //     if (aboutRef.current) {
-  //       // console.log("second scroll");
   //       aboutRef.current.scrollIntoView({ behavior: "smooth" });
-  //       // console.log("third scroll");
   //     }
   //   }, 1000);
   // };
@@ -93,7 +81,6 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
   // };
 
   const handleScroll = () => {
-    // console.log("window.scrollY: ", window.scrollY);
     if (window.scrollY < 300) {
       setShowHeader(true);
     } else {
@@ -111,7 +98,6 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setCurrentSection(entry.target.id);
-          // console.log("currentSection: ", currentSection);
         }
       });
     };
@@ -126,10 +112,6 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
         observer.observe(section);
       }
     });
-
-    // return () => {
-    //   observer.disconnect();
-    // };
   }, []);
 
   useEffect(() => {
@@ -179,17 +161,7 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
           <div className="category-container h-full">
             <ul className="h-full">
               <li className="home h-full">
-                <Link
-                  href="/"
-                  className={`${location === "/" ? "text-slate-400" : ""}`}
-                  // className={({ isActive }) =>
-                  //   isActive
-                  //     ? currentSection !== "fourth-container"
-                  //       ? "h-full border-b-4 border-gray-600"
-                  //       : "h-full"
-                  //     : "h-full"
-                  // }
-                >
+                <Link href="/" className={`${location === "/" ? "text-slate-400" : ""}`}>
                   <div className="h-[96px] w-full grid place-content-center">HOME</div>
                 </Link>
               </li>
@@ -197,26 +169,12 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
                 <Link
                   href="/#about"
                   className={`${location === "/#about" ? "text-slate-400" : ""}`}
-                  // className={({ isActive }) =>
-                  //   isActive
-                  //     ? currentSection === "fourth-container"
-                  //       ? "h-full border-b-4 border-gray-600"
-                  //       : "h-full"
-                  //     : "h-full"
-                  // }
-                  // onClick={scrollToAboutSection}
                 >
                   <div className="h-[96px] w-full grid place-content-center">ABOUT</div>
                 </Link>
               </li>
               <li className="menu h-full">
-                <Link
-                  // className={({ isActive }) =>
-                  //   isActive ? "h-full border-b-4 border-gray-600" : "h-full"
-                  // }
-                  href={`/menu`}
-                  className={`${location === "/menu" ? "text-slate-400" : ""}`}
-                >
+                <Link href={`/menu`} className={`${location === "/menu" ? "text-slate-400" : ""}`}>
                   <div className="h-[96px] w-full grid place-content-center">MENU</div>
                 </Link>
               </li>
@@ -243,16 +201,12 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
                   onClick={() => setIsSearchVisible((prev) => !prev)}
                 />
               </div>
-              {/* <div className="sign-div"> */}
               {user ? (
                 <>
                   <div
                     className="flex h-[40px] w-[40px] shrink-0 ml-[20px] overflow-hidden rounded-full cursor-pointer"
                     // onClick={() => showDropDown()}
                   >
-                    {/* <div className="flex h-full w-full items-center justify-center rounded-full bg-muted">
-                    </div> */}
-
                     <div className="h-full w-full">
                       <Link href={"/profile"}>
                         <img
@@ -269,15 +223,11 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
                   Sign in
                 </Link>
               )}
-
-              {/* </div> */}
             </div>
             <div className={`second-sign-container phone  `}>
               <label className="hamburger-menu">
                 <input type="checkbox" ref={barRef} onClick={() => barClicked()} />
               </label>
-              {/* <FaBars className={`bars-icon  ${barVisibility ? "" : "not-display"}`} />
-            <FaX className={`bars-icon  ${barVisibility ? "not-display" : ""}`} /> */}
             </div>
           </div>
         </div>
@@ -289,13 +239,6 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
                   href={`/`}
                   className={`${location === "/" ? "text-slate-400" : ""}`}
                   onClick={barClick}
-                  // className={({ isActive }) =>
-                  //   isActive
-                  //     ? currentSection !== "fourth-container"
-                  //       ? "h-full border-b-4 border-gray-600  grid place-content-center"
-                  //       : "h-full grid place-content-center"
-                  //     : "h-full grid place-content-center"
-                  // }
                 >
                   HOME
                 </Link>
@@ -305,14 +248,6 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
                   href="/#about"
                   className={`${location === "/#about" ? "text-slate-400" : ""}`}
                   onClick={barClick}
-                  // className={({ isActive }) =>
-                  //   isActive
-                  //     ? currentSection === "fourth-container"
-                  //       ? "h-full border-b-4 border-gray-600  grid place-content-center"
-                  //       : "h-full grid place-content-center"
-                  //     : "h-full grid place-content-center"
-                  // }
-                  // onClick={scrollToAboutSectionPhone}
                 >
                   ABOUT
                 </Link>
@@ -321,11 +256,6 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
                 <Link
                   href="/menu"
                   className={`${location === "/menu" ? "text-slate-400" : ""}`}
-                  // className={({ isActive }) =>
-                  //   isActive
-                  //     ? "h-full border-b-4 border-gray-600  grid place-content-center"
-                  //     : "h-full  grid place-content-center"
-                  // }
                   onClick={barClick}
                 >
                   MENU
@@ -341,7 +271,6 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
                 onClick={() => setIsSearchVisible((prev) => !prev)}
               />
             </div>
-            {/* <div className="sign-div">Sign in</div> */}
             {!user && (
               <Link className="sign-div" href="/login">
                 Sign in
