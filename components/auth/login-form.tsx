@@ -331,7 +331,7 @@ export function Login() {
                 ))}
               </div>
               {env && (
-                <div className="flex w-full items-center h-[24px] text-slate-500 font-semibold my-1">
+                <div className="flex w-full items-center h-fit text-center text-slate-500 font-semibold my-1">
                   Since you are in production mode enter this code 111111
                 </div>
               )}
