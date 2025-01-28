@@ -328,7 +328,12 @@ export function Login() {
                   />
                 ))}
               </div>
-              {state.success && (
+              <div className="flex w-full items-center h-[24px] text-slate-500 font-semibold my-1">
+                {process.env.TOKEN && (
+                  <span>Since you are in production mode enter this code 111111</span>
+                )}
+              </div>
+              {!process.env.TOKEN && state.success && (
                 <div className="flex w-full items-center h-[24px] text-green-800 bg-green-300 rounded-sm p-4  font-semibold my-1 ">
                   <BiCheckCircle className="font-semibold text-sm" />
                   <span className="ml-1 -mt-[3px] text-xs">Two step verification code sent!</span>
