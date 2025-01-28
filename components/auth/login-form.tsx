@@ -68,6 +68,7 @@ export function Login() {
   // const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
   const [showTwoFactor, setShowTwoFactor] = useState(false);
   const environment = process.env.NEXT_ENVIRONMENT;
+  console.log("Current Environment:", environment);
   // const [error, setError] = useState("");
   // const [success, setSuccess] = useState("");
   // const { updatePerformed } = useMyContext();
