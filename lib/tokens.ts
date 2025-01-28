@@ -6,11 +6,13 @@ import { getPasswordResetTokenByEmail } from "@/data/reset-password-token";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 
 const productionToken = 111111;
+const environment = process.env.NEXT_ENVIRONMENT;
 
 export const generateVerificationToken = async (email: string) => {
-  const token = process.env.TOKEN
-    ? productionToken.toString()
-    : crypto.randomInt(100_000, 1_000_000).toString();
+  const token =
+    environment === "production"
+      ? productionToken.toString()
+      : crypto.randomInt(100_000, 1_000_000).toString();
   const expires = new Date(new Date().getTime() + 3 * 60 * 1000);
   const existingToken = await getVerificationTokenByEmail(email);
 
@@ -34,7 +36,7 @@ export const generateVerificationToken = async (email: string) => {
 };
 
 export const generatePasswordResetToken = async (email: string) => {
-  const token = process.env.TOKEN ? productionToken.toString() : uuidv4();
+  const token = environment === "production" ? productionToken.toString() : uuidv4();
   const expires = new Date(new Date().getTime() + 3 * 60 * 1000);
   const existingToken = await getPasswordResetTokenByEmail(email);
 
@@ -58,9 +60,10 @@ export const generatePasswordResetToken = async (email: string) => {
 };
 
 export const generateTwoFactorToken = async (email: string) => {
-  const token = process.env.TOKEN
-    ? productionToken.toString()
-    : crypto.randomInt(100_000, 1_000_000).toString();
+  const token =
+    environment === "production"
+      ? productionToken.toString()
+      : crypto.randomInt(100_000, 1_000_000).toString();
 
   const expires = new Date(new Date().getTime() + 3 * 60 * 1000);
   const existingToken = await getTwoFactorTokenByEmail(email);
