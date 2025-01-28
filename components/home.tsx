@@ -8,6 +8,7 @@ import { IoIosArrowUp } from "react-icons/io";
 import About from "./about";
 import "@/styles/home.css";
 import { useMyContext } from "@/context/context";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 function Home() {
   const { barVisibility, aboutRef, sectionsRef } = useMyContext();
@@ -16,6 +17,7 @@ function Home() {
   // const pageShowHeader = outletContext.pageShowHeader;
   // const aboutRef = outletContext.aboutRef;
   // const sectionsRef = outletContext.sectionsRef;
+  const user = useCurrentUser();
   const arrowDown = useRef<HTMLDivElement>(null);
   const firstDiv = useRef<HTMLDivElement>(null);
   const observe = useRef<IntersectionObserver | null>(null);
@@ -99,9 +101,15 @@ function Home() {
               <div className="intro-sentence">
                 <div className="intro-sent">Experience the essence</div>
                 <div className="intro-sent">of real coffee</div>
-                <Link href="/signup" className="create-account-phrase">
-                  Create account
-                </Link>
+                {user ? (
+                  <Link href="/signup" className="create-account-phrase">
+                    Create account
+                  </Link>
+                ) : (
+                  <Link href="/signup" className="create-account-phrase capitalize">
+                    order now
+                  </Link>
+                )}
               </div>
             </div>
           </div>
