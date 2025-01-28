@@ -20,8 +20,6 @@ export const metadata: Metadata = {
   description: "Welcome to CoffeeShop, best Website to order beverages and coffees",
   manifest: "/site.webmanifest",
   icons: {
-    icon: "/favicon-32x32.png",
-    shortcut: "/favicon-16x16.png",
     apple: "/apple-touch-icon.png",
   },
   openGraph: {
