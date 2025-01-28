@@ -3,20 +3,10 @@ import { PrismaClient } from "@prisma/client";
 declare global {
   var prisma: PrismaClient | undefined;
 }
-console.log("Initializing prisma Client...");
-console.log("Connecting to database:", process.env.DATABASE_URL);
-export const db = globalThis.prisma || new PrismaClient();
-try {
-  if (process.env.NODE_ENV !== "production") {
-    globalThis.prisma = db;
-    console.log("Prisma Client set in global object for development");
-  }
-  console.log("Prisma Client initialized successfully.");
-} catch (error) {
-  console.error("Failed to initialize Prisma Client:", error);
-}
-export default db;
 
+export const db = globalThis.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
 // import { PrismaClient } from "@prisma/client";
 // // import "./global";  Make sure to import the global type definition
 
