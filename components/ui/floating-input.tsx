@@ -274,8 +274,8 @@ const FloatingInput: React.FC<inputProps> = ({
               {type === "date" ? (
                 <input
                   id={id}
-                  // type={isFocused || value ? "date" : "text"}
-                  type="date"
+                  type={isFocused || value ? "date" : "text"}
+                  // type="date"
                   name={name}
                   maxLength={20}
                   value={value}
