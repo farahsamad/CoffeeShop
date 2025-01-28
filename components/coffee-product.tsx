@@ -11,27 +11,6 @@ import { ProductDetails } from "./cart";
 // import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 import Image from "next/image";
 
-// interface homeProps {
-//   barVisibility: boolean;
-//   aboutRef: React.RefObject<HTMLDivElement>;
-//   pageShowHeader: boolean;
-//   sectionsRef: React.MutableRefObject<(HTMLDivElement | null)[]>;
-// }
-
-// interface productDetails {
-//   id: number;
-//   product_id: number;
-//   product_name: string;
-//   product_image: string;
-//   coffeeType_name: string;
-//   product_size: string;
-//   product_water: string;
-//   product_ice: string;
-//   product_foam: string;
-//   product_quantity: number;
-//   product_price: number;
-// }
-
 const CoffeeProduct: React.FC = () => {
   const [size, setSize] = useState<"Short" | "Tall" | "Grand" | "Venti">();
   const [containerId, setContainerId] = useState("");
@@ -45,13 +24,6 @@ const CoffeeProduct: React.FC = () => {
   const [circleIndexHover, setCircleIndexHover] = useState<number>(0);
   const circleOpacity = "!opacity-100";
   const { barVisibility, updatePerformed } = useMyContext();
-  //   const barsVisibility = useOutletContext<homeProps>();
-  //   const barVisibility = barsVisibility.barVisibility;
-  //   const pageShowHeader = barsVisibility.pageShowHeader;
-  // console.log("search: ", search);
-  // const coffeeState = search.get(
-  //   "state"
-  // );
   const search = useSearchParams();
   const id = search.get("product_id");
   const productName = search.get("product_name");
@@ -59,10 +31,6 @@ const CoffeeProduct: React.FC = () => {
   const productTypeName = search.get("coffeeType_name");
   const productPrice = search.get("product_price");
   const selectSize = useRef<HTMLDivElement>(null);
-  // console.log("coffeeState: ", id);
-  //   const coffeeState = useLocation().state;
-  // console.log("coffeeState: ", coffeeState);
-  // console.log("coffeeState.product_image: ", coffeeState.product_image);
 
   const waterOptionType = [
     { value: "No Water", label: "No Water" },
@@ -130,7 +98,6 @@ const CoffeeProduct: React.FC = () => {
 
   const handleAddToCart = () => {
     if (!isProductAddedToCart) {
-      console.log("Add to carttttttttt");
       if (size === undefined) {
         if (selectSize.current) {
           selectSize.current.style.display = "block";
@@ -141,10 +108,6 @@ const CoffeeProduct: React.FC = () => {
           productName: productName ? productName : "",
           productImage: productImage ? productImage : "",
           productTypeName: productTypeName ? productTypeName : "",
-          // product_id: coffeeState.coffeeType_id,
-          // productName: coffeeState.productName,
-          // productImage: coffeeState.productImage,
-          // productTypeName: coffeeState.productTypeName,
           product_size: size,
           waterOption: isWater(containWater),
           icedOption: isIce(containIce),
@@ -155,12 +118,10 @@ const CoffeeProduct: React.FC = () => {
 
         if (localStorage.getItem("AddToCart") != null) {
           const saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
-          // item.id = saved_products.length;
           saved_products.push(item);
           localStorage.setItem("AddToCart", JSON.stringify(saved_products));
         } else {
           const items: ProductDetails[] = [];
-          // item.id = items.length;
           items.push(item);
           localStorage.setItem("AddToCart", JSON.stringify(items));
         }
@@ -172,13 +133,11 @@ const CoffeeProduct: React.FC = () => {
   };
 
   useEffect(() => {
-    // console.log("once");
     window.scrollTo({ top: 0 });
 
     if (localStorage.getItem("AddToCart") != null && id !== null) {
       const saved_products: ProductDetails[] = JSON.parse(localStorage.getItem("AddToCart")!);
       const isAddedToCart = saved_products.some((value) => value.id === id);
-      console.log("isAddedToCart: ", isAddedToCart);
       setIsProductAddedToCart(isAddedToCart);
     }
   }, []);
@@ -186,11 +145,9 @@ const CoffeeProduct: React.FC = () => {
   useEffect(() => {
     if (productTypeName) {
       if (productTypeName.includes(" ")) {
-        console.log("productTypeName.replace: ", productTypeName.replace(/ /g, "-"));
         setContainerId(productTypeName.replace(/ /g, "-"));
       } else {
         setContainerId(productTypeName);
-        console.log("productTypeName: ", productTypeName);
       }
     }
   }, [productTypeName]);
@@ -229,7 +186,6 @@ const CoffeeProduct: React.FC = () => {
             >
               <LoadingImage
                 src={`/image/${productImage}`}
-                // src={require(`../../component/image/${coffeeState.productImage}`)}
                 imageAlt={productName ? productName : "coffee image"}
                 className="rounded-full w-64 h-64 sm:h-80 sm:w-80 transform scale-110 object-cover"
               />
@@ -290,7 +246,6 @@ const CoffeeProduct: React.FC = () => {
                       <div id="cup-image" className="cursor-pointer mb-3 ">
                         <Image
                           src={"/image/medium-icon.png"}
-                          // src={require("../../component/image/medium-icon.png")}
                           id="img-cup"
                           alt="short cup image"
                           width={100}

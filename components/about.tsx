@@ -29,16 +29,9 @@ function About({ aboutRef, barVisibility, sectionRef }: homeProps) {
         <div className="animate-right">
           <div className="first-section" data-aos="fade-up">
             <div className="first-section-image">
-              {/* <img
-              src={require("../../component/image/latte.png")}
-              // width={200}
-              // height={200}
-            /> */}
               <BlurredImage
                 src={"/image/latte.png"}
-                // src={require("../../component/image/latte.png")}
                 blurredSrc={"/image/blurred-latte.png"}
-                // blurredSrc={require("../../component/image/blurred-latte.png")}
                 imageAlt="latte"
               ></BlurredImage>
             </div>
@@ -56,12 +49,9 @@ function About({ aboutRef, barVisibility, sectionRef }: homeProps) {
         <div className="first-sec-about">
           <div className="first-section strawberry-background" data-aos="fade-up">
             <div className="first-section-image">
-              {/* <img src={require("../../component/image/strawberry-smoothie.png")} /> */}
               <BlurredImage
                 src={"/image/strawberry-smoothie.png"}
-                // src={require("../../component/image/strawberry-smoothie.png")}
                 blurredSrc={"/image/blurred-strawberry-smoothie.png"}
-                // blurredSrc={require("../../component/image/blurred-strawberry-smoothie.png")}
                 imageAlt="strawberry smoothie"
               ></BlurredImage>
             </div>

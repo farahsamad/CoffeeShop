@@ -1,23 +1,17 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useActionState, startTransition } from "react";
-// import PhoneInputWithCountrySelect from "react-phone-number-input";
-// import { E164Number } from "libphonenumber-js/types.cjs";
-// import "react-phone-number-input/style.css";
 import FloatingInput from "./ui/floating-input";
 import { useMyContext } from "@/context/context";
 import { ArrowRight, Download, XCircle } from "lucide-react";
 import Form from "next/form";
 import { payCash } from "@/actions/payCash";
 import { useRouter, useSearchParams } from "next/navigation";
-// import { useCartUpdater } from "@/hooks/useCartUpdater";
 import { ProductDetails } from "./cart";
 import { PayCardCashState } from "@/actions/payCard";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { deleteUserCartProduct } from "@/actions/deleteUserCartProduct";
 import { BiCheckCircle } from "react-icons/bi";
-// import { handleUpdateCartDb } from "@/data/handle-cart";
-// import { getSession } from "next-auth/react";
 
 export interface payloadProps {
   state: PayCardCashState;
@@ -44,23 +38,17 @@ export enum deliveryCities {
 
 function Cash() {
   const [error, setError] = useState("");
-  // const [success, setSuccess] = useState("");
   const [cartProducts, setCartProducts] = useState<ProductDetails[]>([]);
   const [subTotalPrice, SetSubTotalPrice] = useState<number>(0);
   const [totalPrice, SetTotalPrice] = useState<number>(0);
   const [taxesPrice, setTaxesPrice] = useState<number>(subTotalPrice * 0.2);
-  // const [discount, setDiscount] = useState<number>(0);
   const discount = 0;
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const [deliveryCity, setDeliveryCity] = useState<string>("");
   const [buyerName, setBuyerName] = useState<string>("");
   const firstDiv = useRef<HTMLDivElement>(null);
-
   const user = useCurrentUser();
   const { barVisibility, updatePerformed } = useMyContext();
-  //   const outletContext = useOutletContext<homeProps>();
-  //   const barVisibility = outletContext.barVisibility;
-
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const initialState: PayCardCashState = {
@@ -84,7 +72,6 @@ function Cash() {
     },
     callbackUrl: callbackUrl,
   };
-  // const [state, formAction, isPending] = useActionState(payCash, initialState);
   const [state, formAction, isPending] = useActionState(
     (state: PayCardCashState, payload: payloadProps) =>
       payCash({
@@ -98,17 +85,7 @@ function Cash() {
       }),
     initialState
   );
-
   const router = useRouter();
-  console.log("state.errors: ", state.errors);
-
-  // const form = useForm<z.infer<typeof CashPaymentSchema>>({
-  //   resolver: zodResolver(CashPaymentSchema),
-  //   defaultValues: {
-  //     email: "",
-  //     password: "",
-  //   },
-  // });
 
   useEffect(() => {
     if (localStorage.getItem("AddToCart")) {
@@ -130,13 +107,10 @@ function Cash() {
             parseFloat((totalPriceAmount + taxesPriceAmount - discount + deliveryPrice).toFixed(1))
           );
         }
-        console.log("totalPrice: ", subTotalPrice + taxesPrice - discount + deliveryPrice);
-        console.log("totalPrice////: ", totalPrice);
       }
     }
   }, []);
-  console.log("deliveryCity: ", deliveryCity);
-  console.log("deliveryPrice: ", deliveryPrice);
+
   useEffect(() => {
     if (subTotalPrice < 50) {
       switch (deliveryCity) {
@@ -208,28 +182,13 @@ function Cash() {
     return `${day}/${month}/${year}`;
   };
 
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   setError("");
-  //   setSuccess("");
-  //   // await handleUpdateCartDb();
-  //   const formData = new FormData(e.currentTarget);
-  //   startTransition(() => {
-  //     console.log("formAction");
-  //     formAction(formData);
-  //   });
-  //   // startTransition(() => {
-  //   //   formAction(new FormData(e.currentTarget));
-  //   // });
-  // };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (localStorage.getItem("AddToCart")) {
       setError("");
-      // setSuccess("");
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
 
       startTransition(() => {
-        console.log("formAction");
         formAction({
           form: formData,
           state,
@@ -260,7 +219,6 @@ function Cash() {
       const deleteUserCartProductsInDb = async () => {
         if (user?.id) {
           const isUserCartProductDeleted = await deleteUserCartProduct(user?.id);
-          console.log("isUserCartProductDeleted: ", isUserCartProductDeleted);
         }
       };
       deleteUserCartProductsInDb();
@@ -279,11 +237,7 @@ function Cash() {
     if (state.errors?.other) {
       setError(state.errors.other);
     }
-    // else if (state.success !== "" && state.success !== undefined) {
-    //   setSuccess(state.success);
-    // }
   }, [state.errors, state.success]);
-  console.log("message is: ", state);
 
   return (
     <div ref={firstDiv}>
@@ -331,7 +285,6 @@ function Cash() {
                 >
                   <FloatingInput
                     placeholder={"Name"}
-                    // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"FaUser"}
                     id="name-input-container"
                     type={"text"}
@@ -341,7 +294,6 @@ function Cash() {
                   />
                   <FloatingInput
                     placeholder={""}
-                    // labelRef={(el) => (labelRefs.current[1] = el)}
                     icon={""}
                     id="phone-number-input-container"
                     type={""}
@@ -350,7 +302,6 @@ function Cash() {
                   />
                   <FloatingInput
                     placeholder={"Email"}
-                    // labelRef={(el) => (labelRefs.current[1] = el)}
                     icon={"FaAt"}
                     id="email-input-container"
                     type={"email"}
@@ -375,7 +326,6 @@ function Cash() {
                 >
                   <FloatingInput
                     placeholder={"City"}
-                    // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"FaCity"}
                     id="city-input-container"
                     type={"text"}
@@ -385,7 +335,6 @@ function Cash() {
                   />
                   <FloatingInput
                     placeholder={"Address"}
-                    // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"CiLocationOn"}
                     id="address-input-container"
                     type={"text"}
@@ -410,7 +359,6 @@ function Cash() {
                 >
                   <FloatingInput
                     placeholder={"Date"}
-                    // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"CalendarDays"}
                     id="date-input-container"
                     type={"date"}
@@ -419,14 +367,12 @@ function Cash() {
                   />
                   <FloatingInput
                     placeholder={"note"}
-                    // labelRef={(el) => (labelRefs.current[0] = el)}
                     icon={"BsPencilSquare"}
                     id="note-input-container"
                     type={"text"}
                     name={"note"}
                     state={state}
                   />
-                  {/* <input type="date" name="" id="" /> */}
                 </div>
               </div>
             </div>
@@ -457,10 +403,7 @@ function Cash() {
                   id="download-invoice"
                   className="inline-flex w-full justify-between items-center px-1 text-sm"
                 >
-                  {/* <span className="inline-flex items-center "> */}
-                  {/* <Download className="text-xs w-3 h-3 mr-1" /> */}
                   <div> Download invoice</div>
-                  {/* </span> */}
                   <Download className=" w-4 h-4 cursor-pointer" />
                 </div>
                 <hr className="my-2" />
