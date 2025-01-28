@@ -14,6 +14,8 @@ import {
 
 // 2. Wrapped middleware option
 
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL;
+
 function matchPublicRoute(pathname: string) {
   const publicRoutePatterns = [
     /^\/$/,
@@ -56,7 +58,7 @@ export default auth(async function middleware(req) {
   if (isAccessingAuthRoute) {
     console.log("isAccessingAuthRoute!");
     if (isAuth) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, BASE_URL));
     }
     console.log("isAccessingAuthRoute but not authenticated!");
 
@@ -73,7 +75,7 @@ export default auth(async function middleware(req) {
     }
     console.log("isAccessingLogoutRoute but not authenticated!");
 
-    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, BASE_URL));
   }
 
   if (isAccessingProtectedRoute) {
@@ -97,7 +99,7 @@ export default auth(async function middleware(req) {
     }
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
     console.log("///////encodedCallbackUrl: ", encodedCallbackUrl);
-    return Response.redirect(new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl));
+    return Response.redirect(new URL(`/login?callbackUrl=${encodedCallbackUrl}`, BASE_URL));
   }
 });
 
