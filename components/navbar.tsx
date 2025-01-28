@@ -302,8 +302,9 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
               </li>
               <li className="about">
                 <Link
-                  href={"/#about"}
+                  href="/#about"
                   className={`${location === "/#about" ? "text-slate-400" : ""}`}
+                  onClick={barClick}
                   // className={({ isActive }) =>
                   //   isActive
                   //     ? currentSection === "fourth-container"

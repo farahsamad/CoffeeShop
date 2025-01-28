@@ -58,7 +58,7 @@ const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
     >
       <div
         ref={searchRef}
-        className="min-w-[200px] w-full md:!w-[400px] fixed md:!left-[50%] bottom-[0%] z-50 grid max-w-[400px] md:!translate-x-[-50%] md:!translate-y-[-50%] translate-y-[0%] gap-4 border bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg h-[75vh] md:!h-96 md:!max-h-96 md:!top-[50%] md:!bottom-[50%]"
+        className="min-w-[200px] w-screen md:!w-[400px] fixed md:!left-[50%] bottom-[0%] z-50 grid max-w-[400px] md:!translate-x-[-50%] md:!translate-y-[-50%] translate-y-[0%] gap-4 border bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg h-[75vh] md:!h-96 md:!max-h-96 md:!top-[50%] md:!bottom-[50%]"
       >
         <div className="flex h-[75vh] md:!h-96 md:!max-h-96 w-full flex-col py-4">
           <div className="w-full h-fit py-2 border-b border-gray-700">
