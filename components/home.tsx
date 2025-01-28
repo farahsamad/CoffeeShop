@@ -97,12 +97,12 @@ function Home() {
                 <div className="intro-sent">Experience the essence</div>
                 <div className="intro-sent">of real coffee</div>
                 {user ? (
-                  <Link href="/signup" className="create-account-phrase">
-                    Create account
-                  </Link>
-                ) : (
                   <Link href="/menu" className="create-account-phrase capitalize">
                     order now
+                  </Link>
+                ) : (
+                  <Link href="/signup" className="create-account-phrase">
+                    Create account
                   </Link>
                 )}
               </div>
