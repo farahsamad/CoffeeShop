@@ -43,7 +43,7 @@ interface paymentData {
 
 export function ProfileForm() {
   const user = useCurrentUser();
-  const [paymentsData, setPaymentsData] = useState<paymentData[] | null>([]);
+  const [paymentsData, setPaymentsData] = useState<paymentData[] | null>(null);
   const [uniqAddress, setUniqAddress] = useState<paymentData[] | undefined>([]);
   const [checkEnableModal, setCheckEnableModal] = useState<boolean>(false);
   const [checkDisableModal, setCheckDisableModal] = useState<boolean>(false);
@@ -226,7 +226,7 @@ export function ProfileForm() {
                             </div>
                             <button
                               type="submit"
-                              className="p-2 bg-slate-400 cursor-pointer ml-3 text-white w-1/4  rounded-lg shadow-md hover:scale-110"
+                              className="p-2 bg-slate-400 cursor-pointer min-w-fit ml-3 text-white w-1/4  rounded-lg shadow-md hover:scale-110"
                             >
                               <div>Submit</div>
                             </button>
