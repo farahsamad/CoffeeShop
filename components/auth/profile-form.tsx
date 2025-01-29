@@ -63,7 +63,6 @@ export function ProfileForm() {
     if (user?.id) {
       const data: paymentData[] | null = await getUserPayment(user?.id);
       setPaymentsData(data);
-      console.log("data: ", data);
       const uniqueAddresses: paymentData[] = Array.from(
         new Map(data?.map((item: paymentData) => [`${item.Address}|${item.city}`, item])).values()
       );
@@ -120,7 +119,6 @@ export function ProfileForm() {
       }
     }
   }
-  console.log("paymentsData: ", paymentsData);
 
   return (
     <div className="w-full h-full flex flex-col md:!flex md:!flex-row md:justify-center p-6   mt-[100px]">
@@ -352,12 +350,13 @@ export function ProfileForm() {
                 })}
             </tbody>
           </table>
-          {!paymentsData && (
-            <div className="h-fit absolute  my-10 text-2xl text-center w-full inline-flex items-center justify-center">
-              <FaBoxOpen className="mr-2 text-4xl" />
-              No order added yet!
-            </div>
-          )}
+          {!paymentsData ||
+            (paymentsData.length === 0 && (
+              <div className="h-fit absolute  my-10 text-2xl text-center w-full inline-flex items-center justify-center">
+                <FaBoxOpen className="mr-2 text-4xl" />
+                No order added yet!
+              </div>
+            ))}
         </div>
       </div>
 
@@ -472,12 +471,13 @@ export function ProfileForm() {
               })}
           </tbody>
         </table>
-        {!paymentsData && (
-          <div className="h-fit absolute  my-10 top-16 text-2xl text-center w-full inline-flex items-center justify-center">
-            <FaBoxOpen className="mr-2 text-4xl" />
-            No order added yet!
-          </div>
-        )}
+        {!paymentsData ||
+          (paymentsData.length === 0 && (
+            <div className="h-fit absolute  my-10 top-16 text-2xl text-center w-full inline-flex items-center justify-center">
+              <FaBoxOpen className="mr-2 text-4xl" />
+              No order added yet!
+            </div>
+          ))}
       </div>
     </div>
   );
