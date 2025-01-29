@@ -30,7 +30,7 @@ const FloatingInput: React.FC<inputProps> = ({
   setBuyerName,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState<string>("");
+  const [hasValue, setHasValue] = useState<string>("");
   const phoneValue = "";
 
   return (
@@ -236,7 +236,7 @@ const FloatingInput: React.FC<inputProps> = ({
             <>
               <label
                 className={`absolute left-0 transition-all text-xs  ${
-                  isFocused || value
+                  isFocused || hasValue
                     ? "-top-[6px] text-gray-700"
                     : "top-[7px] text-gray-600 cursor-text"
                 }`}
@@ -274,15 +274,20 @@ const FloatingInput: React.FC<inputProps> = ({
               {type === "date" ? (
                 <input
                   id={id}
-                  type={isFocused || value ? "date" : "text"}
-                  // type="date"
+                  // type={isFocused || hasValue ? "date" : "text"}
                   name={name}
                   maxLength={20}
-                  value={value}
+                  value={hasValue}
                   onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
-                  onChange={(e) => setValue(e.target.value)}
-                  className="block w-full  py-2 outline-none cursor-text bg-transparent focus:outline-none sm:!text-base text-xs h-9"
+                  // onBlur={() => setIsFocused(false)}
+                  onChange={(e) => setHasValue(e.target.value)}
+                  type="date"
+                  onBlur={(e) => {
+                    if (!e.target.value) setIsFocused(false); // Hide format if no date is selected
+                  }}
+                  className={`date-input ${
+                    isFocused || hasValue ? "show-format" : "hide-format"
+                  } block w-full  py-2 outline-none cursor-text bg-transparent focus:outline-none sm:!text-base text-xs h-9`}
                 />
               ) : name === "city" ? (
                 <input
@@ -290,11 +295,11 @@ const FloatingInput: React.FC<inputProps> = ({
                   type={type}
                   name={name}
                   maxLength={20}
-                  value={value}
+                  value={hasValue}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                   onChange={(e) => {
-                    setValue(e.target.value),
+                    setHasValue(e.target.value),
                       setDeliveryCity && setDeliveryCity(e.target.value.toLowerCase());
                   }}
                   className="block w-full  py-2 outline-none cursor-text bg-transparent focus:outline-none sm:!text-base text-xs h-9"
@@ -305,11 +310,11 @@ const FloatingInput: React.FC<inputProps> = ({
                   type={type}
                   name={name}
                   maxLength={(type === "text" && name === "address") || name === "note" ? 200 : 40}
-                  value={value}
+                  value={hasValue}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                   onChange={(e) => {
-                    setValue(e.target.value), setBuyerName && setBuyerName(e.target.value);
+                    setHasValue(e.target.value), setBuyerName && setBuyerName(e.target.value);
                   }}
                   className="block w-full  py-2 outline-none cursor-text bg-transparent focus:outline-none sm:!text-base text-xs h-9"
                 />

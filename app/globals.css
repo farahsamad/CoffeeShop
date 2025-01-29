@@ -534,3 +534,11 @@ a {
     filter: brightness(0.5);
   }
 }
+
+.date-input {
+  color: transparent;
+}
+
+.date-input.show-format {
+  color: black;
+}
