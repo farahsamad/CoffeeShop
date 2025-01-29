@@ -122,10 +122,10 @@ export function ProfileForm() {
 
   return (
     <div className="w-full h-full flex flex-col md:!flex md:!flex-row md:justify-center p-6   mt-[100px]">
-      <div className="md:!w-1/2 md:!h-full md:!flex md:!flex-col h-fit max-h-[40%] md:!my-0 ">
+      <div className="md:!w-1/2 md:!h-full md:!flex md:!flex-col h-fit max-h-[40%] md:!my-0 min-h-fit ">
         <div
           id="user-info-container"
-          className=" min-h-fit flex w-full justify-evenly py-4 md:!py-10 shadow-inner h-[110px] md:!h-[150px] max-w-[600px] bg-gray-50 rounded-sm md:!w-[95%] mb-2"
+          className=" min-h-fit flex w-full justify-evenly py-4 md:!py-10 shadow-inner h-[110px] md:!h-[150px] max-w-[600px] bg-gray-50 rounded-sm md:!w-[95%] pb-2"
         >
           <div>
             <img
@@ -306,6 +306,7 @@ export function ProfileForm() {
             </thead>
             <tbody className="max-h-fit">
               {paymentsData &&
+                paymentsData.length > 0 &&
                 window.innerWidth >= 768 &&
                 paymentsData.map((val: paymentData) => {
                   const quantity = val.paymentProducts.reduce((quantity, product) => {
@@ -394,9 +395,9 @@ export function ProfileForm() {
         <div className="text-slate-500 font-semibold cursor-pointer my-2">+ Add new address</div>
       </div>
       <div
-        id="payment-info-container"
+        id="phone-payment-info-container"
         className={`md:!hidden flex flex-col w-full py-4 px-1 shadow-inner h-[150px] max-h-fit md:!h-[200px] bg-gray-50 rounded-sm max-w-[500px] md:!w-1/4 !text-xs !text-slate-500 !mb-16 md:!mb-0 relative ${
-          paymentsData ? "min-h-fit" : "min-h-36 "
+          paymentsData && paymentsData.length > 0 ? "min-h-fit" : "min-h-36 "
         }`}
       >
         <div className="ml-2 text-lg max-h-fit">Order</div>
@@ -426,6 +427,7 @@ export function ProfileForm() {
           </thead>
           <tbody className="max-h-fit">
             {paymentsData &&
+              paymentsData.length > 0 &&
               window.innerWidth < 768 &&
               paymentsData.map((val: paymentData) => {
                 const quantity = val.paymentProducts.reduce((quantity, product) => {

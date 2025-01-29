@@ -34,7 +34,7 @@ const CardWrapper = ({
       router.back();
     } else {
       router.back();
-      router.back();
+      // router.back();
     }
   };
 

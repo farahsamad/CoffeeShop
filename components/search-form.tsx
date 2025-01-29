@@ -10,6 +10,7 @@ import LoadingImage from "./ui/loading-image";
 interface SearchFormProps {
   searchRef: React.RefObject<HTMLDivElement | null>;
   setIsSearchVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  barClick: () => void;
 }
 
 interface IFormInputs {
@@ -23,7 +24,7 @@ interface SearchedProductsProps {
   productTypeName: string;
 }
 
-const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
+const SearchForm = ({ searchRef, setIsSearchVisible, barClick }: SearchFormProps) => {
   const [searchedProducts, setSearchedProducts] = useState<SearchedProductsProps[] | null>(null);
   const { register, watch, handleSubmit } = useForm<IFormInputs>({
     defaultValues: {
@@ -73,7 +74,10 @@ const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
               searchedProducts.map((value) => {
                 return (
                   <Link
-                    onClick={() => setIsSearchVisible(false)}
+                    onClick={() => {
+                      setIsSearchVisible(false);
+                      barClick();
+                    }}
                     href={{
                       pathname: `/menu/${value.id}/${value.productName}`,
                       query: {
@@ -106,7 +110,10 @@ const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
             ) : (
               <>
                 <Link
-                  onClick={() => setIsSearchVisible(false)}
+                  onClick={() => {
+                    setIsSearchVisible(false);
+                    barClick();
+                  }}
                   href={{
                     pathname: `/menu/cm5lofghx0000u0m8zlspexpb/Cappuccino`,
                     query: {
@@ -131,7 +138,10 @@ const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
                   </div>
                 </Link>
                 <Link
-                  onClick={() => setIsSearchVisible(false)}
+                  onClick={() => {
+                    setIsSearchVisible(false);
+                    barClick();
+                  }}
                   href={{
                     pathname: `/menu/cm5lopkkw000mu0m816wgzma5/Chai Tea`,
                     query: {
@@ -156,7 +166,10 @@ const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
                   </div>
                 </Link>
                 <Link
-                  onClick={() => setIsSearchVisible(false)}
+                  onClick={() => {
+                    setIsSearchVisible(false);
+                    barClick();
+                  }}
                   href={{
                     pathname: `/menu/cm5loqk7n000pu0m8xqnhr8d1/Hot Chocolate`,
                     query: {
@@ -181,7 +194,10 @@ const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
                   </div>
                 </Link>
                 <Link
-                  onClick={() => setIsSearchVisible(false)}
+                  onClick={() => {
+                    setIsSearchVisible(false);
+                    barClick();
+                  }}
                   href={{
                     pathname: `/menu/cm5lov9su0013u0m8tw040ivq/Strawberry Smoothie`,
                     query: {
@@ -206,7 +222,10 @@ const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
                   </div>
                 </Link>
                 <Link
-                  onClick={() => setIsSearchVisible(false)}
+                  onClick={() => {
+                    setIsSearchVisible(false);
+                    barClick();
+                  }}
                   href={{
                     pathname: `/menu/cm5lon0l8000hu0m8f5ectsx2/Iced Shaken Espresso`,
                     query: {
@@ -231,7 +250,10 @@ const SearchForm = ({ searchRef, setIsSearchVisible }: SearchFormProps) => {
                   </div>
                 </Link>
                 <Link
-                  onClick={() => setIsSearchVisible(false)}
+                  onClick={() => {
+                    setIsSearchVisible(false);
+                    barClick();
+                  }}
                   href={{
                     pathname: `/menu/cm5loh68q0002u0m89rpb66d5/Espresso`,
                     query: {

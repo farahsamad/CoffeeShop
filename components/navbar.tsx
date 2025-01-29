@@ -281,7 +281,11 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
       </div>
       {isSearchVisible && (
         <div id="search-section" className="absolute h-full w-full">
-          <SearchForm searchRef={searchRef} setIsSearchVisible={setIsSearchVisible} />
+          <SearchForm
+            searchRef={searchRef}
+            setIsSearchVisible={setIsSearchVisible}
+            barClick={barClick}
+          />
         </div>
       )}
     </>
