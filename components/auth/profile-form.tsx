@@ -393,7 +393,9 @@ export function ProfileForm() {
           </div>
         )}
 
-        <div className="text-slate-500 font-semibold cursor-pointer my-2">+ Add new address</div>
+        <div className="text-slate-500 font-semibold cursor-pointer my-2 hidden">
+          + Add new address
+        </div>
       </div>
       <div
         id="phone-payment-info-container"

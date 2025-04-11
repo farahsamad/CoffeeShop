@@ -1,9 +1,12 @@
 import { LoginState } from "@/actions/login";
-import React from "react";
+import React, { useState } from "react";
 import { FaRegEnvelope, FaUser } from "react-icons/fa";
 import { FiAlertTriangle } from "react-icons/fi";
 import { AiFillLock } from "react-icons/ai";
 import { SignupState } from "@/actions/signup";
+import { EyeOff } from "lucide-react";
+import { IoMdEyeOff } from "react-icons/io";
+import { IoEye } from "react-icons/io5";
 
 interface InputProps {
   state: LoginState | SignupState;
@@ -13,6 +16,8 @@ interface InputProps {
 }
 
 const Input = ({ state, type, name, placeholder }: InputProps) => {
+  const [passwordType, setPasswordType] = useState<string>(type);
+
   return (
     <div className="w-full max-h-14 h-52 flex flex-col justify-evenly">
       <div
@@ -54,7 +59,7 @@ const Input = ({ state, type, name, placeholder }: InputProps) => {
         )}
 
         <input
-          type={type}
+          type={name === "password" ? passwordType : type}
           name={name}
           placeholder={placeholder}
           className="bg-slate-50 outline-none placeholder-slate-500 text-slate-500 ml-2 w-[85%] -mt-[2px] autofill:text-slate-500 autofill:bg-yellow-200 "
@@ -77,6 +82,25 @@ const Input = ({ state, type, name, placeholder }: InputProps) => {
               : ""
           }
         />
+        {name === "password" ? (
+          passwordType === "password" ? (
+            <IoMdEyeOff
+              className="grid place-content-center h-full text-slate-500 cursor-pointer"
+              style={{
+                color: name === "password" && state.errors?.password ? "red" : "",
+              }}
+              onClick={() => setPasswordType("text")}
+            />
+          ) : (
+            <IoEye
+              className="grid place-content-center h-full text-slate-500 cursor-pointer"
+              style={{
+                color: name === "password" && state.errors?.password ? "red" : "",
+              }}
+              onClick={() => setPasswordType("password")}
+            />
+          )
+        ) : null}
       </div>
 
       <div className="text-red-500 h-4 mt-[2px] text-xs">

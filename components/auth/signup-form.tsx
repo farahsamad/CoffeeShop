@@ -138,6 +138,7 @@ export function Signup() {
         <Form
           action={""}
           onSubmit={handleSubmit}
+          id="signup-form"
           className="w-full h-full flex flex-col justify-evenly"
         >
           {verificationCode && (
@@ -206,7 +207,7 @@ export function Signup() {
               <Input state={state} type="text" name="name" placeholder="Name" />
               <Input state={state} type="text" name="email" placeholder="Email" />
               <div className="w-full max-h-14 h-52 flex flex-col justify-evenly">
-                <div
+                {/* <div
                   className="h-9 p-2 border border-gray-400 bg-slate-50 flex rounded-md shadow-sm"
                   style={{
                     borderColor: state.errors?.password ? "red" : "",
@@ -222,15 +223,16 @@ export function Signup() {
                     defaultValue={state.password ? state.password : ""}
                     autoComplete="new-password"
                   />
-                </div>
+                </div> */}
+                <Input state={state} type="password" name="password" placeholder="Password" />
 
-                <div className="text-red-500 h-4 mt-[2px] text-xs">
+                {/* <div className="text-red-500 h-4 mt-[2px] text-xs">
                   {state.errors?.password && (
                     <div className="flex w-full h-full items-center">
                       <FiAlertTriangle /> <span className="ml-1">{state.errors.password}</span>
                     </div>
                   )}
-                </div>
+                </div> */}
               </div>
               {state.success && (
                 <div className="flex w-full items-center h-[24px] text-green-800 bg-green-300 rounded-sm p-4  font-semibold my-1 ">
