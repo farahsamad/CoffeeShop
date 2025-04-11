@@ -381,7 +381,7 @@ export function ProfileForm() {
                   </div>
                   <div className="w-[10%] !text-gray-700 flex justify-end  mt-1">
                     {/* <Edit className="w-4 h-4 cursor-pointer" /> */}
-                    <Trash className="w-4 h-4 cursor-pointer" />
+                    <Trash className="w-4 h-4 cursor-pointer hidden" />
                   </div>
                 </div>
               </div>

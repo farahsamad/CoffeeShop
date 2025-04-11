@@ -16,6 +16,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import Link from "next/link";
 import Invoice from "./invoice";
+import { addDiscount } from "@/actions/addDiscount";
 
 export interface payloadProps {
   state: PayCardCashState;
@@ -92,17 +93,24 @@ function Cash() {
   );
   const router = useRouter();
 
-  const getDiscountLocalstorage = () => {
+  const getDiscountLocalstorage = async () => {
     const getDiscountJSON = localStorage.getItem("discount");
+
     if (!getDiscountJSON) return null;
     const getDiscount = JSON.parse(getDiscountJSON);
     const now = new Date();
-    if (now.getTime() > getDiscount.expiry) {
-      localStorage.removeItem("discount");
-      return null;
+    const isDiscountExpired = await addDiscount(getDiscount.code);
+    if (isDiscountExpired) {
+      const hasDiscountExpired = new Date(isDiscountExpired.expiryDate) < new Date();
+      if (!hasDiscountExpired) {
+        if (now.getTime() > getDiscount.expiry) {
+          localStorage.removeItem("discount");
+          return null;
+        }
+        setDiscount(parseFloat(getDiscount.value));
+        return parseFloat(getDiscount.value);
+      }
     }
-    setDiscount(parseFloat(getDiscount.value));
-    return parseFloat(getDiscount.value);
   };
 
   useEffect(() => {
@@ -284,7 +292,9 @@ function Cash() {
         }
       };
       generateDownloadAblePdf();
+
       setTimeout(() => {
+        localStorage.removeItem("discount");
         deleteUserCartProductsInDb();
         updatePerformed();
         if (state.callbackUrl) {
