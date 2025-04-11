@@ -236,7 +236,7 @@ function Cash() {
           const imgData = canvas.toDataURL("image/png");
 
           const pdf = new jsPDF({
-            orientation: "landscape",
+            orientation: "portrait",
             unit: "px",
             format: "a4",
           });
@@ -487,7 +487,7 @@ function Cash() {
                     </Link>
                   )}
                 </div>
-                <hr className="my-2" />
+                <hr className="my-2 w-full" />
               </div>
               <div
                 id="third-part-invoice"

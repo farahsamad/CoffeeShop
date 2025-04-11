@@ -66,11 +66,11 @@ function Invoice({
       >
         <div
           id="invoice-info-container"
-          className="flex  w-[270px]  sm:!w-[90%] !max-w-[270px]  sm:!h-full shadow-md  flex-col mb-[100px] sm:!mb-0 mt-5 sm:!mt-0 px-4 border border-gray-200"
+          className="flex  w-[270px]  sm:!w-[90%] !max-w-[270px]  sm:!h-full shadow-md  flex-col mb-[100px] sm:!mb-0 mt-5 sm:!mt-0 px-4 border border-gray-200 max-h-[600px] sm:!max-h-[80%]"
         >
           <div
             id="first-part-invoice"
-            className="w-full h-[40%] min-h-24 bg-gray-500 mt-3 px-2 pt-[2%] pb-2 text-sm flex flex-col justify-between"
+            className="w-full h-[25%] min-h-24 bg-gray-500 mt-3 px-2 pt-[2%] pb-2 text-sm flex flex-col justify-between max-h-28 md:!max-h-[25%]"
           >
             <div className="h-[35%]  text-base font-black font-[cursive] text-gray-800 flex items-center">
               CoffeeShop
@@ -88,7 +88,7 @@ function Invoice({
           </div>
           <div
             id="second-part-invoice"
-            className="w-full h-[40%] min-h-24 mt-3 px-2 py-[2%] flex flex-col justify-center items-end  text-xs"
+            className="w-full h-[20%] min-h-24 mt-3 px-2 py-[2%] flex flex-col justify-center items-end  text-xs max-h-14 md:!max-h-[20%]"
           >
             <div className="h-[35%] flex">Address</div>
             <div className="h-[30%] flex items-end max-w-[60%] text-end">{deliveryAddress}</div>
@@ -96,7 +96,7 @@ function Invoice({
           </div>
           <div
             id="third-part-invoice"
-            className="w-full min-h-fit grow  mt-3 px-2 pt-[2%] mb-4 text-sm"
+            className="w-full min-h-fit grow  mt-3 px-2 pt-[2%] mb-4 text-sm max-h-fit md:!max-h-fit"
           >
             <table id="cart-product" className="w-full">
               <thead>
@@ -169,33 +169,33 @@ function Invoice({
           </div>
           <div
             id="fourth-part-invoice"
-            className="w-full h-[25%] flex flex-col pb-[5%]  text-sm justify-around px-5"
+            className="w-full h-[25%] flex flex-col pb-[5%] justify-around px-5 max-h-28 md:!max-h-[25%] text-xs"
           >
-            <div id="items-number" className="text-3xl text-center mb-[10%]">
+            <div id="items-number" className="text-xs text-center mb-[10%]">
               {cartProducts && cartProducts.length ? cartProducts.length : 0}
               <span className="ml-1">items</span>
             </div>
-            <div id="delivery-service" className="inline-flex justify-between">
+            <div id="delivery-service" className="inline-flex justify-between text-xs">
               <span className="text-gray-500">Delivery Service</span>
               {deliveryPrice > 0 ? <span>+ ${deliveryPrice}</span> : <span>$0</span>}
             </div>
-            <div id="taxes" className="inline-flex justify-between">
+            <div id="taxes" className="inline-flex justify-between text-xs">
               <span className="text-gray-500">Taxes</span>
               {subTotalPrice > 0 ? <span>+${taxesPrice}</span> : <span>$0</span>}
             </div>
-            <div id="discount" className="inline-flex justify-between">
+            <div id="discount" className="inline-flex justify-between text-xs">
               <span className="text-gray-500">Discount</span>
               {discount > 0 ? <span>- ${discount}</span> : <span>$0</span>}
             </div>
 
-            <div id="subtotal" className="inline-flex justify-between">
+            <div id="subtotal" className="inline-flex justify-between text-xs">
               <span className="text-gray-500">Subtotal</span>
               {subTotalPrice > 0 ? <span>${subTotalPrice}</span> : <span>$0</span>}
             </div>
           </div>
           <div
             id="fifth-part-invoice"
-            className="w-full h-[10%] inline-flex justify-between py-[5%] border-t border-t-gray-300 text-xl px-5"
+            className="w-full h-[10%] inline-flex text-sm justify-between py-[5%] border-t border-t-gray-300 sm:!text-xl px-5 max-h-16 md:!max-h-[10%]"
           >
             <span>Total</span>
             {totalPrice > 0 ? <span>${totalPrice}</span> : <span>$0</span>}

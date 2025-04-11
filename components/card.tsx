@@ -518,7 +518,7 @@ function Card() {
                   <div> Downloadable invoice</div>
                   <Download className=" w-4 h-4 cursor-pointer" />
                 </div>
-                <hr className="my-2" />
+                <hr className="my-2 w-full" />
               </div>
               <div
                 id="third-part-invoice"
