@@ -10,6 +10,7 @@ import Link from "next/link";
 // import { foamOptionTypes, icedOptionTypes, productSize, waterOptionTypes } from "@prisma/client";
 import { useRemoveProduct } from "@/hooks/useRemoveProduct";
 import Image from "next/image";
+import { addDiscount } from "@/actions/addDiscount";
 
 // enum waterOptionTypes {
 //   No_Water,
@@ -43,6 +44,8 @@ export interface ProductDetails {
 
 function Cart() {
   const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [discount, setDiscount] = useState<number>(0);
+  const [couponCode, setCouponCode] = useState<string | undefined>();
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [taxes, setTaxes] = useState<number>(totalAmount * 0.2);
   const [cartProducts, setCartProducts] = useState<ProductDetails[]>([]);
@@ -54,6 +57,27 @@ function Cart() {
 
   const sectionDiv = useRef<HTMLDivElement>(null);
   const totalRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const getDiscountLocalstorage = () => {
+    const getDiscountJSON = localStorage.getItem("discount");
+    if (!getDiscountJSON) return null;
+    const getDiscount = JSON.parse(getDiscountJSON);
+    const now = new Date();
+    if (now.getTime() > getDiscount.expiry) {
+      localStorage.removeItem("discount");
+      return null;
+    }
+    setDiscount(parseFloat(getDiscount.value));
+    setCouponCode(getDiscount.code);
+    return parseFloat(getDiscount.value);
+  };
+
+  useEffect(() => {
+    const storedDiscount = getDiscountLocalstorage();
+    if (storedDiscount !== null) {
+      setDiscount(storedDiscount);
+    }
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("AddToCart")) {
@@ -180,10 +204,48 @@ function Cart() {
     }
   };
 
+  const addDiscountLocalstorage = () => {
+    const now = new Date();
+    console.log("addDiscountLocalstorage discount: ", discount);
+    const item = {
+      value: discount,
+      expiry: now.getTime() + 30 * 60 * 1000,
+      code: couponCode,
+    };
+    localStorage.setItem("discount", JSON.stringify(item));
+  };
+
+  const addCouponDiscount = async () => {
+    if (couponCode) {
+      const isUserCartProductDeleted = await addDiscount(couponCode);
+      if (isUserCartProductDeleted) {
+        const hasExpired = new Date(isUserCartProductDeleted.expiryDate) < new Date();
+        if (!hasExpired) {
+          setDiscount((isUserCartProductDeleted.discountPercentage * totalAmount) / 100);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log("useEffect totalAmount");
+
+    addCouponDiscount();
+    setTimeout(() => {
+      addDiscountLocalstorage();
+    }, 200);
+  }, [totalAmount]);
+
   useEffect(() => {
     setTaxes(() => totalAmount * 0.2);
-    setTotalPrice(() => taxes + totalAmount);
-  }, [totalAmount, taxes]);
+    setTotalPrice(() => taxes + totalAmount - discount);
+  }, [totalAmount, taxes, discount]);
+
+  useEffect(() => {
+    if (discount > 0) {
+      addDiscountLocalstorage();
+    }
+  }, [discount]);
 
   return (
     <div className={`h-full mt-[100px] ${barVisibility ? "" : "bar-visible"} `}>
@@ -489,13 +551,17 @@ function Cart() {
                           id=""
                           className="outline-none h-full w-full bg-inherit pr-1 placeholder-white"
                           placeholder="code"
+                          value={couponCode}
+                          onChange={(e) => {
+                            setCouponCode(e.target.value);
+                          }}
                         />
                       </div>
                       <div
                         id="coupon-button"
                         className="w-[23%] min-h-full rounded-full bg-gray-500 cursor-pointer flex justify-center items-center text-base  px-[4px]"
                       >
-                        <FaPlus className="h-5 w-5" />
+                        <FaPlus className="h-5 w-5" onClick={() => addCouponDiscount()} />
                       </div>
                     </div>
                   </div>
@@ -517,7 +583,7 @@ function Cart() {
                       </div>
                       <div id="discount" className="flex justify-between px-4  h-8">
                         <div id="discount-word">Discount</div>
-                        <div id="discount-value">$0</div>
+                        <div id="discount-value">${discount.toFixed(1)}</div>
                       </div>
                     </div>
                   </div>
@@ -534,7 +600,7 @@ function Cart() {
                       className="flex justify-between px-4 h-[40%] sm:!h-[60%] min-h-3/4 font-serif mt-3 sm:!mt-0"
                     >
                       <div id="amount-word">Total</div>
-                      <div id="amount-value">${totalPrice}</div>
+                      <div id="amount-value">${totalPrice.toFixed(1)}</div>
                     </div>
                   </div>
                 </div>

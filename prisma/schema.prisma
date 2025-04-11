@@ -199,3 +199,10 @@ model AddedToCartProducts {
   addedToCart AddedToCart @relation(fields: [AddedToCartId],references: [id], onDelete: Cascade)
   product Product @relation(fields: [ProductId],references: [id], onDelete: Cascade)
 }
+
+model CouponDiscount {
+  id String @id @default(cuid())
+  couponCode String
+  discountPercentage Int
+  expiryDate DateTime
+}

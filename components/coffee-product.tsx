@@ -30,6 +30,9 @@ const CoffeeProduct: React.FC = () => {
   const productImage = search.get("product_image");
   const productTypeName = search.get("coffeeType_name");
   const productPrice = search.get("product_price");
+  const [newSizePrice, setNewSizePrice] = useState<number>(
+    parseFloat(productPrice ? productPrice : "")
+  );
   const selectSize = useRef<HTMLDivElement>(null);
 
   const waterOptionType = [
@@ -113,7 +116,7 @@ const CoffeeProduct: React.FC = () => {
           icedOption: isIce(containIce),
           foamOption: isFoam(containFoam),
           product_quantity: 1,
-          productPrice: productPrice ? parseFloat(productPrice) : 0,
+          productPrice: productPrice ? newSizePrice : 0,
         };
 
         if (localStorage.getItem("AddToCart") != null) {
@@ -162,17 +165,19 @@ const CoffeeProduct: React.FC = () => {
         <div
           className={`font-sans flex flex-col justify-between min-w-fit min-h-fit h-fit mt-2 flex-grow`}
         >
-          <section className="first-section !bg-transparent !justify-start items-start">
+          <section className="first-section !bg-transparent !justify-start !items-start ">
             <div id="coffeePath" className="coffeePath font-bold ml-2 flex sm:ml-8">
               <Link href={"/menu"} className="cursor-pointer w-fit hover:scale-105 mx-px">
-                Menu/
+                Menu
               </Link>
+              <span className="mx-1">/</span>
               <Link
                 href={`/menu#${containerId}`}
                 className="cursor-pointer hover:scale-105 w-fit mx-px"
               >
-                {productTypeName}/
+                {productTypeName}
               </Link>
+              <span className="mx-1">/</span>
               <div className="mx-1"> {productName}</div>
             </div>
           </section>
@@ -195,7 +200,7 @@ const CoffeeProduct: React.FC = () => {
               className="font-semibold hidden sm:px-4 pb-5 sm:pb-7 min-w-fit custom-sm-w-1-3 min-h-fit  sm:!grid place-content-center sm:justify-center text-black"
             >
               <div>{productName}</div>
-              <div className="w-full text-center !text-gray-300">${productPrice}</div>
+              <div className="w-full text-center !text-gray-300">${newSizePrice}</div>
             </div>
           </section>
           <section className="third-section w-full rounded-t-3xl h-auto min-h-[465px] sm:!min-h-fit bg-[#e5e5e5] flex-grow">
@@ -210,7 +215,7 @@ const CoffeeProduct: React.FC = () => {
                 id="price-phone"
                 className="font-semibold text-white sm:px-4 min-w-fit custom-sm-w-1-3 min-h-fit  sm:!hidden place-content-center sm:justify-center"
               >
-                ${productPrice}
+                ${newSizePrice}
               </div>
               <div
                 id="size-section"
@@ -254,6 +259,7 @@ const CoffeeProduct: React.FC = () => {
                           onClick={() => {
                             setCircleIndex(1);
                             setSize("Short");
+                            setNewSizePrice(parseFloat(productPrice ? productPrice : "0") * 0.5);
                             setCircle(true);
                           }}
                           onMouseEnter={() => {
@@ -289,7 +295,7 @@ const CoffeeProduct: React.FC = () => {
                             onClick={() => {
                               setCircleIndex(1);
                               setSize("Short");
-
+                              setNewSizePrice(parseFloat(productPrice ? productPrice : "0") * 0.5);
                               setCircle(true);
                             }}
                           ></div>
@@ -315,7 +321,7 @@ const CoffeeProduct: React.FC = () => {
                           onClick={() => {
                             setCircleIndex(2);
                             setSize("Tall");
-
+                            setNewSizePrice(parseFloat(productPrice ? productPrice : "0") * 1);
                             setCircle(true);
                           }}
                           onMouseEnter={() => {
@@ -350,7 +356,7 @@ const CoffeeProduct: React.FC = () => {
                             onClick={() => {
                               setCircleIndex(2);
                               setSize("Tall");
-
+                              setNewSizePrice(parseFloat(productPrice ? productPrice : "0") * 1);
                               setCircle(true);
                             }}
                           ></div>
@@ -373,7 +379,7 @@ const CoffeeProduct: React.FC = () => {
                           onClick={() => {
                             setCircleIndex(3);
                             setSize("Grand");
-
+                            setNewSizePrice(parseFloat(productPrice ? productPrice : "0") * 1.5);
                             setCircle(true);
                           }}
                           onMouseEnter={() => {
@@ -408,7 +414,7 @@ const CoffeeProduct: React.FC = () => {
                             onClick={() => {
                               setCircleIndex(3);
                               setSize("Grand");
-
+                              setNewSizePrice(parseFloat(productPrice ? productPrice : "0") * 1.5);
                               setCircle(true);
                             }}
                           ></div>
@@ -432,7 +438,7 @@ const CoffeeProduct: React.FC = () => {
                           onClick={() => {
                             setCircleIndex(4);
                             setSize("Venti");
-
+                            setNewSizePrice(parseFloat(productPrice ? productPrice : "0") * 2);
                             setCircle(true);
                           }}
                           onMouseEnter={() => {
@@ -467,6 +473,7 @@ const CoffeeProduct: React.FC = () => {
                             onClick={() => {
                               setCircleIndex(4);
                               setSize("Venti");
+                              setNewSizePrice(parseFloat(productPrice ? productPrice : "0") * 2);
 
                               setCircle(true);
                             }}

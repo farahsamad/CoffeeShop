@@ -14,6 +14,9 @@ import { deliveryCities, payloadProps } from "./cash";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { deleteUserCartProduct } from "@/actions/deleteUserCartProduct";
 import { BiCheckCircle } from "react-icons/bi";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import Invoice from "./invoice";
 // import { handleUpdateCartDb } from "@/data/handle-cart";
 
 export interface updateValues {
@@ -30,12 +33,13 @@ function Card() {
   const [subTotalPrice, SetSubTotalPrice] = useState<number>(0);
   const [totalPrice, SetTotalPrice] = useState<number>(0);
   const [taxesPrice, setTaxesPrice] = useState<number>(subTotalPrice * 0.2);
-  const discount = 0;
+  const [discount, setDiscount] = useState<number>(0);
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const [deliveryCity, setDeliveryCity] = useState<string>("");
   const [buyerName, setBuyerName] = useState<string>("");
   const [expireDate, setExpireDate] = useState<string>("");
   const firstDiv = useRef<HTMLDivElement>(null);
+  const generatedInvoice = useRef<HTMLDivElement>(null);
   const user = useCurrentUser();
   const { barVisibility, updatePerformed } = useMyContext();
 
@@ -80,6 +84,55 @@ function Card() {
   );
   const router = useRouter();
 
+  const generateDownloadAblePdf = async () => {
+    const pdfData = generatedInvoice.current;
+    try {
+      if (pdfData) {
+        setTimeout(async () => {
+          const canvas = await html2canvas(pdfData);
+          const imgData = canvas.toDataURL("image/png");
+
+          const pdf = new jsPDF({
+            orientation: "landscape",
+            unit: "px",
+            format: "a4",
+          });
+          const width = pdf.internal.pageSize.getWidth();
+          const height = (canvas.height * width) / canvas.width;
+
+          pdf.addImage(imgData, "PNG", 0, 0, width, height);
+          pdf.save("Invoice.pdf");
+        }, 1000);
+      }
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
+
+  const getDiscountLocalstorage = () => {
+    const getDiscountJSON = localStorage.getItem("discount");
+    if (!getDiscountJSON) return null;
+    const getDiscount = JSON.parse(getDiscountJSON);
+    const now = new Date();
+    if (now.getTime() > getDiscount.expiry) {
+      localStorage.removeItem("discount");
+      return null;
+    }
+    setDiscount(parseFloat(getDiscount.value));
+    return parseFloat(getDiscount.value);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("AddToCart")) {
+      const storedCartProducts = localStorage.getItem("AddToCart");
+      if (storedCartProducts) {
+        getDiscountLocalstorage();
+        console.log("discount: ", discount);
+        console.log("totalPrice: ", totalPrice);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     if (localStorage.getItem("AddToCart")) {
       const storedCartProducts = localStorage.getItem("AddToCart");
@@ -93,15 +146,19 @@ function Card() {
         const taxesPriceAmount = parseFloat((totalPriceAmount * 0.2).toFixed(1));
         setTaxesPrice(taxesPriceAmount);
         if (totalPriceAmount >= 50) {
-          SetTotalPrice(parseFloat((totalPriceAmount + taxesPriceAmount - discount).toFixed(1)));
+          SetTotalPrice(parseFloat((totalPriceAmount + taxesPriceAmount).toFixed(1)));
         } else {
           SetTotalPrice(
-            parseFloat((totalPriceAmount + taxesPriceAmount - discount + deliveryPrice).toFixed(1))
+            parseFloat((totalPriceAmount + taxesPriceAmount + deliveryPrice).toFixed(1))
           );
         }
       }
     }
   }, []);
+
+  useEffect(() => {
+    SetTotalPrice((prev) => prev - discount);
+  }, [discount]);
 
   useEffect(() => {
     if (subTotalPrice < 50) {
@@ -213,13 +270,17 @@ function Card() {
           const isUserCartProductDeleted = await deleteUserCartProduct(user?.id);
         }
       };
-      deleteUserCartProductsInDb();
-      updatePerformed();
-      if (state.callbackUrl) {
-        router.push(state.callbackUrl);
-      } else {
-        router.back();
-      }
+      generateDownloadAblePdf();
+
+      setTimeout(() => {
+        deleteUserCartProductsInDb();
+        updatePerformed();
+        if (state.callbackUrl) {
+          router.push(state.callbackUrl);
+        } else {
+          router.back();
+        }
+      }, 3000);
     }
   }, [state.success, router, state.callbackUrl]);
 
@@ -445,7 +506,7 @@ function Card() {
                   id="download-invoice"
                   className="inline-flex w-full justify-between items-center px-1 text-sm"
                 >
-                  <div> Download invoice</div>
+                  <div> Downloadable invoice</div>
                   <Download className=" w-4 h-4 cursor-pointer" />
                 </div>
                 <hr className="my-2" />
@@ -481,7 +542,7 @@ function Card() {
                 className="w-full h-[15%] inline-flex justify-between py-[5%] border-t border-t-gray-300 text-xl px-5"
               >
                 <span>Total</span>
-                {totalPrice > 0 ? <span>${totalPrice}</span> : <span>$0</span>}
+                {totalPrice > 0 ? <span>${totalPrice.toFixed(1)}</span> : <span>$0</span>}
               </div>
               <button
                 type="submit"
@@ -502,6 +563,23 @@ function Card() {
             id="modal-container"
             className="w-full h-full fixed  z-[1000] inset-0 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
           >
+            <div className="translate-y-[1000px]">
+              <div ref={generatedInvoice}>
+                <Invoice
+                  cartProducts={cartProducts}
+                  paymentMethod={"Card"}
+                  buyerName={buyerName}
+                  paymentId={state.paymentId}
+                  deliveryCity={deliveryCity}
+                  deliveryAddress={state.Address}
+                  deliveryPrice={deliveryPrice}
+                  taxesPrice={taxesPrice}
+                  discount={discount}
+                  subTotalPrice={subTotalPrice}
+                  totalPrice={totalPrice}
+                />
+              </div>
+            </div>
             <div className="min-w-[250px] md:w-[300px]  fixed left-[50%] top-[30%] z-50 max-w-[300px] translate-x-[-50%] translate-y-[-50%] border bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg h-[350px] flex flex-col justify-evenly">
               <div
                 id="payment-success"
