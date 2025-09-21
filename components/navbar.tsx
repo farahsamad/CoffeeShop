@@ -48,7 +48,7 @@ function NavBar({ barVisibility, setBarVisibility, sectionsRef }: indexProps) {
   //   }, 1000);
   // };
   const barClick = () => {
-    setBarVisibility(() => !barVisibility);
+    setBarVisibility(() => true);
     if (barRef.current) barRef.current.checked = false;
   };
   useEffect(() => {
