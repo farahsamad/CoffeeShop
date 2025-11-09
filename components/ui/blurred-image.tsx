@@ -62,7 +62,7 @@ const BlurredImage: React.FC<BlurredProps> = ({
       blurDataURL={blurredSrc}
       priority={priority}
       style={{ display: "block" }}
-      // sizes="(max-width: 768px) 100vw, 50vw"
+      sizes="(max-width: 768px) 100vw, 50vw"
     />
   );
 };
