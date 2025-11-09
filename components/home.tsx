@@ -90,8 +90,8 @@ function Home() {
                   src="/image/coffee-banner.png"
                   blurredSrc="/image/blurred-coffee-banner.png"
                   imageAlt="coffee banner"
-                  width={1200}
-                  height={600}
+                  width={1000}
+                  height={400}
                   priority
                 />
               </div>

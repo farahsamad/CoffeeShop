@@ -29,8 +29,8 @@ const CoffeeProductCart = ({ product }: CoffeeTypeCartProps) => {
             <LoadingImage
               src={`/image/${product.productImage}`}
               imageAlt={product.productName}
-              width={400}
-              height={400}
+              width={500}
+              height={300}
             />
           </div>
           <div className="first-cup-name cursor-pointer min-h-fit text-center">

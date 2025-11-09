@@ -66,7 +66,6 @@ const LoadingImage: React.FC<LoadingImageProps> = ({
       placeholder={blurSrc ? "blur" : undefined}
       blurDataURL={blurSrc}
       priority={priority}
-      sizes="(max-width: 768px) 100vw, 50vw"
     />
   );
 };
