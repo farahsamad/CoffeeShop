@@ -90,8 +90,10 @@ function Home() {
                   src="/image/coffee-banner.png"
                   blurredSrc="/image/blurred-coffee-banner.png"
                   imageAlt="coffee banner"
-                  priority={true}
-                ></BlurredImage>
+                  width={1200}
+                  height={600}
+                  priority
+                />
               </div>
               <div className="intro-sentence">
                 <div className="intro-sent">Experience the essence</div>
@@ -122,7 +124,10 @@ function Home() {
                   src={"/image/triple-berry-smoothie-feat-min.png"}
                   blurredSrc={"/image/blurred-triple-berry-smoothie-feat-min.png"}
                   imageAlt="berry smoothie"
-                ></BlurredImage>
+                  width={1200}
+                  height={600}
+                  priority
+                />
               </div>
               <div className="first-section-paragraph-container">
                 <div className="first-section-paragraph">
@@ -166,7 +171,10 @@ function Home() {
                   src={"/image/iced-chocolate-frappe-coffee.png"}
                   blurredSrc={"/image/blurred-iced-chocolate-frappe-coffee.png"}
                   imageAlt="iced chocolate frappe coffee"
-                ></BlurredImage>
+                  width={1200}
+                  height={600}
+                  priority
+                />
               </div>
               <div className="first-section-paragraph-container">
                 <div className="first-section-paragraph">
