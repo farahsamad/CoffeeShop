@@ -58,27 +58,30 @@ const BlurredImage: React.FC<BlurredProps> = ({
   // Default dimensions for each variant
   const imageDimensions =
     variant === "hero"
-      ? { width: 1000, height: 400 } // banner image
-      : { width: 1200, height: 800 }; // all other images
+      ? { width: 800, height: 450 } // smaller banner image
+      : { width: 1200, height: 800 }; // large and consistent everywhere else
 
   return (
-    <Image
-      src={src}
-      alt={imageAlt}
-      width={width || imageDimensions.width}
-      height={height || imageDimensions.height}
-      placeholder="blur"
-      blurDataURL={blurredSrc}
-      priority={priority}
-      className={className}
+    <div
+      className={`relative overflow-hidden ${className}`}
       style={{
-        objectFit: "cover",
         width: "100%",
-        height: "auto",
-        display: "block",
+        maxWidth: variant === "hero" ? "800px" : "1200px",
+        margin: "0 auto",
       }}
-      // sizes="(max-width: 768px) 100vw, 50vw"
-    />
+    >
+      <Image
+        src={src}
+        alt={imageAlt}
+        width={imageDimensions.width}
+        height={imageDimensions.height}
+        placeholder="blur"
+        blurDataURL={blurredSrc}
+        priority={priority}
+        className="object-cover w-full h-auto"
+        sizes="(max-width: 768px) 100vw, 50vw"
+      />
+    </div>
   );
 };
 
