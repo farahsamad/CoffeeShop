@@ -8,6 +8,8 @@ interface BlurredProps {
   width?: number;
   height?: number;
   priority?: boolean;
+  variant?: "hero" | "default"; // new prop
+  className?: string;
 }
 
 const BlurredImage: React.FC<BlurredProps> = ({
@@ -17,6 +19,8 @@ const BlurredImage: React.FC<BlurredProps> = ({
   width = 500,
   height = 300,
   priority = false,
+  variant = "default",
+  className = "",
 }) => {
   // const [isLoaded, setIsLoaded] = useState(false);
 
@@ -51,17 +55,28 @@ const BlurredImage: React.FC<BlurredProps> = ({
   //     )}
   //   </>
   // );
+  // Default dimensions for each variant
+  const imageDimensions =
+    variant === "hero"
+      ? { width: 1000, height: 400 } // banner image
+      : { width: 800, height: 500 }; // all other images
 
   return (
     <Image
       src={src}
       alt={imageAlt}
-      width={width}
-      height={height}
+      width={width || imageDimensions.width}
+      height={height || imageDimensions.height}
       placeholder="blur"
       blurDataURL={blurredSrc}
       priority={priority}
-      style={{ display: "block" }}
+      className={className}
+      style={{
+        objectFit: "cover",
+        width: "100%",
+        height: "auto",
+        display: "block",
+      }}
       sizes="(max-width: 768px) 100vw, 50vw"
     />
   );

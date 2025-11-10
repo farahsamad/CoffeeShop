@@ -90,8 +90,7 @@ function Home() {
                   src="/image/coffee-banner.png"
                   blurredSrc="/image/blurred-coffee-banner.png"
                   imageAlt="coffee banner"
-                  width={1000}
-                  height={400}
+                  variant="hero"
                   priority
                 />
               </div>
@@ -124,9 +123,7 @@ function Home() {
                   src={"/image/triple-berry-smoothie-feat-min.png"}
                   blurredSrc={"/image/blurred-triple-berry-smoothie-feat-min.png"}
                   imageAlt="berry smoothie"
-                  width={1200}
-                  height={600}
-                  priority
+                  variant="default"
                 />
               </div>
               <div className="first-section-paragraph-container">
@@ -171,9 +168,7 @@ function Home() {
                   src={"/image/iced-chocolate-frappe-coffee.png"}
                   blurredSrc={"/image/blurred-iced-chocolate-frappe-coffee.png"}
                   imageAlt="iced chocolate frappe coffee"
-                  width={1200}
-                  height={600}
-                  priority
+                  variant="default"
                 />
               </div>
               <div className="first-section-paragraph-container">

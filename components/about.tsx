@@ -33,7 +33,8 @@ function About({ aboutRef, barVisibility, sectionRef }: homeProps) {
                 src={"/image/latte.png"}
                 blurredSrc={"/image/blurred-latte.png"}
                 imageAlt="latte"
-              ></BlurredImage>
+                variant="default"
+              />
             </div>
             <div className="first-section-paragraph-container">
               <div className="first-section-paragraph">
@@ -53,7 +54,8 @@ function About({ aboutRef, barVisibility, sectionRef }: homeProps) {
                 src={"/image/strawberry-smoothie.png"}
                 blurredSrc={"/image/blurred-strawberry-smoothie.png"}
                 imageAlt="strawberry smoothie"
-              ></BlurredImage>
+                variant="default"
+              />
             </div>
             <div className="first-section-paragraph-container">
               <div className="first-section-paragraph">
