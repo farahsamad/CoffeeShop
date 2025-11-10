@@ -58,8 +58,8 @@ const BlurredImage: React.FC<BlurredProps> = ({
   // Default dimensions for each variant
   const imageDimensions =
     variant === "hero"
-      ? { width: 600, height: 400 } // banner image
-      : { width: 1200, height: 600 }; // all other images
+      ? { width: 1000, height: 400 } // banner image
+      : { width: 1200, height: 800 }; // all other images
 
   return (
     <Image
