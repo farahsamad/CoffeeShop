@@ -59,7 +59,7 @@ const BlurredImage: React.FC<BlurredProps> = ({
   const imageDimensions =
     variant === "hero"
       ? { width: 600, height: 400 } // banner image
-      : { width: 1000, height: 600 }; // all other images
+      : { width: 1200, height: 600 }; // all other images
 
   return (
     <Image
@@ -77,7 +77,7 @@ const BlurredImage: React.FC<BlurredProps> = ({
         height: "auto",
         display: "block",
       }}
-      sizes="(max-width: 768px) 100vw, 50vw"
+      // sizes="(max-width: 768px) 100vw, 50vw"
     />
   );
 };
