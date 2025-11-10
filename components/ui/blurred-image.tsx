@@ -73,13 +73,12 @@ const BlurredImage: React.FC<BlurredProps> = ({
       <Image
         src={src}
         alt={imageAlt}
-        width={imageDimensions.width}
-        height={imageDimensions.height}
         placeholder="blur"
         blurDataURL={blurredSrc}
         priority={priority}
-        className="object-cover w-full h-auto"
-        sizes="(max-width: 768px) 100vw, 50vw"
+        width={500}
+        height={300}
+        style={{ display: "block" }}
       />
     </div>
   );

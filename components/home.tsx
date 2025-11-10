@@ -91,6 +91,7 @@ function Home() {
                   blurredSrc="/image/blurred-coffee-banner.png"
                   imageAlt="coffee banner"
                   variant="hero"
+                  className="grid place-content-center md:!block"
                   priority
                 />
               </div>
